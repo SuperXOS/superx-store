@@ -48,6 +48,7 @@
    <addaction name="actionTasks"/>
    <addaction name="actionExplorer"/>
    <addaction name="actionApp"/>
+   <addaction name="actionSearch"/>
   </widget>
   <action name="actionBack">
    <property name="icon">
@@ -201,7 +202,7 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Search applications by name</string>
@@ -212,7 +213,7 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="text">
     <string>Search applications by summery (slower)</string>
@@ -284,6 +285,21 @@
    </property>
    <property name="toolTip">
     <string>Applcation Details View...</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="edit-find">
+     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Search...</string>
+   </property>
+   <property name="toolTip">
+    <string>Search Results...</string>
    </property>
   </action>
  </widget>

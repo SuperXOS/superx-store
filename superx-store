@@ -2,19 +2,31 @@
 
 import os
 import sys
+from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, QSizePolicy, QAction, QActionGroup, QMenu
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
-from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, pyqtSlot
+from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings
 
-from PyQt5 import uic
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self = uic.loadUi('window.ui', self)
-        
-        self.server = 'http://superxos.com/'
-        
+
+        self.server = 'http://google.com/'
+
+        self.settings = QSettings('superx-storerc')
+        self.search_name = self.settings.value('search_name', type=bool)
+        self.search_summery = self.settings.value('search_summery', type=bool)
+        self.search_desc = self.settings.value('search_desc', type=bool)
+
+        if self.search_name:
+            self.actionSearchName.setChecked(True)
+        if self.search_summery:
+            self.actionSearchSummery.setChecked(True)
+        if self.search_desc:
+            self.actionSearchDescription.setChecked(True)
+
         toolbarGroup = QActionGroup(self.toolBar)
         toolbarGroup.addAction(self.actionHome)
         toolbarGroup.addAction(self.actionCategories)
@@ -23,77 +35,103 @@ class MainWindow(QMainWindow):
         toolbarGroup.addAction(self.actionTasks)
         toolbarGroup.addAction(self.actionExplorer)
         toolbarGroup.addAction(self.actionApp)
+        toolbarGroup.addAction((self.actionSearch))
         toolbarGroup.setExclusive(True)
-        
-        
-        
+
         # Only show explorer when user goes to dynamic pages.
         self.actionExplorer.setVisible(False)
-              
+
         # Only show updates when software updates are available.
         updates_available = False
         if updates_available:
             self.actionUpdates.setVisible(True)
         else:
             self.actionUpdates.setVisible(False)
-        
+
         # Only show tasks when some tasks are running.
         # TODO: self.actionTasks.setIcon(QIcon(QMovie)) once system is ready.
         self.actionTasks.setVisible(False)
-                       
+
         self.searchBar = QLineEdit()
         self.searchBar.setPlaceholderText('Search...')
         self.searchBar.setFocusPolicy(Qt.StrongFocus)
-                
+
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.toolBar.addWidget(spacer)
         self.toolBar.addWidget(self.searchBar)
         self.toolBar.addAction(self.actionConfigure)
         self.toolBar.setContextMenuPolicy(Qt.CustomContextMenu)
-                        
+
         self.webEngine = QWebEngineView()
         self.centralwidget.layout().addWidget(self.webEngine)
-        
+
         # Signals and slots
         self.actionBack.triggered.connect(self.webEngine.back)
         self.actionForward.triggered.connect(self.webEngine.forward)
         self.actionForward.triggered.connect(self.highlightView)
         self.actionConfigure.triggered.connect(self.configMenu)
-        
+
         self.actionSoftwareSources.triggered.connect(self.editSources)
         self.actionAbout.triggered.connect(self.aboutDialog)
-        
+
+        self.actionHome.triggered.connect(lambda: self.webEngine.load(
+            QUrl(self.server)))
+        self.actionCategories.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'categories'))))
+        self.actionLibrary.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'library'))))
+        self.actionUpdates.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'updates'))))
         self.searchBar.returnPressed.connect(self.searchQuery)
-        
-        self.actionHome.triggered.connect(lambda: self.webEngine.load(QUrl(self.server)))
-        self.actionCategories.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'categories'))))
-        self.actionLibrary.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'library'))))
-        self.actionUpdates.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'updates'))))
-        
+
         self.webEngine.urlChanged.connect(self.highlightView)
+
+        self.actionSearchName.toggled.connect(self.settingsWrite)
+        self.actionSearchSummery.toggled.connect(self.settingsWrite)
+        self.actionSearchDescription.toggled.connect(self.settingsWrite)
+
         self.webEngine.load(QUrl(self.server))
-        
-               
+
         self.show()
         self.searchBar.setFocus()
-        
+
     def searchQuery(self):
-        print(self.searchBar.text())
-        self.webEngine.load(QUrl(os.path.join(self.server, 'search?q=%s' % self.searchBar.text())))
-    
+        search_parms = (self.searchBar.text(), self.search_name, self.search_summery, self.search_desc)
+        self.webEngine.load(QUrl(os.path.join(
+            self.server, 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
+        print(self.webEngine.url())
+
+    def settingsWrite(self):
+        if self.actionSearchName.isChecked():
+            self.settings.setValue('search_name', True)
+            self.search_name = True
+        else:
+            self.settings.setValue('search_name', False)
+            self.search_name = False
+
+        if self.actionSearchSummery.isChecked():
+            self.settings.setValue('search_summery', True)
+            self.search_summery = True
+        else:
+            self.settings.setValue('search_summery', False)
+            self.search_summery = False
+
+        if self.actionSearchDescription.isChecked():
+            self.settings.setValue('search_desc', True)
+            self.search_desc = True
+        else:
+            self.settings.setValue('search_desc', False)
+            self.search_desc = False
+
     def highlightView(self):
-        #if self.sender() == self.actionBack:
-            #url = self.webEngine.page().history().items()[-2].originalUrl().path()
-        #elif self.sender() == self.actionForward:
-            #url = self.webEngine.page().history().items()[-1].originalUrl().path()
-            
         url = self.webEngine.url().path()
-        
+
         self.actionExplorer.setVisible(False)
         self.actionExplorer.setChecked(False)
         self.actionApp.setVisible(False)
-        
+        self.actionSearch.setVisible(False)
+
         if url == '/':
             self.actionHome.setChecked(True)
         elif '/categories' in url:
@@ -107,20 +145,20 @@ class MainWindow(QMainWindow):
         elif '/app' in url:
             self.actionApp.setVisible(True)
             self.actionApp.setChecked(True)
+        elif '/search' in url:
+            self.actionSearch.setVisible(True)
+            self.actionSearch.setChecked(True)
         else:
             self.actionExplorer.setVisible(True)
             self.actionExplorer.setChecked(True)
-            
-            
-        
+
     def aboutDialog(self):
         pass
-    
+
     def editSources(self):
         superx_sources = QProcess()
         superx_sources.startDetached('superx-sources')
-        
-    
+
     def configMenu(self):
         configMenu = QMenu(parent=window)
         configMenu.addAction(self.actionSearchName)
@@ -129,8 +167,10 @@ class MainWindow(QMainWindow):
         configMenu.addAction(self.actionSoftwareSources)
         configMenu.addAction(self.actionAbout)
         # Check for a better menu system.
-        configMenu.popup(QWidget.mapToGlobal(self, QPoint(self.searchBar.frameGeometry().x() + self.searchBar.frameGeometry().width() - 309, 30)))
-        
+        point = QPoint(self.searchBar.frameGeometry().x() +
+                       self.searchBar.frameGeometry().width() - 309, 30)
+        configMenu.popup(QWidget.mapToGlobal(self, point))
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
