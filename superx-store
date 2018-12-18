@@ -1,0 +1,139 @@
+#!/usr/bin/python3
+
+import os
+import sys
+from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, QSizePolicy, QAction, QActionGroup, QMenu
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
+from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, pyqtSlot
+
+from PyQt5 import uic
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self = uic.loadUi('window.ui', self)
+        
+        self.server = 'http://superxos.com/'
+        
+        toolbarGroup = QActionGroup(self.toolBar)
+        toolbarGroup.addAction(self.actionHome)
+        toolbarGroup.addAction(self.actionCategories)
+        toolbarGroup.addAction(self.actionLibrary)
+        toolbarGroup.addAction(self.actionUpdates)
+        toolbarGroup.addAction(self.actionTasks)
+        toolbarGroup.addAction(self.actionExplorer)
+        toolbarGroup.addAction(self.actionApp)
+        toolbarGroup.setExclusive(True)
+        
+        
+        
+        # Only show explorer when user goes to dynamic pages.
+        self.actionExplorer.setVisible(False)
+              
+        # Only show updates when software updates are available.
+        updates_available = False
+        if updates_available:
+            self.actionUpdates.setVisible(True)
+        else:
+            self.actionUpdates.setVisible(False)
+        
+        # Only show tasks when some tasks are running.
+        # TODO: self.actionTasks.setIcon(QIcon(QMovie)) once system is ready.
+        self.actionTasks.setVisible(False)
+                       
+        self.searchBar = QLineEdit()
+        self.searchBar.setPlaceholderText('Search...')
+        self.searchBar.setFocusPolicy(Qt.StrongFocus)
+                
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.toolBar.addWidget(spacer)
+        self.toolBar.addWidget(self.searchBar)
+        self.toolBar.addAction(self.actionConfigure)
+        self.toolBar.setContextMenuPolicy(Qt.CustomContextMenu)
+                        
+        self.webEngine = QWebEngineView()
+        self.centralwidget.layout().addWidget(self.webEngine)
+        
+        # Signals and slots
+        self.actionBack.triggered.connect(self.webEngine.back)
+        self.actionForward.triggered.connect(self.webEngine.forward)
+        self.actionForward.triggered.connect(self.highlightView)
+        self.actionConfigure.triggered.connect(self.configMenu)
+        
+        self.actionSoftwareSources.triggered.connect(self.editSources)
+        self.actionAbout.triggered.connect(self.aboutDialog)
+        
+        self.searchBar.returnPressed.connect(self.searchQuery)
+        
+        self.actionHome.triggered.connect(lambda: self.webEngine.load(QUrl(self.server)))
+        self.actionCategories.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'categories'))))
+        self.actionLibrary.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'library'))))
+        self.actionUpdates.triggered.connect(lambda: self.webEngine.load(QUrl(os.path.join(self.server, 'updates'))))
+        
+        self.webEngine.urlChanged.connect(self.highlightView)
+        self.webEngine.load(QUrl(self.server))
+        
+               
+        self.show()
+        self.searchBar.setFocus()
+        
+    def searchQuery(self):
+        print(self.searchBar.text())
+        self.webEngine.load(QUrl(os.path.join(self.server, 'search?q=%s' % self.searchBar.text())))
+    
+    def highlightView(self):
+        #if self.sender() == self.actionBack:
+            #url = self.webEngine.page().history().items()[-2].originalUrl().path()
+        #elif self.sender() == self.actionForward:
+            #url = self.webEngine.page().history().items()[-1].originalUrl().path()
+            
+        url = self.webEngine.url().path()
+        
+        self.actionExplorer.setVisible(False)
+        self.actionExplorer.setChecked(False)
+        self.actionApp.setVisible(False)
+        
+        if url == '/':
+            self.actionHome.setChecked(True)
+        elif '/categories' in url:
+            self.actionCategories.setChecked(True)
+        elif '/library' in url:
+            self.actionLibrary.setChecked(True)
+        elif '/updates' in url:
+            self.actionUpdates.setChecked(True)
+        elif '/tasks' in url:
+            self.actionTasks.setChecked(True)
+        elif '/app' in url:
+            self.actionApp.setVisible(True)
+            self.actionApp.setChecked(True)
+        else:
+            self.actionExplorer.setVisible(True)
+            self.actionExplorer.setChecked(True)
+            
+            
+        
+    def aboutDialog(self):
+        pass
+    
+    def editSources(self):
+        superx_sources = QProcess()
+        superx_sources.startDetached('superx-sources')
+        
+    
+    def configMenu(self):
+        configMenu = QMenu(parent=window)
+        configMenu.addAction(self.actionSearchName)
+        configMenu.addAction(self.actionSearchSummery)
+        configMenu.addAction(self.actionSearchDescription)
+        configMenu.addAction(self.actionSoftwareSources)
+        configMenu.addAction(self.actionAbout)
+        # Check for a better menu system.
+        configMenu.popup(QWidget.mapToGlobal(self, QPoint(self.searchBar.frameGeometry().x() + self.searchBar.frameGeometry().width() - 309, 30)))
+        
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    app.setAttribute(Qt.AA_UseSoftwareOpenGL)
+    window = MainWindow()
+    sys.exit(app.exec_())

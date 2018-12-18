@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>981</width>
+    <height>722</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>SuperX AppStore</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>22</width>
+     <height>22</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionBack"/>
+   <addaction name="actionForward"/>
+   <addaction name="actionHome"/>
+   <addaction name="actionCategories"/>
+   <addaction name="actionLibrary"/>
+   <addaction name="actionUpdates"/>
+   <addaction name="actionTasks"/>
+   <addaction name="actionExplorer"/>
+   <addaction name="actionApp"/>
+  </widget>
+  <action name="actionBack">
+   <property name="icon">
+    <iconset theme="go-previous">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset theme="go-next">
+     <normaloff>../../../../media/wrix/Work</normaloff>../../../../media/wrix/Work</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="priority">
+    <enum>QAction::NormalPriority</enum>
+   </property>
+  </action>
+  <action name="actionHome">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="user-home">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Home</string>
+   </property>
+   <property name="toolTip">
+    <string>Main Page</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionLibrary">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="align-horizontal-left-to-anchor">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Library</string>
+   </property>
+   <property name="toolTip">
+    <string>Library</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionUpdates">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="update-none">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Updates</string>
+   </property>
+   <property name="toolTip">
+    <string>Updates</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionCategories">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-list-icons">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Categories</string>
+   </property>
+   <property name="toolTip">
+    <string>Categories</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionTasks">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Tasks</string>
+   </property>
+   <property name="toolTip">
+    <string>Running Tasks</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionConfigure">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="application-menu">
+     <normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>Configure Search...</string>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionSearchName">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Search applications by name</string>
+   </property>
+  </action>
+  <action name="actionSearchSummery">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Search applications by summery (slower)</string>
+   </property>
+   <property name="toolTip">
+    <string>Search applications by summery</string>
+   </property>
+  </action>
+  <action name="actionSearchDescription">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Search applications by description (much slower)</string>
+   </property>
+   <property name="toolTip">
+    <string>Search applications by summery</string>
+   </property>
+  </action>
+  <action name="actionSoftwareSources">
+   <property name="icon">
+    <iconset theme="document-edit">
+     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Edit Software Sources</string>
+   </property>
+   <property name="toolTip">
+    <string>Edit Repositories and PPAs</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset theme="help-about">
+     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About SuperX AppStore</string>
+   </property>
+  </action>
+  <action name="actionExplorer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="globe">
+     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Explorer</string>
+   </property>
+   <property name="toolTip">
+    <string>Explore new possibilities...</string>
+   </property>
+  </action>
+  <action name="actionApp">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="run-build-install">
+     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
+   </property>
+   <property name="text">
+    <string>Application</string>
+   </property>
+   <property name="toolTip">
+    <string>Applcation Details View...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
