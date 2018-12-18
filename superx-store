@@ -2,8 +2,9 @@
 
 import os
 import sys
+from datetime import datetime
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, QSizePolicy, QAction, QActionGroup, QMenu
+from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, QSizePolicy, QAction, QActionGroup, QMenu, QDialog, QDesktopWidget
 from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
 from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings
 
@@ -91,6 +92,12 @@ class MainWindow(QMainWindow):
         self.actionSearchSummery.toggled.connect(self.settingsWrite)
         self.actionSearchDescription.toggled.connect(self.settingsWrite)
 
+        screen = QDesktopWidget().screenGeometry()
+        window = self.geometry()
+        hposition = (screen.width() - window.width()) / 2
+        vposition = (screen.height() - window.height()) / 2
+        self.move(hposition, vposition)
+
         self.webEngine.load(QUrl(self.server))
 
         self.show()
@@ -153,7 +160,13 @@ class MainWindow(QMainWindow):
             self.actionExplorer.setChecked(True)
 
     def aboutDialog(self):
-        pass
+        dialog = QDialog(parent=window)
+        dialog.ui = uic.loadUi('about.ui')
+        copyright = 'Copyright (c) %s Libresoft Technology Pvt. Ltd.' \
+            % datetime.now().year
+        dialog.ui.label_2.setText(copyright)
+        dialog.setAttribute(Qt.WA_DeleteOnClose)
+        dialog.ui.show()
 
     def editSources(self):
         superx_sources = QProcess()
