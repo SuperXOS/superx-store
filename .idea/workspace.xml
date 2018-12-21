@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="305cfa1d-a105-49c6-a571-2c5e40e23a28" name="Default Changelist" comment="* Run Flask inside QThread.&#10;* Look for other port if 5000 is taken.">
-      <change beforePath="$PROJECT_DIR$/New_AppStore.kdev4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/about.ui" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/window.ui" beforeDir="false" />
+    <list default="true" id="305cfa1d-a105-49c6-a571-2c5e40e23a28" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/superx-store" beforeDir="false" afterPath="$PROJECT_DIR$/superx-store" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/usr/share/superx-store/about.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/usr/share/superx-store/window.ui" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,8 +21,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/superx-store">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="128" column="34" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
+            <state relative-caret-position="83">
+              <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
               <folding>
                 <element signature="e#20#29#0" expanded="true" />
               </folding>
@@ -31,9 +35,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
               <caret line="9" selection-start-line="9" selection-end-line="9" />
-              <folding>
-                <element signature="e#20#69#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -41,8 +42,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/parser_html/templates/main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2280">
-              <caret line="152" column="37" selection-end-line="241" />
+            <state relative-caret-position="2655">
+              <caret line="177" column="37" selection-end-line="268" />
             </state>
           </provider>
         </entry>
@@ -106,7 +107,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,25 +114,16 @@
               <item name="New_AppStore" type="b2602c69:ProjectViewProjectNode" />
               <item name="New_AppStore" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="New_AppStore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="New_AppStore" type="462c0819:PsiDirectoryNode" />
-              <item name="parser_html" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="New_AppStore" type="b2602c69:ProjectViewProjectNode" />
-              <item name="New_AppStore" type="462c0819:PsiDirectoryNode" />
-              <item name="parser_html" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RunDashboard">
@@ -179,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1545422924073</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Default config for SuperX AppStore.&#10;&#10;Signed-off-by: Wrishiraj Kaushik &lt;wrix@libresoft.in&gt;">
+      <created>1545423138591</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1545423138591</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -188,7 +186,7 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18081181" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" weight="0.32899022" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.32899022" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -196,10 +194,11 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.32899022" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32899022" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32899022" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32899022" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -213,18 +212,24 @@
       <path value="$PROJECT_DIR$/parser_html" />
     </ignored-roots>
     <MESSAGE value="PEP8 at 79 lines not 120." />
-    <MESSAGE value="* Run Flask inside QThread.&#10;* Look for other port if 5000 is taken." />
     <MESSAGE value="Default config for SuperX AppStore." />
-    <option name="LAST_COMMIT_MESSAGE" value="Default config for SuperX AppStore." />
+    <MESSAGE value="* Run Flask inside QThread.&#10;* Look for other port if 5000 is taken." />
+    <MESSAGE value="Default config for SuperX AppStore.&#10;&#10;Signed-off-by: Wrishiraj Kaushik &lt;wrix@libresoft.in&gt;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Default config for SuperX AppStore.&#10;&#10;Signed-off-by: Wrishiraj Kaushik &lt;wrix@libresoft.in&gt;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/flask/superx_store_server_flask/appstore.py" />
+    <entry file="file://$PROJECT_DIR$/_appstream" />
+    <entry file="file://$PROJECT_DIR$/binary-search.py" />
+    <entry file="file://$PROJECT_DIR$/appstream">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/superx-store">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="128" column="34" selection-start-line="128" selection-start-column="34" selection-end-line="128" selection-end-column="34" />
+        <state relative-caret-position="83">
+          <caret line="158" lean-forward="true" selection-start-line="158" selection-end-line="158" />
           <folding>
             <element signature="e#20#29#0" expanded="true" />
           </folding>
@@ -235,35 +240,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="9" selection-start-line="9" selection-end-line="9" />
-          <folding>
-            <element signature="e#20#69#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/parser_html/templates/main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2280">
-          <caret line="152" column="37" selection-end-line="241" />
+        <state relative-caret-position="2655">
+          <caret line="177" column="37" selection-end-line="268" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/update">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_appstream">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="39" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/binary-search.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="18" selection-start-column="18" selection-end-column="18" />
-        </state>
-      </provider>
     </entry>
   </component>
 </project>

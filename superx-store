@@ -19,11 +19,11 @@ class FlaskThread(QThread):
 
     def __init__(self):
         QThread.__init__(self)
-
-    def run(self):
         self.port_found = False
         self.server = 'localhost'
         self.port = 5000
+
+    def run(self):
         while True:
             try:
                 appstore.app.run(host='localhost', port=self.port)
@@ -50,10 +50,10 @@ class MainWindow(QMainWindow):
         self.daemon = FlaskThread()
         self.daemon.start()
 
-        self = uic.loadUi('window.ui')
-
         self.server = 'http://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
+        
+        self = uic.loadUi('window.ui', self)
 
         self.settings = QSettings('superx-storerc')
         self.search_name = self.settings.value('search_name', type=bool)
@@ -82,7 +82,7 @@ class MainWindow(QMainWindow):
         self.actionExplorer.setVisible(False)
 
         # Only show updates when software updates are available.
-        updates_available = True
+        updates_available = False
         if updates_available:
             self.actionUpdates.setVisible(True)
         else:
@@ -96,7 +96,7 @@ class MainWindow(QMainWindow):
         self.searchBar.setPlaceholderText('Search...')
         self.searchBar.setFocusPolicy(Qt.StrongFocus)
 
-        spacer = QWidget()  # Spacer
+        spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.toolBar.addWidget(spacer)
         self.toolBar.addWidget(self.searchBar)
@@ -112,7 +112,6 @@ class MainWindow(QMainWindow):
         self.actionForward.triggered.connect(self.highlightView)
         self.actionConfigure.triggered.connect(self.configMenu)
 
-        self.actionCheckUpdates.triggered.connect(self.checkUpdates)
         self.actionSoftwareSources.triggered.connect(self.editSources)
         self.actionAbout.triggered.connect(self.aboutDialog)
 
@@ -143,18 +142,11 @@ class MainWindow(QMainWindow):
         self.show()
         self.searchBar.setFocus()
 
-    def checkUpdates(self):
-        apt = QProcess()
-        apt.start('qapt-batch --update')
-        apt.waitForFinished(-1)
-
     def searchQuery(self):
-        query_ = 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' \
-                 % (
-                     self.searchBar.text(), self.search_name,
-                     self.search_summery,
-                     self.search_desc)
-        self.webEngine.load(QUrl(os.path.join(self.server, query_)))
+        search_parms = (self.searchBar.text(), self.search_name, self.search_summery, self.search_desc)
+        self.webEngine.load(QUrl(os.path.join(
+            self.server, 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
+        print(self.webEngine.url())
 
     def settingsWrite(self):
         if self.actionSearchName.isChecked():
@@ -180,7 +172,7 @@ class MainWindow(QMainWindow):
 
     def highlightView(self):
         url = self.webEngine.url().path()
-
+        
         print(self.webEngine.url())
 
         self.actionExplorer.setVisible(False)
@@ -190,7 +182,7 @@ class MainWindow(QMainWindow):
 
         if url == '/':
             self.actionHome.setChecked(True)
-        elif '/categories' in url or '/category/' in url:
+        elif '/categories' in url:
             self.actionCategories.setChecked(True)
         elif '/library' in url:
             self.actionLibrary.setChecked(True)
@@ -226,7 +218,6 @@ class MainWindow(QMainWindow):
         configMenu.addAction(self.actionSearchName)
         configMenu.addAction(self.actionSearchSummery)
         configMenu.addAction(self.actionSearchDescription)
-        configMenu.addAction(self.actionCheckUpdates)
         configMenu.addAction(self.actionSoftwareSources)
         configMenu.addAction(self.actionAbout)
         # Check for a better menu system.
