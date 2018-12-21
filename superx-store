@@ -3,18 +3,57 @@
 import os
 import sys
 from datetime import datetime
+from random import randint
+from time import sleep
+
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, QSizePolicy, QAction, QActionGroup, QMenu, QDialog, QDesktopWidget
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
-from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings
+from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, QThread
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
+    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget
+
+from parser_html import appstore
+
+
+class FlaskThread(QThread):
+
+    def __init__(self):
+        QThread.__init__(self)
+
+    def run(self):
+        self.port_found = False
+        self.server = 'localhost'
+        self.port = 5000
+        while True:
+            try:
+                appstore.app.run(host='localhost', port=self.port)
+                self.port_found = True
+            except OSError:
+                self.port = self.port + randint(1, 10)
+                continue
+            break
+
+    # We need this sleep time otherwise initial value (default) of self.port is
+    # passed to the main thread. This results in QWebEngine loading URL with
+    # wrong port. The number 0.12 is completely arbitrary, fast enough for
+    # humans to see, slow enough for machine to process.
+
+    def getPort(self):
+        sleep(0.12)
+        return self.port
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
-        self = uic.loadUi('window.ui', self)
 
-        self.server = 'http://google.com/'
+        self.daemon = FlaskThread()
+        self.daemon.start()
+
+        self = uic.loadUi('window.ui')
+
+        self.server = 'http://{}:{}/'.format(self.daemon.server,
+                                             self.daemon.getPort())
 
         self.settings = QSettings('superx-storerc')
         self.search_name = self.settings.value('search_name', type=bool)
@@ -43,7 +82,7 @@ class MainWindow(QMainWindow):
         self.actionExplorer.setVisible(False)
 
         # Only show updates when software updates are available.
-        updates_available = False
+        updates_available = True
         if updates_available:
             self.actionUpdates.setVisible(True)
         else:
@@ -57,7 +96,7 @@ class MainWindow(QMainWindow):
         self.searchBar.setPlaceholderText('Search...')
         self.searchBar.setFocusPolicy(Qt.StrongFocus)
 
-        spacer = QWidget()
+        spacer = QWidget()  # Spacer
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.toolBar.addWidget(spacer)
         self.toolBar.addWidget(self.searchBar)
@@ -73,6 +112,7 @@ class MainWindow(QMainWindow):
         self.actionForward.triggered.connect(self.highlightView)
         self.actionConfigure.triggered.connect(self.configMenu)
 
+        self.actionCheckUpdates.triggered.connect(self.checkUpdates)
         self.actionSoftwareSources.triggered.connect(self.editSources)
         self.actionAbout.triggered.connect(self.aboutDialog)
 
@@ -103,11 +143,18 @@ class MainWindow(QMainWindow):
         self.show()
         self.searchBar.setFocus()
 
+    def checkUpdates(self):
+        apt = QProcess()
+        apt.start('qapt-batch --update')
+        apt.waitForFinished(-1)
+
     def searchQuery(self):
-        search_parms = (self.searchBar.text(), self.search_name, self.search_summery, self.search_desc)
-        self.webEngine.load(QUrl(os.path.join(
-            self.server, 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
-        print(self.webEngine.url())
+        query_ = 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' \
+                 % (
+                     self.searchBar.text(), self.search_name,
+                     self.search_summery,
+                     self.search_desc)
+        self.webEngine.load(QUrl(os.path.join(self.server, query_)))
 
     def settingsWrite(self):
         if self.actionSearchName.isChecked():
@@ -134,6 +181,8 @@ class MainWindow(QMainWindow):
     def highlightView(self):
         url = self.webEngine.url().path()
 
+        print(self.webEngine.url())
+
         self.actionExplorer.setVisible(False)
         self.actionExplorer.setChecked(False)
         self.actionApp.setVisible(False)
@@ -141,7 +190,7 @@ class MainWindow(QMainWindow):
 
         if url == '/':
             self.actionHome.setChecked(True)
-        elif '/categories' in url:
+        elif '/categories' in url or '/category/' in url:
             self.actionCategories.setChecked(True)
         elif '/library' in url:
             self.actionLibrary.setChecked(True)
@@ -177,6 +226,7 @@ class MainWindow(QMainWindow):
         configMenu.addAction(self.actionSearchName)
         configMenu.addAction(self.actionSearchSummery)
         configMenu.addAction(self.actionSearchDescription)
+        configMenu.addAction(self.actionCheckUpdates)
         configMenu.addAction(self.actionSoftwareSources)
         configMenu.addAction(self.actionAbout)
         # Check for a better menu system.
