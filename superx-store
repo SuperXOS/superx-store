@@ -52,7 +52,7 @@ class MainWindow(QMainWindow):
 
         self.server = 'http://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
-        
+
         self = uic.loadUi('window.ui', self)
 
         self.settings = QSettings('superx-storerc')
@@ -143,9 +143,12 @@ class MainWindow(QMainWindow):
         self.searchBar.setFocus()
 
     def searchQuery(self):
-        search_parms = (self.searchBar.text(), self.search_name, self.search_summery, self.search_desc)
+        search_parms = (
+        self.searchBar.text(), self.search_name, self.search_summery,
+        self.search_desc)
         self.webEngine.load(QUrl(os.path.join(
-            self.server, 'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
+            self.server,
+            'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
         print(self.webEngine.url())
 
     def settingsWrite(self):
@@ -172,7 +175,7 @@ class MainWindow(QMainWindow):
 
     def highlightView(self):
         url = self.webEngine.url().path()
-        
+
         print(self.webEngine.url())
 
         self.actionExplorer.setVisible(False)
@@ -204,7 +207,7 @@ class MainWindow(QMainWindow):
         dialog = QDialog(parent=window)
         dialog.ui = uic.loadUi('about.ui')
         copyright = 'Copyright (c) %s Libresoft Technology Pvt. Ltd.' \
-            % datetime.now().year
+                    % datetime.now().year
         dialog.ui.label_2.setText(copyright)
         dialog.setAttribute(Qt.WA_DeleteOnClose)
         dialog.ui.show()
