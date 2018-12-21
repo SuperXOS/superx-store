@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+
+import gi
+
+gi.require_version("AppStream", "1.0")
+
+from gi.repository import AppStream
+import sqlite3 as db
+
+db_conn = db.connect('appstream.sqlite3')
+db_cur = db_conn.cursor()
+db_conn.execute(
+    'CREATE TABLE IF NOT EXISTS AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon)')
+
+pool = AppStream.Pool()
+pool.load()
+
+cpts = pool.get_components()
+appsteam_data = list()
+
+print(cpts[2].props.pkgnames)
+
+for i in cpts:
+    j = dict()
+    j['apt_pkg'] = AppStream.Component.get_pkgname(i)
+    j['name'] = AppStream.Component.get_name(i)
+    j['summery'] = AppStream.Component.get_summary(i)
+    j['description'] = AppStream.Component.get_description(i)
+    j['categories'] = AppStream.Component.get_categories(i)
+    j['keywords'] = AppStream.Component.get_keywords(i)
+
+for i in cpts:
+    id = i.props.id
+    pkg = str(i.props.pkgnames)
+    name = i.props.name
+    summery = i.props.summary
+    desc = i.props.description
+    categories = str(i.get_categories())
+    keywords = str(i.props.keywords)
+    icon = i.get_icon_by_size(128, 128)
+    if icon == None:
+        icon = 'generic'
+    else:
+        icon = str(AppStream.Icon.get_filename(icon))
+
+    db_conn.execute(
+        "INSERT INTO AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+        (id, pkg, name, summery, desc, categories, keywords, icon))
+
+db_conn.commit()
+
+print(db_conn.execute(
+    "SELECT * FROM AppInformation WHERE id='org.kde.dolphin.desktop'").fetchall())
+
+db_conn.close()

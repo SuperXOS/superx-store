@@ -302,6 +302,17 @@
     <string>Search Results...</string>
    </property>
   </action>
+     <action name="actionCheckUpdates">
+         <property name="icon">
+             <iconset theme="update-none"/>
+         </property>
+         <property name="text">
+             <string>Check for updates</string>
+         </property>
+         <property name="toolTip">
+             <string>Refresh software cache...</string>
+         </property>
+     </action>
  </widget>
  <resources/>
  <connections/>

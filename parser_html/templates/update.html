@@ -1,0 +1,117 @@
+{% extends 'main.html' %}
+{% block content %}
+
+<div id="loader">
+    <div class="container containered">
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+        <div class="dot"><span></span></div>
+    </div>
+    <svg>
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10"
+                                result="blur"></feGaussianBlur>
+                <feColorMatrix in="blur" mode="matrix"
+                               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9"
+                               result="goo"></feColorMatrix>
+                <feComposite in="SourceGraphic" in2="goo"
+                             operator="atop"></feComposite>
+            </filter>
+        </defs>
+    </svg>
+
+</div>
+<br>
+<div id="main">
+    <div id="wrapper">
+        <div class="overlay"></div>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="row" style="margin-right:10%;margin-left:10%;">
+                        <div class="row" style="padding-top: 90px;">
+
+                            <div class="panel-group">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel panel-default"
+                                             style="background-color:#F5F5F5;border:0.5px solid #E0E0E0;border-radius:0;box-shadow: 1px 2px 2px #80808033;">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-4 col-sm-4 "
+                                                         id="app_update">
+                                          <span style="font-size:16px;padding:5px;color:grey;"><mark
+                                                  style="font-size:17px;background-color:#ff9900;padding:0px 3px 0px 3px;color:white;border-radius:2px;">{{ app_len }}</mark>
+                                             Application updates
+                                           </span>
+
+                                                    </div>
+                                                    <div class="col-md-offset-1 col-md-5 col-sm-4 "
+                                                         id="sys_update">
+                                                        <span style="font-size:16px;padding:5px;color:grey;"><mark
+                                                                style="font-size:17px;background-color:#ff1a1a;padding:0px 3px 0px 3px;color:white;border-radius:2px;">{{ sec_len }}</mark> Security updates</span>
+
+                                                    </div>
+                                                    <div class="col-md-10"
+                                                         style="padding-top:8px;display:none"
+                                                         id="update-progress">
+                                                        <div id="progress"
+                                                             style="height:9px;border-radius:3px;background-color:#A8A8A8">
+                                                            <div class="progress-bar"
+                                                                 id="progressbar"
+                                                                 role="progressbar"
+                                                                 style="width:0%;height:100%;border-radius:3px;background-color:#3daee9;">
+                                                            </div>
+                                                            <span class="progress_percent"
+                                                                  id="percentageprogress">0%</span>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class=" col-md-2 col-sm-4 ">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                {% include 'list_package.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  function install_updates()
+  {
+    document.getElementById("update-button").disabled = true;
+    document.getElementById("update-button").innerHTML = "Updating"
+    document.getElementById("app_update").style.display = "none";
+    document.getElementById("sys_update").style.display = "none";
+    document.getElementById("update-progress").style.display = "";
+    document.title="update->all";
+
+  }
+  function setUpdateProgress(str, packge){
+    document.getElementById("update-progress").style.display = "";
+    document.getElementById("app_update").style.display = "none";
+    document.getElementById("sys_update").style.display = "none";
+    document.getElementById("update-button").disabled = true;
+    document.getElementById("update-button").innerHTML = "Updating"
+   $('#progressbar').css("width", str+"%");
+   document.getElementById("percentageprogress").innerHTML= str+"%";
+
+  }
+
+</script>
+{% endblock %}
