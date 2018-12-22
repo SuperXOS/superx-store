@@ -10,12 +10,15 @@ import sqlite3 as db
 db_conn = db.connect('appstream.sqlite')
 db_cur = db_conn.cursor()
 db_conn.execute(
-    'CREATE TABLE IF NOT EXISTS AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon, screenshots, thumbnails, license, developer, addons)')
+    'CREATE TABLE IF NOT EXISTS AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon, screenshots, thumbnails, launchable, license, developer, addons, extends, suggested)')
 
 pool = AppStream.Pool()
 pool.load()
 
 cpts = pool.get_components()
+
+for i in cpts[10].get_launchables():
+    print(i.get_entries())
 
 for i in cpts:
     id = i.props.id
@@ -26,13 +29,17 @@ for i in cpts:
     categories = str(i.get_categories())
     keywords = str(set(i.props.keywords + i.get_search_tokens()))
     icon = i.get_icon_by_size(128, 128)
-
-    screenshots = list()
-    thumbnails = list()
-
+    screenshots = []
+    try:
+        launchable = str(i.get_launchable(AppStream.LaunchableKind.DESKTOP_ID).get_entries())
+    except AttributeError:
+        launchable = 'no_launchable'
+    thumbnails = []
     license = i.props.project_license
     developer = i.props.developer_name
-    addons = list()
+    addons = []
+    extends = str(i.get_extends())
+    suggested = []
 
     if icon == None:
         icon = 'generic_icon'
@@ -47,7 +54,6 @@ for i in cpts:
             elif '_224x' in screenshot_url:
                 thumbnails.append(screenshot_url)
 
-
     if len(screenshots) == 0:
         screenshots = 'generic_screenshot'
     else:
@@ -58,23 +64,32 @@ for i in cpts:
     else:
         thumbnails = str(thumbnails)
 
-    for k in i.get_addons():
-        addons.append(k.props.id)
+    for l in i.get_addons():
+        addons.append(l.props.id)
 
     if len(addons) == 0:
         addons = 'no_addons'
     else:
         addons = str(addons)
 
+    for m in i.get_suggested():
+        suggested.append(m.get_ids())
+
+    if len(suggested) == 0:
+        suggested = 'no_suggests'
+    else:
+        suggested = str(suggested)
+
 
 
     db_conn.execute(
-        "INSERT INTO AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon, screenshots, thumbnails, license, developer, addons) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        (id, pkg, name, summery, desc, categories, keywords, icon, screenshots, thumbnails, license, developer, addons))
+        "INSERT INTO AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon, screenshots, thumbnails, launchable, license, developer, addons, extends, suggested) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (id, pkg, name, summery, desc, categories, keywords, icon, screenshots,
+         thumbnails, launchable, license, developer, addons, extends, suggested))
 
 db_conn.commit()
 
-print(db_conn.execute(
-    "SELECT * FROM AppInformation WHERE id='org.kde.dolphin.desktop'").fetchall())
+# print(db_conn.execute(
+#     "SELECT * FROM AppInformation WHERE id='org.kde.dolphin.desktop'").fetchall())
 
 db_conn.close()
