@@ -44,6 +44,7 @@
    <addaction name="actionHome"/>
    <addaction name="actionCategories"/>
    <addaction name="actionLibrary"/>
+   <addaction name="actionPurchases"/>
    <addaction name="actionUpdates"/>
    <addaction name="actionTasks"/>
    <addaction name="actionExplorer"/>
@@ -302,17 +303,33 @@
     <string>Search Results...</string>
    </property>
   </action>
-     <action name="actionCheckUpdates">
-         <property name="icon">
-             <iconset theme="update-none"/>
-         </property>
-         <property name="text">
-             <string>Check for updates</string>
-         </property>
-         <property name="toolTip">
-             <string>Refresh software cache...</string>
-         </property>
-     </action>
+  <action name="actionCheckUpdates">
+   <property name="icon">
+    <iconset theme="update-none">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Check for updates</string>
+   </property>
+   <property name="toolTip">
+    <string>Refresh software cache...</string>
+   </property>
+  </action>
+  <action name="actionPurchases">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="format-currency">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Purchases</string>
+   </property>
+   <property name="toolTip">
+    <string>Your purchased apps...</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

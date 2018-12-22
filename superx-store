@@ -6,6 +6,8 @@ from datetime import datetime
 from random import randint
 from time import sleep
 
+from OpenSSL import SSL
+
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, QThread
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -16,17 +18,21 @@ from parser_html import appstore
 
 
 class FlaskThread(QThread):
-
     def __init__(self):
         QThread.__init__(self)
         self.port_found = False
         self.server = 'localhost'
         self.port = 5000
 
+        self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
+        self.context.use_privatekey_file('server.key')
+        self.context.use_certificate_file('server.crt')
+
     def run(self):
         while True:
             try:
-                appstore.app.run(host='localhost', port=self.port)
+                appstore.app.run(host='localhost', port=self.port,
+                                 ssl_context=self.context)
                 self.port_found = True
             except OSError:
                 self.port = self.port + randint(1, 10)
@@ -50,7 +56,7 @@ class MainWindow(QMainWindow):
         self.daemon = FlaskThread()
         self.daemon.start()
 
-        self.server = 'http://{}:{}/'.format(self.daemon.server,
+        self.server = 'https://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
 
         self = uic.loadUi('window.ui', self)
@@ -75,11 +81,19 @@ class MainWindow(QMainWindow):
         toolbarGroup.addAction(self.actionTasks)
         toolbarGroup.addAction(self.actionExplorer)
         toolbarGroup.addAction(self.actionApp)
-        toolbarGroup.addAction((self.actionSearch))
+        toolbarGroup.addAction(self.actionSearch)
+        toolbarGroup.addAction(self.actionPurchases)
         toolbarGroup.setExclusive(True)
 
         # Only show explorer when user goes to dynamic pages.
         self.actionExplorer.setVisible(False)
+
+        # TODO: Implement app purchase and display
+        purchased_apps = False
+        if purchased_apps:
+            self.actionPurchases.setVisible(True)
+        else:
+            self.actionPurchases.setVisible(False)
 
         # Only show updates when software updates are available.
         updates_available = False
@@ -148,7 +162,8 @@ class MainWindow(QMainWindow):
         self.search_desc)
         self.webEngine.load(QUrl(os.path.join(
             self.server,
-            'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' % search_parms)))
+            'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' %
+            search_parms)))
         print(self.webEngine.url())
 
     def settingsWrite(self):
@@ -175,8 +190,6 @@ class MainWindow(QMainWindow):
 
     def highlightView(self):
         url = self.webEngine.url().path()
-
-        print(self.webEngine.url())
 
         self.actionExplorer.setVisible(False)
         self.actionExplorer.setChecked(False)
