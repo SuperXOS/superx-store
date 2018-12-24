@@ -31,7 +31,8 @@ for i in cpts:
     icon = i.get_icon_by_size(128, 128)
     screenshots = []
     try:
-        launchable = str(i.get_launchable(AppStream.LaunchableKind.DESKTOP_ID).get_entries())
+        launchable = str(i.get_launchable(
+            AppStream.LaunchableKind.DESKTOP_ID).get_entries())
     except AttributeError:
         launchable = 'no_launchable'
     thumbnails = []
@@ -49,7 +50,7 @@ for i in cpts:
     for j in i.get_screenshots():
         for x in j.get_images():
             screenshot_url = x.get_url()
-            if screenshot_url.endswith('_orig.png'):
+            if screenshot_url.endswith('_orig.png') or '752x' in screenshot_url:
                 screenshots.append(screenshot_url)
             elif '_224x' in screenshot_url:
                 thumbnails.append(screenshot_url)
@@ -80,16 +81,15 @@ for i in cpts:
     else:
         suggested = str(suggested)
 
-
-
     db_conn.execute(
         "INSERT INTO AppInformation(id, apt_pkg, name, summery, description, catagories, keywords, icon, screenshots, thumbnails, launchable, license, developer, addons, extends, suggested) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         (id, pkg, name, summery, desc, categories, keywords, icon, screenshots,
-         thumbnails, launchable, license, developer, addons, extends, suggested))
+         thumbnails, launchable, license, developer, addons, extends,
+         suggested))
 
 db_conn.commit()
 
-# print(db_conn.execute(
-#     "SELECT * FROM AppInformation WHERE id='org.kde.dolphin.desktop'").fetchall())
+print(db_conn.execute(
+    "SELECT * FROM AppInformation WHERE id='org.kde.dolphin.desktop'").fetchall())
 
 db_conn.close()

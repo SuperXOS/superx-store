@@ -24,15 +24,14 @@ class FlaskThread(QThread):
         self.server = 'localhost'
         self.port = 5000
 
-        self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
-        self.context.use_privatekey_file('server.key')
-        self.context.use_certificate_file('server.crt')
+        #self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
+        #self.context.use_privatekey_file('server.key')
+        #self.context.use_certificate_file('server.crt')
 
     def run(self):
         while True:
             try:
-                appstore.app.run(host='localhost', port=self.port,
-                                 ssl_context=self.context)
+                appstore.app.run(host='localhost', port=self.port)
                 self.port_found = True
             except OSError:
                 self.port = self.port + randint(1, 10)
@@ -56,7 +55,7 @@ class MainWindow(QMainWindow):
         self.daemon = FlaskThread()
         self.daemon.start()
 
-        self.server = 'https://{}:{}/'.format(self.daemon.server,
+        self.server = 'http://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
 
         self = uic.loadUi('window.ui', self)
@@ -151,7 +150,7 @@ class MainWindow(QMainWindow):
         vposition = (screen.height() - window.height()) / 2
         self.move(hposition, vposition)
 
-        self.webEngine.load(QUrl(self.server))
+        self.webEngine.load(QUrl('http://192.168.31.195:5000/details?id=catfish'))
 
         self.show()
         self.searchBar.setFocus()
