@@ -7,46 +7,44 @@ gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
 
 from sqlalchemy import create_engine
-from sqlalchemy import Table, Column, String, MetaData
+from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 
 
 class AppDatabase:
 
-    def __init__(self, engine_url):
-        self.db_engine = create_engine(engine_url)
+    def fetch_apps_data(self):
 
-        pool = AppStream.Pool()
-        pool.load()
+        cpts = self.pool.get_components()
 
-        cpts = pool.get_components()
-
-        self.appstream_data = []
+        appstream_data = []
 
         for i in cpts:
-            component_data = {}
-            component_data['id'] = i.props.id
-            component_data['apt_pkg'] = str(i.props.pkgnames)
-            component_data['name'] = i.props.name
-            component_data['summery'] = i.props.summary
-            component_data['description'] = i.props.description
-            component_data['categories'] = str(i.get_categories())
-            component_data['keywords'] = str(i.props.keywords)
-            icon = i.get_icon_by_size(128, 128)
+            component_data = {
+                'id': i.props.id,
+                'name': i.props.name,
+                'summery': i.props.summary,
+                'description': i.props.description,
+                'categories': str(i.get_categories()),
+                'keywords': str(i.props.keywords),
+                'license': i.props.project_license,
+                'developer': i.props.developer_name,
+                'search_tokens': str(list(i.get_search_tokens())),
+                'extends': str(i.get_extends())
+            }
+
+            # Get data of each
 
             try:
                 component_data['launchable'] = str(i.get_launchable(
                     AppStream.LaunchableKind.DESKTOP_ID).get_entries())
             except AttributeError:
-                component_data['launchable'] = 'no_launchable'
+                component_data['launchable'] = None
 
-            component_data['license'] = i.props.project_license
-            component_data['developer'] = i.props.developer_name
-            component_data['search_tokens'] = str(list(i.get_search_tokens()))
-            component_data['extends'] = str(i.get_extends())
             suggested = []
 
+            icon = i.get_icon_by_size(128, 128)
             if icon == None:
-                component_data['icon'] = 'generic_icon'
+                component_data['icon'] = None
             else:
                 component_data['icon'] = str(AppStream.Icon.get_filename(icon))
 
@@ -62,12 +60,12 @@ class AppDatabase:
                         thumbnails.append(screenshot_url)
 
             if len(screenshots) == 0:
-                component_data['screenshots'] = 'generic_screenshot'
+                component_data['screenshots'] = None
             else:
                 component_data['screenshots'] = str(screenshots)
 
             if len(thumbnails) == 0:
-                component_data['thumbnails'] = 'generic_thumbnail'
+                component_data['thumbnails'] = None
             else:
                 component_data['thumbnails'] = str(thumbnails)
 
@@ -76,7 +74,7 @@ class AppDatabase:
                 addons.append(l.props.id)
 
             if len(addons) == 0:
-                component_data['addons'] = 'no_addons'
+                component_data['addons'] = None
             else:
                 component_data['addons'] = str(addons)
 
@@ -84,11 +82,26 @@ class AppDatabase:
                 suggested.append(m.get_ids())
 
             if len(suggested) == 0:
-                component_data['suggested'] = 'no_suggests'
+                component_data['suggested'] = None
             else:
                 component_data['suggested'] = str(suggested)
 
-            self.appstream_data.append(component_data)
+            appstream_data.append(component_data)
+
+        return appstream_data
+
+    def fetch_category_data(self):
+        cpts_category = self.pool.search('maya')
+        for ids in cpts_category:
+            print(ids.props.id)
+
+    def __init__(self, engine_url):
+
+        self.db_engine = create_engine(engine_url)
+
+        self.pool = AppStream.Pool()
+        self.pool.load()
+        self.fetch_category_data()
 
         self.appstream_to_sql()
 
@@ -113,29 +126,30 @@ class AppDatabase:
                                     Column('extends', String),
                                     Column('suggested', String),
                                     )
+        # self.Categories = Table('Categories', metadata,
+        #                         Column('id', String, primary_key=True),
+        #                         Column('name', String),
+        #                         Column('Summery', String),
+        #                         Column('icon', String),
+        #                         Column('children', String),
+        #                         )
+        # self.CategoryItems = Table('CategoryItems', metadata,
+        #                     Column('id', Integer, primary_key=True),
+        #                     Column('category_id', ForeignKey('Categories.id')),
+        #                     Column('app_id', ForeignKey('AppInformation.id'))
+        #                            )
+
         try:
             metadata.create_all(self.db_engine)
 
             conn = self.db_engine.connect()
-            conn.execute(self.AppInformation.insert(), self.appstream_data)
+            conn.execute(self.AppInformation.insert(), self.fetch_apps_data())
 
         except Exception as e:
             print("Error occurred while converting AppStream data to SQL!")
             print(e)
 
-    def appstream_data_all(self, table='', query=''):
-        query = "SELECT * FROM '{}';".format(table)
-        print(query)
-        with self.db_engine.connect() as connection:
-            try:
-                result = connection.execute(query)
-            except Exception as e:
-                print(e)
-            else:
-                for row in result:
-                    print(row)  # print(row[0], row[1], row[2])
-                result.close()
-        print("\n")
+
 
 
 if __name__ == '__main__':
