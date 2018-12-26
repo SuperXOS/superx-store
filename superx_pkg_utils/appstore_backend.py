@@ -7,7 +7,7 @@ from gi.repository import AppStream
 class AppStoreBackend():
 
     def appDetails(self, id):
-        cpt = AppStream.Component.get_components_by_id(id)
+        cpt = self.pool.get_components_by_id(id)[0]
 
         component_data = {
             'id': cpt.props.id,
