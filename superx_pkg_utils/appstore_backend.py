@@ -114,7 +114,7 @@ class AppStoreBackend():
         category_apps = []
         for i in self.pool.get_components():
             if not len(list(set(i.get_categories()) & set(categories))) == 0:
-                category_apps.append(self.appSummery(i.props.id))
+                category_apps.append(i.props.id)
 
         return category_apps
 
@@ -122,11 +122,20 @@ class AppStoreBackend():
         result = []
         result_ = self.pool.search(term)
         for i in result_:
-            result.append(self.appSummery(i.props.id))
+            result.append(i.props.id)
 
         return result
+    
+    def getSuggested(self, categories, keywords):
+        suggested_apps = []
+        search = self.searchApps(keywords)
+        apps_in_categories = self.listAppsInCategories(categories)
+        suggested_apps = list(set(search) & set(apps_in_categories))
+        
+        return suggested_apps
 
     def __init__(self):
         self.pool = AppStream.Pool()
         self.pool.load()
+        
 
