@@ -24,9 +24,17 @@ def index():
     image_path = os.path.join(cwd, 'parser_html/static/images/index')
     image_list = [f for f in listdir(image_path) if
                     isfile(join(image_path, f))]
-    print(image_list)
-    return render_template('index.html', image_list=image_list)
-
+    
+    top_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
+    top_app_list = []
+    for app_id in top_app_id:
+        top_app_list.append(backend_obj.appSummery(app_id))
+        
+    editor_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
+    editor_app_list = []
+    for app_id in editor_app_id:
+        editor_app_list.append(backend_obj.appSummery(app_id))
+    return render_template('index.html', image_list=image_list, top_app_list = top_app_list, editor_app_list = editor_app_list)
 
 
 @app.route('/image/<path:filename>')
@@ -68,7 +76,7 @@ def detail():
     id = request.args.get('id')
     
     datas = backend_obj.appDetails(id)
-    print(datas)
+    
     addons = []
     if datas['addons'] != None:
         for addon in datas['addons']:
