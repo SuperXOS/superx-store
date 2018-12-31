@@ -41,7 +41,7 @@ class AppStoreBackend():
                 screenshot_url = x.get_url()
                 if screenshot_url.endswith('_orig.png'):
                     screenshots.append(screenshot_url)
-                elif '_224x' in screenshot_url:
+                elif '_624x' in screenshot_url:
                     thumbnails.append(screenshot_url)
 
         if len(screenshots) == 0:
@@ -126,6 +126,7 @@ class AppStoreBackend():
 
         return result
     
+    #TODO: Think of a better way to get similar applications. Don't use this method yet.
     def getSuggested(self, categories, keywords):
         suggested_apps = []
         search = self.searchApps(keywords)

@@ -1834,14 +1834,6 @@ body {
 .bg-body {
 }
 
-h2 {
-  text-align: right;
-}
-
-p {
-  padding: .5em;
-}
-
 .jumbotron {
   margin-top: 10px;
   padding: 10px 0;

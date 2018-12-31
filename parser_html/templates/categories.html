@@ -2,206 +2,164 @@
 
 {% block content %}
 <link href="static/styles/styleBorder.css" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro'
-      rel='stylesheet' type='text/css'>
-<link href="static/categories/css/categories.css" rel="stylesheet"
-      type="text/css" media="all"/>
-<link href="static/custom-padding.css" rel="stylesheet" type="text/css"
-      media="all"/>
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+<link href="static/categories/css/categories.css" rel="stylesheet" type="text/css" media="all" />
+<link href="static/custom-padding.css" rel="stylesheet" type="text/css" media="all" />
 <link href='https://fonts.googleapis.com/css?family=Galada' rel='stylesheet'>
 
 <div id="loader">
-    <div class="container containered">
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-        <div class="dot"><span></span></div>
-    </div>
-    <svg>
-        <defs>
-            <filter id="goo">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10"
-                                result="blur"></feGaussianBlur>
-                <feColorMatrix in="blur" mode="matrix"
-                               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9"
-                               result="goo"></feColorMatrix>
-                <feComposite in="SourceGraphic" in2="goo"
-                             operator="atop"></feComposite>
-            </filter>
-        </defs>
-    </svg>
-    <h4 style="text-align: center;margin-top: 450px;color: aliceblue;"
-        class="loading">Refreshing Package Cache</h4>
+<div class="container containered">
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+  <div class="dot"><span></span></div>
+</div>
+<svg>
+  <defs>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9" result="goo"></feColorMatrix>
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+    </filter>
+  </defs>
+</svg>
+<h4 style="text-align: center;margin-top: 450px;color: aliceblue;" class="loading">Refreshing Package Cache</h4>
 </div>
 
 <div id="main">
-    <div id="wrapper">
-        <div class="overlay"></div>
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="col-lg-12 lg-categories">
-                <div class="container-fluid" style="width: 97.5%;">
-                    <div class="row">
-                        <div class="row" style="padding-top: 25px;">
-                            <div class="row">
-                                <div class="col-md-12"
-                                     style="text-align: center">
-                                    <font style="font-family: 'Galada'; font-size:50px; ">Categories</i></font>
-                                </div>
-                            </div>
-                            </br>
-                            <div class="row" style="margin-right: 0px;">
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=accessiories"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Accessiories.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Accessiories </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=education"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Education.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Education </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+	<div id="wrapper">
+			<div class="overlay"></div>
+			<!-- Page Content -->
+			<div id="page-content-wrapper">
+				<div class="col-lg-12 lg-categories">
+					<div class="container-fluid" style="width: 97.5%;">
+						<div class="row">
+							<div class="row" style="padding-top: 25px;">
+								<div class="row">
+									<div class="col-md-12" style="text-align: center">
+										<font style="font-family: 'Galada'; font-size:50px; ">Categories</i></font>
+									</div>
+								</div>
+								</br>
+								<div class="row" style="margin-right: 0px;">
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=accessiories" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Accessiories.png');">
+										    <h1 class="textashadow fontss"> Accessiories </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=education" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Education.png');">
+										    <h1 class="textashadow fontss"> Education </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=games"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Games.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Games </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=games" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Games.png');">
+										    <h1 class="textashadow fontss"> Games </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=graphics"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Graphics.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Graphics </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=graphics" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Graphics.png');">
+										    <h1 class="textashadow fontss"> Graphics </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=internet"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Internet.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Internet</h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=internet" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Internet.png');">
+										    <h1 class="textashadow fontss"> Internet</h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=multimedia"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Multimedia.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Multimedia </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=multimedia" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Multimedia.png');">
+										    <h1 class="textashadow fontss"> Multimedia </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=office"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Office.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Office </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=office" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Office.png');">
+										    <h1 class="textashadow fontss"> Office </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/superxstore/category/?category=science"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Science.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Science </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=science" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Science.png');">
+										    <h1 class="textashadow fontss"> Science </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=settings"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Settings.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Settings </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=settings" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Settings.png');">
+										    <h1 class="textashadow fontss"> Settings </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=system"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/System.png');">
-                                                <h1 class="textashadow fontss">
-                                                    System </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=system" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/System.png');">
+										    <h1 class="textashadow fontss"> System </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
 
-                                <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
-                                    <a href="/category/?category=utilities"
-                                       style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel panel-default border1">
-                                            <div class="panel-body img-categories"
-                                                 style="background-image: url('static/categories/images/Utilities.png');">
-                                                <h1 class="textashadow fontss">
-                                                    Utilities </h1>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
+									   <a href="/category?category=utilities" style="text-decoration: none !important;  cursor: pointer;">
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Utilities.png');">
+										    <h1 class="textashadow fontss"> Utilities </h1>
+										  </div>
+									   </div>
+									  </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
 </div>
 {% endblock %}

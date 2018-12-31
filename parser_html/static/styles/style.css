@@ -1,6 +1,7 @@
 html,
 body {
   height: 100%;
+  font-family: 'Source Sans Pro', sans-serif !important;
 }
 
 body {
@@ -218,4 +219,8 @@ a:hover {
 
 .margin-top{
     margin-top: 20px;
+}
+
+#hidden{
+    display: none;
 }

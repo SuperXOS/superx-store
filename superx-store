@@ -52,6 +52,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
+        self.api_service = 'https://superxos.com'
         self.daemon = FlaskThread()
         self.daemon.start()
 
@@ -150,7 +151,7 @@ class MainWindow(QMainWindow):
         vposition = (screen.height() - window.height()) / 2
         self.move(hposition, vposition)
 
-        self.webEngine.load(QUrl('http://192.168.31.195:5000/details?id=catfish'))
+        self.webEngine.load(QUrl(self.server + 'details?id=' + 'org.kde.dolphin.desktop'))
 
         self.show()
         self.searchBar.setFocus()
@@ -188,29 +189,34 @@ class MainWindow(QMainWindow):
             self.search_desc = False
 
     def highlightView(self):
-        url = self.webEngine.url().path()
+        url = self.webEngine.url().toString()
+        print(url)
 
         self.actionExplorer.setVisible(False)
         self.actionExplorer.setChecked(False)
         self.actionApp.setVisible(False)
         self.actionSearch.setVisible(False)
 
-        if url == '/':
+        if url == self.server:
             self.actionHome.setChecked(True)
-        elif '/categories' in url:
+        elif url.startswith('%scategories' % self.server):
             self.actionCategories.setChecked(True)
-        elif '/library' in url:
+        elif url.startswith('%slibrary' % self.server):
             self.actionLibrary.setChecked(True)
-        elif '/updates' in url:
+        elif url.startswith('%supdates' % self.server):
             self.actionUpdates.setChecked(True)
-        elif '/tasks' in url:
+        elif url.startswith('%stasks' % self.server):
             self.actionTasks.setChecked(True)
-        elif '/app' in url:
+        elif url.startswith('%sdetails' % self.server):
             self.actionApp.setVisible(True)
             self.actionApp.setChecked(True)
-        elif '/search' in url:
+        elif url.startswith('%ssearch' % self.server):
             self.actionSearch.setVisible(True)
             self.actionSearch.setChecked(True)
+        elif url.startswith('%suploadScreenshot' % self.server):
+            url = url.split(self.server)[1]
+            browser = QProcess()
+            browser.startDetached('xdg-open %s/%s ' % (self.api_service, url))
         else:
             self.actionExplorer.setVisible(True)
             self.actionExplorer.setChecked(True)

@@ -4,13 +4,9 @@
 $(document).ready(function(){
  $('#home').addClass('active');
 });
-
 </script>
-<link href="static/static/custom-padding.css" rel="stylesheet" type="text/css"
-      media="all"/>
 <link href="static/styles/styleBorder.css" rel="stylesheet">
 <link href="static/styles/apptileHover.css" rel="stylesheet">
-<script src="static/js/Vibrant.min.js"></script>
 <!--<script>
 alert = function(mesg) {console.trace(mesg)}
 </script>-->
@@ -24,68 +20,68 @@ alert = function(mesg) {console.trace(mesg)}
 #see_more:hover{
   color: #555;
 }
-
 </style>
 <div id="main">
-    <div id="first-slider" style="height:65%;">
-        <div id="carousel-example-generic" class="carousel slide carousel-fade"
-             style="padding-top: 10px; height: 100%;">
-            <!--<ol class="carousel-indicators">
-                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                <li data-target="#carousel-example-generic" data-slide-to="3"></li>
-            </ol>-->
-            <div class="carousel-inner" role="listbox">
-                {% for image in image_list %}
-                {% if loop.index == 1 %}
-                <div class="item active slide{{loop.index}}" style="background-image: url(/static/images/{{ image }});
+    <div class="container-fluid" style="border-top: 1px solid #ddd;">
+        <div class="row" style="">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 padding-0" style="background-image: url(/static/images/index/{{ image_list.0 }});
       background-size: 100% 100%;
-    background-repeat: no-repeat;">
-                    <div class="row">
-                        <div class="container">
-                            <div class="col-md-3 text-right">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
-                <div class="item slide{{loop.index}}" style="background-image: url(/static/images/{{ image }});
-      background-size: 100% 100%;
-    background-repeat: no-repeat;">
-                    <div class="row">
-                        <div class="container">
-                            <div class="col-md-3 text-right">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
-                {% endfor %}
+    background-repeat: no-repeat; height: 40%; padding-top: 10%;">
+            
             </div>
-            <a class="left carousel-control" href="#carousel-example-generic"
-               role="button" data-slide="prev">
-                <i class="fa fa-angle-left"></i><span
-                    class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic"
-               role="button" data-slide="next">
-                <i class="fa fa-angle-right"></i><span
-                    class="sr-only">Next</span>
-            </a>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 padding-0" style="height: 40%;">
+                <div>
+                    <div align="center" style="background-image: url(/static/images/index/{{ image_list.1 }});
+      background-size: 100% 99%;
+    background-repeat: no-repeat; height: 50%;">
+                        
+                    </div>
+                    <div align="center" style="background-image: url(/static/images/index/{{ image_list.2 }});
+      background-size: 100% 99%;
+    background-repeat: no-repeat; height: 50%; margin-top: 1%;">
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="wrapper">
-            <div class="overlay"></div>
+    </div>
+    <style>
+        .padding-0{
+            padding-right:0;
+            padding-left: 3px;
+        }
 
-            <!-- Page Content -->
-            <div id="page-content-wrapper">
-                <div class="col-md-12" style="padding-top: 150px;">
-                    <div class="container">
-                        <div class="row">
+    </style>
+    
+<!--     to keep aspect ratio of boxes same -->
+    <script>
+        var aspect_ratio_box2 = 0.6
+
+
+        var $box2 = jQuery(".container-fluid");
+
+
+        jQuery(document).ready(function($) {
+        $box2.height( $box2.width() * aspect_ratio_box2 );
+        });
+
+
+        jQuery(window).resize(function() {
+        $box2.height( $box2.width() * aspect_ratio_box2 );
+        });
+    </script>
+<!--     to keep aspect ratio of boxes same END-->
+    <div id="wrapper">
+        <div class="overlay"></div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="col-md-12" style="padding-top: 150px;">
+                <div class="container">
+                    <div class="row">
                             <div class="row" style="padding-top: 5px;">
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <h3> Top Apps </h3>
+                                        <h3>  Top Apps </h3>
                                     </div>
                                 </div>
                                 <br>
@@ -96,7 +92,7 @@ alert = function(mesg) {console.trace(mesg)}
                                 <div class="row">
                                     <div class="col-md-11">
                                     </div>
-                                    <a href="#" id="see_more"> See more</a>
+                                    <a href="#" id="see_more">  See more</a>
                                 </div>
                                 </br>
                                 </br>
@@ -105,11 +101,11 @@ alert = function(mesg) {console.trace(mesg)}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id="page-content-wrapper">
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="row">
+        </div>
+        <div id="page-content-wrapper">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="row">
                             <div class="row" style="padding-top: 1px;">
                                 <div class="row">
                                     <div class="col-md-11">
@@ -124,33 +120,34 @@ alert = function(mesg) {console.trace(mesg)}
                                 <div class="row">
                                     <div class="col-md-11">
                                     </div>
-                                    <a href="#" id="see_more"> See more</a>
+                                    <a href="#" id="see_more">  See more</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
 
 
-            <div id="page-content-wrapper">
-                <div class="col-md-12">
-                    <div class="container">
-                        <div class="row">
+
+        <div id="page-content-wrapper">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="row">
                             <div class="row" style="padding-top: 1px;">
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <h3> New Apps </h3>
+                                        <h3>  New Apps </h3>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
-
+                                    {% include 'appDisplay.html' %}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-11">
                                     </div>
-                                    <a href="#" id="see_more"> See more</a>
+                                    <a href="#" id="see_more">  See more</a>
                                 </div>
                                 </br>
                                 </br>
@@ -158,34 +155,30 @@ alert = function(mesg) {console.trace(mesg)}
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- /#page-content-wrapper -->
         </div>
-        <!-- /#wrapper -->
+        <!-- /#page-content-wrapper -->
     </div>
+    <!-- /#wrapper -->
+</div>
 </div>
 <div id="sumModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="modalhead"></h4>
-            </div>
-            <div class="modal-body" style="float:left">
-                <p id="modalbody">Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default"
-                        data-dismiss="modal">Close
-                </button>
-            </div>
-        </div>
-
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalhead"></h4>
+      </div>
+      <div class="modal-body" style="float:left">
+        <p id = "modalbody">Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+
+  </div>
 </div>
 
 
@@ -195,7 +188,6 @@ alert = function(mesg) {console.trace(mesg)}
 .slick-list .draggable{
   height: 500px;
 }
-
 </style>
 
 

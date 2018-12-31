@@ -1,81 +1,135 @@
-#!/usr/bin/python3
-
+import builtins
+import sqlite3
+from flask import Flask, render_template, request, send_from_directory, redirect
 import os
 from os import listdir
 from os.path import isfile, join
+import json
+from ast import  literal_eval
+from PIL import Image
+from os import path
+from superx_appstore_backend.appstore_backend import AppStoreBackend
+from xml.etree import ElementTree
+import re
+from random import shuffle
 
-from flask import Flask, render_template, request
+app = Flask(__name__, static_url_path='/static')
 
-app = Flask(__name__)
+backend_obj = AppStoreBackend()
 
+@app.route('/')
+def index():
+    cwd = os.getcwd()
 
-class Index:
-
-    def index(self):
-        cwd = os.getcwd()
-
-        image_path = os.path.join(cwd, 'parser_html/static/images/')
-        image_list = [f for f in listdir(image_path) if
-                      isfile(join(image_path, f))]
-
-        print(image_list)
-        return render_template('index.html', image_list=image_list)
-
-
-class Categories:
-    def categories(self):
-        return render_template('categories.html')
-
-
-# @app.route("/category/", methods=['POST', 'GET'])
-class Category:
-    def category(self):
-        category = request.args.get('category')
-        return render_template('category.html', category=category)
+    image_path = os.path.join(cwd, 'parser_html/static/images/index')
+    image_list = [f for f in listdir(image_path) if
+                    isfile(join(image_path, f))]
+    print(image_list)
+    return render_template('index.html', image_list=image_list)
 
 
-class Update:
-    def update(self):
-        updates = [{'name': 'python3-software-properties', 'security': True,
-                    'section': 'admin', 'current_version': '5.0+superx17',
-                    'candidate_version': '5.0+superx18',
-                    'priority': 'optional'},
-                   {'name': 'iso-flag-png', 'security': False,
-                    'section': 'universe/misc',
-                    'current_version': '5.0+superx10',
-                    'candidate_version': '5.0+superx11',
-                    'priority': 'optional'},
-                   {'name': 'superx-sources', 'security': False,
-                    'section': 'admin', 'current_version': '5.0+superx17',
-                    'candidate_version': '5.0+superx18',
-                    'priority': 'optional'},
-                   {'name': 'software-properties-common', 'security': False,
-                    'section': 'admin', 'current_version': '5.0+superx17',
-                    'candidate_version': '5.0+superx18',
-                    'priority': 'optional'}]
 
-        app_len = 0
-        sec_len = 0
-        for app in updates:
-            if app['security'] == True:
-                sec_len = sec_len + 1
-            else:
-                app_len = app_len + 1
-        render_html = render_template('update.html', updates=updates,
-                                      sec_len=sec_len, app_len=app_len)
-        return render_html
+@app.route('/image/<path:filename>')
+def display_file(filename):
+    MEDIA_FOLDER = request.args.get('filepath')
+
+    return send_from_directory(MEDIA_FOLDER, filename)
 
 
-index_obj = Index()
-categories_obj = Categories()
-category_obj = Category()
-update_obj = Update()
+@app.route('/categories')
+def categories():
+    return render_template('categories.html')
 
-app.add_url_rule('/', 'Index', lambda: index_obj.index())
-app.add_url_rule('/categories', 'Categories',
-                 lambda: categories_obj.categories())
-app.add_url_rule('/category/', 'Category', lambda: category_obj.category())
-app.add_url_rule('/updates/', 'Update', lambda: update_obj.update())
+
+@app.route('/category')
+def category():
+    category = request.args.get('category')
+    return render_template('category.html', category=category)
+
+
+@app.route('/update')
+def update():
+    updates = [{'name': 'python3-software-properties', 'security': True, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'},
+                {'name': 'iso-flag-png', 'security': False, 'section': 'universe/misc', 'current_version': '5.0+superx10', 'candidate_version': '5.0+superx11', 'priority': 'optional'}, {'name': 'superx-sources', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}, {'name': 'software-properties-common', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}]
+
+    app_len = 0
+    sec_len = 0
+    for app in updates:
+        if app['security'] == True:
+            sec_len = sec_len + 1
+        else:
+            app_len = app_len + 1
+    render_html = render_template('update.html', updates=updates, sec_len=sec_len, app_len=app_len)
+    return render_html
+
+
+@app.route('/details')
+def detail():
+    id = request.args.get('id')
+    
+    datas = backend_obj.appDetails(id)
+    print(datas)
+    addons = []
+    if datas['addons'] != None:
+        for addon in datas['addons']:
+            addons.append(backend_obj.appSummery(addon))
+    
+    if datas['description'] != None:
+        last_four = datas['description'][-4:]
+        
+        old_string = datas['description']
+        
+        str_len = len(old_string)
+        if str_len >= 500:
+            #This part if to keep the 'show more' button in the same line
+            if last_four == '/ul>':
+                k = old_string.rfind("</li>")
+                new_string = old_string[:k] + '<a data-toggle="collapse" data-target="#demo" onclick="myFunction()"\
+                style="text-decoration:none; cursor:pointer"> &nbsp; &nbsp;Show Less</a>' + old_string[k:]
+            elif last_four == '</p>':
+                k = old_string.rfind("</p>")
+                new_string = old_string[:k] + '<a data-toggle="collapse" data-target="#demo" onclick="myFunction()" \
+                style="text-decoration:none; cursor:pointer"> &nbsp; &nbsp;Show Less</a>' + old_string[k:]
+            #This part if to keep the 'show more' button in the same line END
+        else:
+            new_string = old_string
+    elif datas['summery'] != None:
+        new_string = "<p>" + datas['summery'] + "</p>"
+    else:
+        new_string = '<p>No Description</p>'
+    
+    categories_list = literal_eval(datas['categories'])
+    app_id_list = backend_obj.listAppsInCategories(categories_list)
+    shuffle(app_id_list)
+    
+    related_app_list = []
+    for app_id in app_id_list:
+        if app_id != id:
+            related_app_list.append(backend_obj.appSummery(app_id))
+    
+    return render_template('appdetails.html', data=datas, addons = addons, description = new_string, related_app_list = related_app_list, rating=3.1, rating_comments=893)
+
+
+def most_fequent_color(image):
+    colour_tuple = [None, None, None]
+    for channel in range(3):
+        # Get data for one channel at a time
+        pixels = image.getdata(band=channel)
+
+        values = []
+        for pixel in pixels:
+            values.append(pixel)
+
+        colour_tuple[channel] = round((sum(values) / len(values)) - 10)
+
+    return '#%02x%02x%02x' % tuple(colour_tuple)
+
+
+@app.route('/uploadScreenshot/')
+def uploadScreenshot():
+    
+    return render_template('redirect.html', redirect_url=request.referrer)
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', debug=True)

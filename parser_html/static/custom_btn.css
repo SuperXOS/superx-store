@@ -1,6 +1,12 @@
 #btn-install{
+width:90px;
 background-color:#3daee9;
 border-radius:3px;
 box-shadow: 1px 1px 2px grey;
-border-color: #eea236;
+}
+
+#btn-remove{
+width:90px;
+border-radius:3px;
+box-shadow: 1px 1px 2px grey;
 }
