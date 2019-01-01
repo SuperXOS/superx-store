@@ -21,7 +21,7 @@ class FlaskThread(QThread):
     def __init__(self):
         QThread.__init__(self)
         self.port_found = False
-        self.server = 'localhost'
+        self.server = '0.0.0.0'
         self.port = 5000
 
         #self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
@@ -31,7 +31,7 @@ class FlaskThread(QThread):
     def run(self):
         while True:
             try:
-                appstore.app.run(host='localhost', port=self.port)
+                appstore.app.run(host='0.0.0.0', port=self.port)
                 self.port_found = True
             except OSError:
                 self.port = self.port + randint(1, 10)
