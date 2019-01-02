@@ -29,7 +29,7 @@
 </svg>
 <h4 style="text-align: center;margin-top: 450px;color: aliceblue;" class="loading">Refreshing Package Cache</h4>
 </div>
-{% set location='/usr/share/icons/breeze/categories/32/' %}
+
 <div id="main">
 	<div id="wrapper">
 			<div class="overlay"></div>
@@ -48,10 +48,11 @@
 								<div class="row" style="margin-right: 0px;">
 									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
 									   <a href="/category?category=accessiories" style="text-decoration: none !important;  cursor: pointer;">
-                                        <div class="panel-body img-categories">
-                                        <img id="icon" src="{{ url_for('display_file', filepath=location, filename='applications-system.svg') }}" height="60px" width="60px">
-                                            System
-                                        </div>
+									   <div class="panel panel-default border1">
+										  <div class="panel-body img-categories" style="background-image: url('static/categories/images/Accessiories.png');">
+										    <h1 class="textashadow fontss"> Accessiories </h1>
+										  </div>
+									   </div>
 									  </a>
 									</div>
 									<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 padding5">
