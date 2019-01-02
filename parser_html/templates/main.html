@@ -68,13 +68,6 @@ document.onreadystatechange = function () {
          document.getElementById('interactive');
          document.getElementById('load').style.visibility="hidden";
          document.getElementById('hidden').style.display="block";
-         {% for screenshot in data['thumbnails'] %}
-            load_image{{loop.index0}}();
-            {% endfor %}
-            
-            {% for screenshot in data['screenshots'] %}
-            load_image{{loop.index0}}();
-            {% endfor %}
       },1000);
   }
 }

@@ -1,5 +1,29 @@
 {% extends 'main.html' %}
 {% block content %}
+<script>
+document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+//        document.getElementById('contents').style.visibility="hidden";
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('interactive');
+         document.getElementById('load').style.visibility="hidden";
+         document.getElementById('hidden').style.display="block";
+         {% if data['thumbnails'] != None %}
+            {% for screenshot in data['thumbnails'] %}
+            load_image{{loop.index0}}();
+            {% endfor %}
+        {% endif %}
+        {% if data['screenshots'] != None %}
+            {% for screenshot in data['screenshots'] %}
+            load_image{{loop.index0}}();
+            {% endfor %}
+        {% endif %}
+      },1000);
+  }
+}
+</script>
 <style>
 </style>
 <link href='/static/styles/appDetails.css' rel='stylesheet' type='text/css'>
@@ -387,7 +411,7 @@
                     <div class="app-summery app-summery{{loop.index}}" align="center">
                         {{related_app['name']|truncate(15)}}
                         <br>
-                        {{related_app['summery']|truncate(18)}}
+                        {{related_app['summery']|truncate(15)}}
                     </div>
                     <div>
                         <a href="/install/{{related_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
