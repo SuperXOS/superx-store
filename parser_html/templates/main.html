@@ -67,14 +67,20 @@ document.onreadystatechange = function () {
       setTimeout(function(){
          document.getElementById('interactive');
          document.getElementById('load').style.visibility="hidden";
-         document.getElementById('hidden').style.display="block"
+         document.getElementById('hidden').style.display="block";
+         {% for screenshot in data['thumbnails'] %}
+            load_image{{loop.index0}}();
+            {% endfor %}
+            
+            {% for screenshot in data['screenshots'] %}
+            load_image{{loop.index0}}();
+            {% endfor %}
       },1000);
   }
 }
 </script>
 </head>
 <body>
-
 <div id="load">
 <div>
 <svg id="svgMain" align="center" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
