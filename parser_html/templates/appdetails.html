@@ -238,9 +238,10 @@
                             
                         </div>
                         {% elif (data['thumbnails'] != None) and (data['screenshots'] != None) %}
+                        
                         {% set screenshot_length = data['thumbnails']|length %}
                         {% if screenshot_length > 0 %}
-                            {% for screenshot in data['screenshot'] %}
+                            {% for screenshot in data['screenshots'] %}
                                 <script>
                                     var my_image = new Image();
                                     my_image.src = '{{ screenshot }}';
@@ -452,13 +453,13 @@
                         {% endif %}
                     {% endif %}
                 </li>
+                {% if data['homepage'] != None %}
                 <li class="list-group-item">
                     <font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Homepage</font>
-                    {% set homepage = ['superxos.comsdfghjkl'] %}
-                    {% set homepage_length = homepage[0]|length %}
-                    {% if homepage_length >= 11 %}
-                            <font size="2" style="" id="homepage-description-small" class="info"> {{ homepage[0]|truncate(11) }}&nbsp;<a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="homepage-description" class="info collapse">{{homepage[0]}} <a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
+                    {% set category_length = data['homepage']|length %}
+                    {% if category_length >= 11 %}
+                            <font size="2" style="" id="homepage-description-small" class="info"> {{ data['homepage']|truncate(11) }}&nbsp;<a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
+                            <font size="2" style="" id="homepage-description" class="info collapse">{{data['homepage']}} <a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
                         <script>
                         function myFunction_homepage_description() {
                         var x = document.getElementById("homepage-description-small");
@@ -470,9 +471,33 @@
                         }
                         </script>
                     {% else %}
-                        <font size="2" style="" class="info">{{homepage[0]}}</font>
+                        <font size="2" style="" class="info">{{data['homepage']}}</font>
                     {% endif %}
                 </li>
+                {% endif %}
+                
+                {% if category[0] != None %}
+                <li class="list-group-item">
+                    <font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Category</font>
+                    {% set category_length = category[0]|length %}
+                    {% if category_length >= 11 %}
+                            <font size="2" style="" id="homepage-description-small" class="info"> {{ category[0]|truncate(11) }}&nbsp;<a data-toggle="collapse" data-target="#category-description" onclick="myFunction_category_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
+                            <font size="2" style="" id="category-description" class="info collapse">{{category[0]}} <a data-toggle="collapse" data-target="#category-description" onclick="myFunction_category_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
+                        <script>
+                        function myFunction_category_description() {
+                        var x = document.getElementById("category-description-small");
+                        if (x.style.display === "none") {
+                            x.style.display = "";
+                        } else {
+                            x.style.display = "none";
+                        }
+                        }
+                        </script>
+                    {% else %}
+                        <font size="2" style="" class="info">{{category[0]}}</font>
+                    {% endif %}
+                </li>
+                {% endif %}
             </ul>
             {% if addons|length %}
             <ul class="list-group">
