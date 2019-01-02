@@ -83,30 +83,39 @@ alert = function(mesg) {console.trace(mesg)}
     <br>
     <div class="row">
     {% for top_app in top_app_list  %}
-        <a href="/details?id={{ top_app['id'] }}" style="text-decoration:none; color: #666;">
-        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+        <a href="/details?id={{ top_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}">
             <div class="topApp-color{{loop.index}} app-box">
             </div>
+            <div class="app-icon" align="center">
+                {% if top_app['icon'] == None %}
+                    <img id="icon_topApps{{loop.index}}" src="/static/icons/default.png">
+                {% else %}
+                    {% set app_list = top_app['icon'].split('/') %}
+                    {% set app_path = top_app['icon'].split(app_list[app_list|length - 1]) %}
+                    <img id="icon_topApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
+                {% endif %}
+            </div>
+            <div class="app-summery app-summery{{loop.index}}" align="center">
+                {{top_app['name']}}
+                <br>
+                {{top_app['summery']|truncate(18)}}
+            </div>
             <div>
-                <div class="app-icon" align="center">
-                    {% if top_app['icon'] == None %}
-                        <img src="/static/icons/default.png">
-                    {% else %}
-                        {% set app_list = top_app['icon'].split('/') %}
-                        {% set app_path = top_app['icon'].split(app_list[app_list|length - 1]) %}
-                        <img id="icon_topApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
-                    {% endif %}
-                </div>
-                <div class="app-summery" align="center">
-                    {{top_app['name']}}
-                    <br>
-                    {{top_app['summery']|truncate(30)}}
-                </div>
+                <a href="/install/{{top_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
             </div>
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
                 vibrant = new Vibrant(img);
                 $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                
+                $(".hover-box{{loop.index}}").hover(function(){
+                    $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    
+                    }, function(){
+                    $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    
+                });
             </script>
         </div>
         </a>
@@ -127,8 +136,8 @@ alert = function(mesg) {console.trace(mesg)}
     <br>
     <div class="row">
     {% for editor_app in editor_app_list  %}
-    <a href="/details?id={{ editor_app['id'] }}" style="text-decoration:none; color: #666;">
-        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+    <a href="/details?id={{ editor_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 center-block">
             <div class="app-color{{loop.index}} app-box">
             </div>
             <div class="app-icon" align="center">
@@ -137,7 +146,7 @@ alert = function(mesg) {console.trace(mesg)}
                 {% else %}
                     {% set app_list = editor_app['icon'].split('/') %}
                     {% set app_path = editor_app['icon'].split(app_list[app_list|length - 1]) %}
-                    <img id="icon{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
+                    <img id="icon{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px" align="center">
                 {% endif %}
                 
                 <br>
@@ -145,7 +154,7 @@ alert = function(mesg) {console.trace(mesg)}
             <div class="app-summery" align="center">
                 {{editor_app['name']}}
                 <br>
-                {{editor_app['summery']|truncate(30)}}
+                {{editor_app['summery']|truncate(18)}}
             </div>
         </div>
         <script>
@@ -159,9 +168,6 @@ alert = function(mesg) {console.trace(mesg)}
 </div>
 <br>
 <br>
-
-<script type="text/javascript" src="static/js/index.js"></script>
-
 <style>
 .slick-list .draggable{
   height: 500px;
@@ -172,7 +178,6 @@ alert = function(mesg) {console.trace(mesg)}
 .app-box{
 box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 height: 137px;
-width: 87%;
 padding: 15px;
 margin: 0 auto;
 border: 1px solid #6b6464e0;
@@ -183,16 +188,41 @@ border: 1px solid #6b6464e0;
 .app-icon{
 position: absolute;
 top: 12%;
-left: 40%;
+display: block;
+margin: 0 auto;
+left: 0;
+right: 0;
 }
 
 .app-summery{
-width: 100%;
+width: 70%;
 position: absolute;
 top: 62%;
-left: 0%;
+margin: 0 auto;
+left: 0;
+right: 0;
 }
-</style>
 
+.button{
+position: absolute;
+top:80%;
+opacity: 0;
+margin: 0 auto;
+left: 0;
+right: 0;
+}
+@media (max-width: 1199px){
+    .app-box{
+        width: 100% !important;
+    }
+    }
+    
+@media (min-width: 1200px){
+    .app-box{
+        width: 87% !important;
+    }
+    }
+
+</style>
 
 {% endblock %}
