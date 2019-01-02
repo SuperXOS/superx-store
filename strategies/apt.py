@@ -1,11 +1,17 @@
 #!/usr/bin/python3
 # example how to deal with the depcache
 
-import dbus
-from gi.repository.GLib
+from aptdaemon.client import AptClient
 
-bus = dbus.SessionBus()
+client = AptClient()
 
-bus.get_object('org.debian.apt', '/org/debian/apt')
-bus.
+def progress_print():
+    print(trans.progress)
+
+trans = client.install_packages(['featherpad'])
+trans.connect('progress-changed', progress_print)
+trans.run()
+
+
+
 

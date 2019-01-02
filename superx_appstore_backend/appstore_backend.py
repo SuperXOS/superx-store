@@ -17,6 +17,7 @@ class AppStoreBackend():
             'categories': str(cpt.get_categories()),
             'license': cpt.props.project_license,
             'developer': cpt.props.developer_name,
+            'homepage': cpt.get_url(AppStream.UrlKind.HOMEPAGE),
             'extends': str(cpt.get_extends())
         }
 
