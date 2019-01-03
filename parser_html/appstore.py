@@ -148,5 +148,16 @@ def removeApp():
     
     return render_template('redirect.html', redirect_url=request.referrer)
 
+@app.route('/search')
+def search():
+    search_str = request.args.get('q')
+    search_apps = backend_obj.searchApps(search_str)
+
+    search_app_list = []
+    for app_id in search_apps:
+        search_app_list.append(backend_obj.appSummery(app_id))
+
+    return render_template('search.html', search_app_list=search_app_list)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
