@@ -13,6 +13,7 @@ from xml.etree import ElementTree
 import re
 from random import shuffle
 
+_progress = None
 app = Flask(__name__, static_url_path='/static')
 
 backend_obj = AppStoreBackend()
@@ -76,7 +77,6 @@ def detail():
     id = request.args.get('id')
     
     datas = backend_obj.appDetails(id)
-    print(datas)
     addons = []
     if datas['addons'] != None:
         for addon in datas['addons']:
@@ -138,6 +138,15 @@ def uploadScreenshot():
     
     return render_template('redirect.html', redirect_url=request.referrer)
 
+@app.route('/install/')
+def installApp():
+    
+    return render_template('redirect.html', redirect_url=request.referrer)
+
+@app.route('/remove/')
+def removeApp():
+    
+    return render_template('redirect.html', redirect_url=request.referrer)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

@@ -56,9 +56,9 @@ document.onreadystatechange = function () {
         <font size="2" style="color:#999; line-height: 6px;"> {{rating_comments}} Ratings </font>
     </div>
     <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2" style="padding-top: 34px;">
-        <a href="/install/{{data['id']}}" id="btn-install" class="btn btn-primary margin-7 pull-right" style="">Install</a>
-        <a href="/remove/{{data['id']}}" id="btn-remove" class="btn btn-danger margin-7 pull-right" style="">Remove</a>
-        <a href="/update/{{data['id']}}" id="btn-remove" class="btn btn-info margin-7 pull-right" style="display:none">Update</a>
+        <a href="/install/?pkg={{data['id']}}" id="btn-install" class="btn btn-primary margin-7 pull-right" style="">Install</a>
+        <a href="/remove/?pkg={{data['id']}}" id="btn-remove" class="btn btn-danger margin-7 pull-right" style="">Remove</a>
+        <a href="/update/?pkg={{data['id']}}" id="btn-remove" class="btn btn-info margin-7 pull-right" style="display:none">Update</a>
     </div>
   </div>
   <style>

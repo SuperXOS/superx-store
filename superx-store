@@ -7,22 +7,44 @@ from random import randint
 from time import sleep
 
 from OpenSSL import SSL
+from aptdaemon import client
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, QThread
+from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, QThread, QTimer
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
     QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget
 
 from parser_html import appstore
+from strategies import _apt
 
+class AptThread(QThread):
+    def __init__(self):
+        super(AptThread, self).__init__()
+        self.apt = _apt.AptInterface()
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.ProcessTransactions)
+        self.timer.start(5000)
+
+    def ProcessTransactions(self):
+        print('Hi from APT')
+        if not self.apt.transactions_running:
+            self.apt.ProcessTransactions()
 
 class FlaskThread(QThread):
     def __init__(self):
-        QThread.__init__(self)
+        super(FlaskThread, self).__init__()
         self.port_found = False
         self.server = '0.0.0.0'
         self.port = 5000
+
+        self.apt_thread = AptThread()
+        self.apt_thread.start()
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.setProgress)
+        self.timer.start(250)
 
         #self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
         #self.context.use_privatekey_file('server.key')
@@ -37,6 +59,11 @@ class FlaskThread(QThread):
                 self.port = self.port + randint(1, 10)
                 continue
             break
+
+    def setProgress(self):
+        #self.apt_thread.apt._progress = appstore._progress
+        appstore._progress = randint(0, 100)
+        print(appstore._progress)
 
     # We need this sleep time otherwise initial value (default) of self.port is
     # passed to the main thread. This results in QWebEngine loading URL with
@@ -55,6 +82,8 @@ class MainWindow(QMainWindow):
         self.api_service = 'https://superxos.com'
         self.daemon = FlaskThread()
         self.daemon.start()
+
+        self.daemon.apt_thread.started.connect(lambda : print('started'))
 
         self.server = 'http://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
@@ -151,7 +180,7 @@ class MainWindow(QMainWindow):
         vposition = (screen.height() - window.height()) / 2
         self.move(hposition, vposition)
 
-        self.webEngine.load(QUrl(self.server + 'details?id=' + 'org.kde.dolphin.desktop'))
+        self.webEngine.load(QUrl(self.server))
 
         self.show()
         self.searchBar.setFocus()
@@ -190,8 +219,7 @@ class MainWindow(QMainWindow):
 
     def highlightView(self):
         url = self.webEngine.url().toString()
-        print(url)
-
+   
         self.actionExplorer.setVisible(False)
         self.actionExplorer.setChecked(False)
         self.actionApp.setVisible(False)
@@ -217,6 +245,9 @@ class MainWindow(QMainWindow):
             url = url.split(self.server)[1]
             browser = QProcess()
             browser.startDetached('xdg-open %s/%s ' % (self.api_service, url))
+        elif url.startswith('%sinstall' % self.server):
+            pass
+
         else:
             self.actionExplorer.setVisible(True)
             self.actionExplorer.setChecked(True)
