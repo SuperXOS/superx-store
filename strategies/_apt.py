@@ -1,29 +1,33 @@
 #!/usr/bin/python3
 # example how to deal with the depcache
 
-from itertools import zip_longest
 from aptdaemon import client
+from PyQt5.QtCore import QObject, pyqtSignal
 
-class AptInterface():
+class QAptInterface(QObject):
+
+    aptProgressChanged = pyqtSignal(int)
 
     def __init__(self):
+        super(QAptInterface, self).__init__()
         self.aptd = client.AptClient()
         self.transactions = []
-        self.transactions_list = []
         self._progress = None
         self.transactions_running = False
 
+
     def QueueTransaction(self, appSummery, action):
-        transaction = None
+
         if action == 'install':
             transaction = self.aptd.install_packages(appSummery['pkg'])
         elif action == 'remove':
             transaction = self.aptd.remove_packages(appSummery['pkg'])
+
         self.transactions.append(transaction)
         self.transactions_list.append(appSummery)
 
     def TransProgress(self, trans, progress):
-        self._progress = progress
+        self.aptProgressChanged.emit(progress)
 
     def TransFinished(self, exit_status):
         self.transactions_running = False

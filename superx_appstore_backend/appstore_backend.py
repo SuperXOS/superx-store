@@ -11,6 +11,7 @@ class AppStoreBackend():
 
         component_data = {
             'id': cpt.props.id,
+            'pkg': cpt.get_pkgnames(),
             'name': cpt.props.name,
             'summery': cpt.props.summary,
             'description': cpt.props.description,
@@ -79,6 +80,7 @@ class AppStoreBackend():
         app = self.pool.get_components_by_id(id)[0]
         component_data = {
             'id': app.props.id,
+            'pkg': app.get_pkgnames(),
             'name': app.props.name,
             'summery': app.props.summary
         }

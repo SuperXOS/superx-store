@@ -1,22 +1,18 @@
-import builtins
-import sqlite3
-from flask import Flask, render_template, request, send_from_directory, redirect
+from flask import Flask, render_template, request, send_from_directory
 import os
 from os import listdir
 from os.path import isfile, join
-import json
 from ast import  literal_eval
-from PIL import Image
-from os import path
 from superx_appstore_backend.appstore_backend import AppStoreBackend
-from xml.etree import ElementTree
-import re
 from random import shuffle
 
 _progress = None
 app = Flask(__name__, static_url_path='/static')
 
 backend_obj = AppStoreBackend()
+
+tasks = []
+current_task_details = None
 
 @app.route('/')
 def index():
@@ -35,7 +31,11 @@ def index():
     editor_app_list = []
     for app_id in editor_app_id:
         editor_app_list.append(backend_obj.appSummery(app_id))
-    return render_template('index.html', image_list=image_list, top_app_list = top_app_list, editor_app_list = editor_app_list)
+    return render_template('index.html',
+                           image_list=image_list,
+                           top_app_list = top_app_list,
+                           editor_app_list = editor_app_list
+                           )
 
 
 @app.route('/image/<path:filename>')
@@ -68,7 +68,11 @@ def update():
             sec_len = sec_len + 1
         else:
             app_len = app_len + 1
-    render_html = render_template('update.html', updates=updates, sec_len=sec_len, app_len=app_len)
+    render_html = render_template('update.html',
+                                  updates=updates,
+                                  sec_len=sec_len,
+                                  app_len=app_len
+                                  )
     return render_html
 
 
@@ -115,7 +119,14 @@ def detail():
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
     
-    return render_template('appdetails.html', data=datas, addons = addons, description = new_string, related_app_list = related_app_list, rating=3.1, rating_comments=893, category = categories_list)
+    return render_template('appdetails.html',
+                           data=datas, addons = addons,
+                           description = new_string,
+                           related_app_list = related_app_list,
+                           rating=3.1,
+                           rating_comments=893,
+                           category = categories_list
+                           )
 
 
 def most_fequent_color(image):
@@ -140,12 +151,10 @@ def uploadScreenshot():
 
 @app.route('/install/')
 def installApp():
-    
     return render_template('redirect.html', redirect_url=request.referrer)
 
 @app.route('/remove/')
 def removeApp():
-    
     return render_template('redirect.html', redirect_url=request.referrer)
 
 @app.route('/search')

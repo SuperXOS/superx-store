@@ -28,7 +28,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>

@@ -7,10 +7,9 @@ from random import randint
 from time import sleep
 
 from OpenSSL import SSL
-from aptdaemon import client
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, QThread, QTimer
+from PyQt5.QtCore import Qt, QObject, QUrl, QPoint, QProcess, QSettings, QThread, QTimer, pyqtSignal
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
     QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget
@@ -18,33 +17,44 @@ from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
 from parser_html import appstore
 from strategies import _apt
 
-class AptThread(QThread):
+class InstallerThread(QThread):
+
+    transactionCompleted = pyqtSignal(str)
+
     def __init__(self):
-        super(AptThread, self).__init__()
-        self.apt = _apt.AptInterface()
+        QThread.__init__(self)
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.ProcessTransactions)
-        self.timer.start(5000)
+    def run(self):
+        current_task = appstore.tasks.pop(0)
+        appstore.current_task_details = current_task['details']
+        transaction = current_task['transaction']
+        # Check if the transaction is a aptdaemon transaction...
+        if current_task['details']['pkg_type'] == 'apt':
+            # This is not a PyQt signals and slots!
+            transaction.connect('progress-changed', self.setProgress)
+            transaction.connect('finished', self.transactionFinished)
+            transaction.run()
 
-    def ProcessTransactions(self):
-        print('Hi from APT')
-        if not self.apt.transactions_running:
-            self.apt.ProcessTransactions()
+        elif current_task['details']['pkg_type'] == 'flatpak':
+            pass  # TODO
 
-class FlaskThread(QThread):
+    def setProgress(self, trans, progress):
+        window.webEngine.page().runJavaScript('setProgress(%s)' % progress)
+
+    def transactionFinished(self, trans, exit_status):
+        print(exit_status)
+        self.transactionCompleted.emit(exit_status)
+        #window.webEngine.reload()
+
+class WebUiThread(QThread):
     def __init__(self):
-        super(FlaskThread, self).__init__()
+        QThread.__init__(self)
         self.port_found = False
         self.server = '0.0.0.0'
         self.port = 5000
+        self.start()
 
-        self.apt_thread = AptThread()
-        self.apt_thread.start()
-
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.setProgress)
-        self.timer.start(250)
+        print(self.currentThread())
 
         #self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
         #self.context.use_privatekey_file('server.key')
@@ -60,11 +70,6 @@ class FlaskThread(QThread):
                 continue
             break
 
-    def setProgress(self):
-        #self.apt_thread.apt._progress = appstore._progress
-        appstore._progress = randint(0, 100)
-        print(appstore._progress)
-
     # We need this sleep time otherwise initial value (default) of self.port is
     # passed to the main thread. This results in QWebEngine loading URL with
     # wrong port. The number 0.12 is completely arbitrary, fast enough for
@@ -79,11 +84,22 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
-        self.api_service = 'https://superxos.com'
-        self.daemon = FlaskThread()
-        self.daemon.start()
+        self.apt = _apt.QAptInterface()
 
-        self.daemon.apt_thread.started.connect(lambda : print('started'))
+        self.api_service = 'https://superxos.com'
+
+        self.daemon = WebUiThread()
+
+        self.installer = InstallerThread()
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timeOut)
+        self.timer.start(5000)
+
+        # Reconnect the timer.
+        self.installer.transactionCompleted.connect(
+            lambda: self.timer.timeout.connect(self.timeOut))
+
 
         self.server = 'http://{}:{}/'.format(self.daemon.server,
                                              self.daemon.getPort())
@@ -152,7 +168,7 @@ class MainWindow(QMainWindow):
         # Signals and slots
         self.actionBack.triggered.connect(self.webEngine.back)
         self.actionForward.triggered.connect(self.webEngine.forward)
-        self.actionForward.triggered.connect(self.highlightView)
+        self.actionForward.triggered.connect(self.urlProcess)
         self.actionConfigure.triggered.connect(self.configMenu)
 
         self.actionSoftwareSources.triggered.connect(self.editSources)
@@ -166,9 +182,12 @@ class MainWindow(QMainWindow):
             QUrl(os.path.join(self.server, 'library'))))
         self.actionUpdates.triggered.connect(lambda: self.webEngine.load(
             QUrl(os.path.join(self.server, 'updates'))))
+        self.actionTasks.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'tasks'))))
+
         self.searchBar.returnPressed.connect(self.searchQuery)
 
-        self.webEngine.urlChanged.connect(self.highlightView)
+        self.webEngine.urlChanged.connect(self.urlProcess)
 
         self.actionSearchName.toggled.connect(self.settingsWrite)
         self.actionSearchSummery.toggled.connect(self.settingsWrite)
@@ -184,6 +203,12 @@ class MainWindow(QMainWindow):
 
         self.show()
         self.searchBar.setFocus()
+
+    def timeOut(self):
+        print(appstore.tasks)
+        if not self.installer.isRunning() and len(appstore.tasks) != 0:
+            self.timer.timeout.disconnect()
+            self.installer.start()
 
     def searchQuery(self):
         search_parms = (
@@ -217,7 +242,36 @@ class MainWindow(QMainWindow):
             self.settings.setValue('search_desc', False)
             self.search_desc = False
 
-    def highlightView(self):
+    def processTasks(self, url):
+        print(url)
+        pkg_id = url.split('?id=')[1].split('&p_type=')
+        transaction = None
+        task_details = appstore.backend_obj.appSummery(pkg_id[0])
+        task_details['pkg_type'] = pkg_id[1]
+
+        if '/install/' in url:
+            task_details['action'] = 'Installing'
+        elif '/remove/' in url:
+            task_details['action'] = 'Removing'
+
+        if task_details['pkg_type'] == 'apt':
+            if task_details['action'] == 'Installing':
+                transaction = self.apt.aptd.install_packages(
+                    task_details['pkg'])
+            elif task_details['action'] == 'Removing':
+                transaction = self.apt.aptd.remove_packages(
+                    task_details['pkg'])
+
+        elif task_details['pkg_type'] == 'flatpak':
+            pass # TODO
+
+        task = {'details': task_details, 'transaction': transaction}
+
+        appstore.tasks.append(task)
+
+
+    def urlProcess(self):
+        self.searchBar.clear()
         url = self.webEngine.url().toString()
    
         self.actionExplorer.setVisible(False)
@@ -245,9 +299,9 @@ class MainWindow(QMainWindow):
             url = url.split(self.server)[1]
             browser = QProcess()
             browser.startDetached('xdg-open %s/%s ' % (self.api_service, url))
-        elif url.startswith('%sinstall' % self.server):
-            pass
-
+        elif url.startswith('%sinstall' % self.server) or \
+                url.startswith('%sremove' % self.server):
+            self.processTasks(url)
         else:
             self.actionExplorer.setVisible(True)
             self.actionExplorer.setChecked(True)
