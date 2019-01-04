@@ -90,6 +90,8 @@ class MainWindow(QMainWindow):
         self.api_service = 'https://superxos.com'
         self.daemon = WebUiThread()
         self.installer = InstallerThread()
+        self.installer.started.connect(self.showTasks)
+        self.installer.finished.connect(self.showTasks)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.timeOut)
@@ -148,7 +150,6 @@ class MainWindow(QMainWindow):
 
         # Only show tasks when some tasks are running.
         # TODO: self.actionTasks.setIcon(QIcon(QMovie)) once system is ready.
-        self.actionTasks.setVisible(True)
 
         self.searchBar = QLineEdit()
         self.searchBar.setPlaceholderText('Search...')
@@ -202,6 +203,12 @@ class MainWindow(QMainWindow):
 
         self.show()
         self.searchBar.setFocus()
+
+    def showTasks(self):
+        if self.installer.isRunning() or len(appstore.tasks) != 0:
+            self.actionTasks.setVisible(True)
+        else:
+            self.actionTasks.setVisible(False)
 
     def timeOut(self):
         print(appstore.tasks)
