@@ -119,13 +119,18 @@ def detail():
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
     
+    print("Tasks")
+    print(tasks)
+    print("Curent Task")
+    print(current_task_details)
     return render_template('appdetails.html',
                            data=datas, addons = addons,
                            description = new_string,
                            related_app_list = related_app_list,
                            rating=3.1,
                            rating_comments=893,
-                           category = categories_list
+                           category = categories_list,
+                           current_task = current_task_details
                            )
 
 
@@ -168,5 +173,13 @@ def search():
 
     return render_template('search.html', search_app_list=search_app_list)
 
+
+@app.route('/tasks/')
+def task():
+    task = tasks
+    current_task_detail = current_task_details
+    
+    print(current_task_detail)
+    return render_template('task.html', tasks=task, current_task = current_task_detail)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
