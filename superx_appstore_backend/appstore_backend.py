@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import apt
 import gi
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -138,7 +139,13 @@ class AppStoreBackend():
         
         return suggested_apps
 
+    # More functionality will be added to this function in the future.
+    # TODO: Add current version number and available version number
+    def getPkgState(self, pkg):
+        return self.apt_cache[pkg].is_installed
+
     def __init__(self):
+        self.apt_cache = apt.Cache()
         self.pool = AppStream.Pool()
         self.pool.load()
         
