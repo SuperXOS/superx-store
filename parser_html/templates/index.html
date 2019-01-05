@@ -101,7 +101,11 @@ alert = function(mesg) {console.trace(mesg)}
                 {{top_app['summery']|truncate(18)}}
             </div>
             <div>
-                <a href="/install/{{top_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% if top_app['isInstalled'] == False %}
+                    <a href="/install/?id={{top_app['id']}}&p_type=apt" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% else %}
+                    <a href="/install/{{top_app['id']}}" id="btn-remove" class="button btn{{loop.index}} btn btn-success" style="">Open</a>
+                {% endif %}
             </div>
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");

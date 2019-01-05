@@ -13,7 +13,7 @@ from PyQt5.QtCore import Qt, QObject, QUrl, QPoint, QProcess, QSettings, \
     QThread, QTimer, pyqtSignal
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
-    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget
+    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget, QMessageBox
 
 from parser_html import appstore
 from strategies import _apt
@@ -44,8 +44,13 @@ class InstallerThread(QThread):
 
     def transactionFinished(self, trans, exit_status):
         print(exit_status)
+        print(type(exit_status))
+        if exit_status == 'exit-success':
+            appstore.backend_obj.transacted.append(
+                appstore.current_task_details['pkg'][0])
+
         self.transactionCompleted.emit(exit_status)
-        #window.webEngine.reload()
+        window.webEngine.reload()
 
 class WebUiThread(QThread):
     def __init__(self):
@@ -98,8 +103,7 @@ class MainWindow(QMainWindow):
         self.timer.start(5000)
 
         # Reconnect the timer.
-        self.installer.transactionCompleted.connect(
-            lambda: self.timer.timeout.connect(self.timeOut))
+        self.installer.transactionCompleted.connect(self.transactionComplete)
 
 
         self.server = 'http://{}:{}/'.format(self.daemon.server,
@@ -204,6 +208,15 @@ class MainWindow(QMainWindow):
         self.show()
         self.searchBar.setFocus()
 
+    def transactionComplete(self, exit_status):
+        self.timer.timeout.connect(self.timeOut)
+        if exit_status != 'exit-success':
+            message = 'Errors were encountered while %s %s...' % \
+                      (appstore.current_task_details['action'],
+                       appstore.current_task_details['name']
+                       )
+            QMessageBox.critical(self, 'Error', message, QMessageBox.Ok)
+
     def showTasks(self):
         if self.installer.isRunning() or len(appstore.tasks) != 0:
             self.actionTasks.setVisible(True)
@@ -256,15 +269,15 @@ class MainWindow(QMainWindow):
         task_details['pkg_type'] = pkg_id[1]
 
         if '/install/' in url:
-            task_details['action'] = 'Installing'
+            task_details['action'] = 'installing'
         elif '/remove/' in url:
-            task_details['action'] = 'Removing'
+            task_details['action'] = 'removing'
 
         if task_details['pkg_type'] == 'apt':
-            if task_details['action'] == 'Installing':
+            if task_details['action'] == 'installing':
                 transaction = self.apt.aptd.install_packages(
                     task_details['pkg'])
-            elif task_details['action'] == 'Removing':
+            elif task_details['action'] == 'removing':
                 transaction = self.apt.aptd.remove_packages(
                     task_details['pkg'])
 
