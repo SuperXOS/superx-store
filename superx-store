@@ -5,6 +5,7 @@ import sys
 from datetime import datetime
 from random import randint
 from time import sleep
+from ast import literal_eval
 
 from OpenSSL import SSL
 
@@ -261,7 +262,44 @@ class MainWindow(QMainWindow):
             self.settings.setValue('search_desc', False)
             self.search_desc = False
 
-    def processTasks(self, url):
+    def titleActions(self):
+        '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
+        action = self.webEngine.title()
+        action = literal_eval(action)
+
+        if action['action'] in ('install', 'remove'):
+            self.processTasks(action['action'], action['id'], action['p_type'])
+        elif action['action'] == 'exec':
+            prog = QProcess()
+            prog.startDetached('kioclient5 exec %s' % action['launchable'])
+        elif action[action] in ('screenshot', 'ratings-review'):
+            browser = QProcess()
+            browser.startDetached('xdg-open %s/store-api/%s/%s' %
+                                  (self.api_service, action['action'],
+                                   action['id']))
+
+    # FIXME: Make this primary
+    def processTasks2(self, action, id, p_type):
+        transaction = None
+        task_details = appstore.backend_obj.appSummery(id)
+        task_details['pkg_type'] = p_type
+        task_details['action'] = action
+        if p_type == 'apt':
+            if action == 'installing':
+                transaction = self.apt.aptd.install_packages(
+                    task_details['pkg'])
+            elif action == 'removing':
+                transaction = self.apt.aptd.remove_packages(
+                    task_details['pkg'])
+        elif p_type == 'flatpak':
+            pass # TODO
+
+        task = {'details': task_details, 'transaction': transaction}
+
+        appstore.tasks.append(task)
+
+    # FIXME: Remove this when 2 is primary
+    def processTasks(self, url, action, id, p_type):
         print(url)
         pkg_id = url.split('?id=')[1].split('&p_type=')
         transaction = None
