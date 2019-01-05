@@ -20,7 +20,8 @@ class AppStoreBackend():
             'license': cpt.props.project_license,
             'developer': cpt.props.developer_name,
             'homepage': cpt.get_url(AppStream.UrlKind.HOMEPAGE),
-            'extends': str(cpt.get_extends())
+            'extends': str(cpt.get_extends()),
+            'isInstalled': self.isInstalled(cpt.get_pkgname())
         }
 
         try:
@@ -141,8 +142,11 @@ class AppStoreBackend():
 
     # More functionality will be added to this function in the future.
     # TODO: Add current version number and available version number
-    def getPkgState(self, pkg):
-        return self.apt_cache[pkg].is_installed
+    def isInstalled(self, pkg):
+        try:
+            return self.apt_cache[pkg].is_installed
+        except KeyError:
+            return False
 
     def __init__(self):
         self.apt_cache = apt.Cache()
