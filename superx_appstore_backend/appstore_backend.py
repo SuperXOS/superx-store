@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from apt import Cache
 import gi
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -19,7 +20,8 @@ class AppStoreBackend():
             'license': cpt.props.project_license,
             'developer': cpt.props.developer_name,
             'homepage': cpt.get_url(AppStream.UrlKind.HOMEPAGE),
-            'extends': str(cpt.get_extends())
+            'extends': str(cpt.get_extends()),
+            'isInstalled': self.isInstalled(cpt.get_pkgname())
         }
 
         try:
@@ -82,7 +84,8 @@ class AppStoreBackend():
             'id': app.props.id,
             'pkg': app.get_pkgnames(),
             'name': app.props.name,
-            'summery': app.props.summary
+            'summery': app.props.summary,
+            'isInstalled': self.isInstalled(app.get_pkgname())
         }
         icon = app.get_icon_by_size(128, 128)
         if icon == None:
@@ -138,8 +141,33 @@ class AppStoreBackend():
         
         return suggested_apps
 
+    # More functionality will be added to this function in the future.
+    # TODO: Add current version number and available version number
+    def isInstalled(self, pkg):
+        if len(self.transacted) != len(set(self.transacted)):
+            # Refresh cache when duplicates are found.
+            self.transacted = []
+            self.apt_cache = Cache()
+        try:
+             installed = self.apt_cache[pkg].is_installed
+        except KeyError:
+            return False
+
+        if pkg in self.transacted and installed:
+            return False
+        elif pkg in self.transacted and not installed:
+            return True
+        else:
+            return installed
+
+
+    def reloadAptCache(self):
+        self.apt_cache = Cache()
+
     def __init__(self):
+        self.apt_cache = Cache()
         self.pool = AppStream.Pool()
         self.pool.load()
+        self.transacted = []
         
 

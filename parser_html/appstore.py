@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_from_directory
 import os
+from random import randint
 from os import listdir
 from os.path import isfile, join
 from ast import  literal_eval
@@ -113,6 +114,7 @@ def detail():
     categories_list = literal_eval(datas['categories'])
     app_id_list = backend_obj.listAppsInCategories(categories_list)
     shuffle(app_id_list)
+    app_id_list = app_id_list[:4]
     
     related_app_list = []
     for app_id in app_id_list:

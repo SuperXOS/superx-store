@@ -5,14 +5,16 @@ import sys
 from datetime import datetime
 from random import randint
 from time import sleep
+from ast import literal_eval
 
 from OpenSSL import SSL
 
 from PyQt5 import uic
-from PyQt5.QtCore import Qt, QObject, QUrl, QPoint, QProcess, QSettings, QThread, QTimer, pyqtSignal
+from PyQt5.QtCore import Qt, QObject, QUrl, QPoint, QProcess, QSettings, \
+    QThread, QTimer, pyqtSignal
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
-    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget
+    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget, QMessageBox
 
 from parser_html import appstore
 from strategies import _apt
@@ -43,8 +45,13 @@ class InstallerThread(QThread):
 
     def transactionFinished(self, trans, exit_status):
         print(exit_status)
+        print(type(exit_status))
+        if exit_status == 'exit-success':
+            appstore.backend_obj.transacted.append(
+                appstore.current_task_details['pkg'][0])
+
         self.transactionCompleted.emit(exit_status)
-        #window.webEngine.reload()
+        window.webEngine.reload()
 
 class WebUiThread(QThread):
     def __init__(self):
@@ -87,18 +94,17 @@ class MainWindow(QMainWindow):
         self.apt = _apt.QAptInterface()
 
         self.api_service = 'https://superxos.com'
-
         self.daemon = WebUiThread()
-
         self.installer = InstallerThread()
+        self.installer.started.connect(self.showTasks)
+        self.installer.finished.connect(self.showTasks)
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.timeOut)
         self.timer.start(5000)
 
         # Reconnect the timer.
-        self.installer.transactionCompleted.connect(
-            lambda: self.timer.timeout.connect(self.timeOut))
+        self.installer.transactionCompleted.connect(self.transactionComplete)
 
 
         self.server = 'http://{}:{}/'.format(self.daemon.server,
@@ -149,7 +155,6 @@ class MainWindow(QMainWindow):
 
         # Only show tasks when some tasks are running.
         # TODO: self.actionTasks.setIcon(QIcon(QMovie)) once system is ready.
-        self.actionTasks.setVisible(True)
 
         self.searchBar = QLineEdit()
         self.searchBar.setPlaceholderText('Search...')
@@ -204,6 +209,21 @@ class MainWindow(QMainWindow):
         self.show()
         self.searchBar.setFocus()
 
+    def transactionComplete(self, exit_status):
+        self.timer.timeout.connect(self.timeOut)
+        if exit_status != 'exit-success':
+            message = 'Errors were encountered while %s %s...' % \
+                      (appstore.current_task_details['action'],
+                       appstore.current_task_details['name']
+                       )
+            QMessageBox.critical(self, 'Error', message, QMessageBox.Ok)
+
+    def showTasks(self):
+        if self.installer.isRunning() or len(appstore.tasks) != 0:
+            self.actionTasks.setVisible(True)
+        else:
+            self.actionTasks.setVisible(False)
+
     def timeOut(self):
         print(appstore.tasks)
         if not self.installer.isRunning() and len(appstore.tasks) != 0:
@@ -242,7 +262,44 @@ class MainWindow(QMainWindow):
             self.settings.setValue('search_desc', False)
             self.search_desc = False
 
-    def processTasks(self, url):
+    def titleActions(self):
+        '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
+        action = self.webEngine.title()
+        action = literal_eval(action)
+
+        if action['action'] in ('install', 'remove'):
+            self.processTasks(action['action'], action['id'], action['p_type'])
+        elif action['action'] == 'exec':
+            prog = QProcess()
+            prog.startDetached('kioclient5 exec %s' % action['launchable'])
+        elif action[action] in ('screenshot', 'ratings-review'):
+            browser = QProcess()
+            browser.startDetached('xdg-open %s/store-api/%s/%s' %
+                                  (self.api_service, action['action'],
+                                   action['id']))
+
+    # FIXME: Make this primary
+    def processTasks2(self, action, id, p_type):
+        transaction = None
+        task_details = appstore.backend_obj.appSummery(id)
+        task_details['pkg_type'] = p_type
+        task_details['action'] = action
+        if p_type == 'apt':
+            if action == 'installing':
+                transaction = self.apt.aptd.install_packages(
+                    task_details['pkg'])
+            elif action == 'removing':
+                transaction = self.apt.aptd.remove_packages(
+                    task_details['pkg'])
+        elif p_type == 'flatpak':
+            pass # TODO
+
+        task = {'details': task_details, 'transaction': transaction}
+
+        appstore.tasks.append(task)
+
+    # FIXME: Remove this when 2 is primary
+    def processTasks(self, url, action, id, p_type):
         print(url)
         pkg_id = url.split('?id=')[1].split('&p_type=')
         transaction = None
@@ -250,15 +307,15 @@ class MainWindow(QMainWindow):
         task_details['pkg_type'] = pkg_id[1]
 
         if '/install/' in url:
-            task_details['action'] = 'Installing'
+            task_details['action'] = 'installing'
         elif '/remove/' in url:
-            task_details['action'] = 'Removing'
+            task_details['action'] = 'removing'
 
         if task_details['pkg_type'] == 'apt':
-            if task_details['action'] == 'Installing':
+            if task_details['action'] == 'installing':
                 transaction = self.apt.aptd.install_packages(
                     task_details['pkg'])
-            elif task_details['action'] == 'Removing':
+            elif task_details['action'] == 'removing':
                 transaction = self.apt.aptd.remove_packages(
                     task_details['pkg'])
 
