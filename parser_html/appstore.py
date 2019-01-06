@@ -121,10 +121,7 @@ def detail():
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
     
-    print("Tasks")
-    print(tasks)
-    print("Curent Task")
-    print(current_task_details)
+    print(related_app_list)
     return render_template('appdetails.html',
                            data=datas, addons = addons,
                            description = new_string,
@@ -183,5 +180,14 @@ def task():
     
     print(current_task_detail)
     return render_template('task.html', tasks=task, current_task = current_task_detail)
+
+
+@app.route('/library/')
+def labrary():
+    updates = [{'id': 'plm.desktop', 'pkg': ['plm'], 'name': 'PLM', 'summery': 'Learn programming interactively', 'isInstalled': False, 'icon': None, 'security': False}, {'id': 'mplinuxman.desktop', 'pkg': ['mplinuxman'], 'name': 'Mplinuxman', 'summery': 'Manage your MPMan portable mp3 player', 'isInstalled': False, 'icon': None, 'security': True}, {'id': 'fraqtive.desktop', 'pkg': ['fraqtive'], 'name': 'Fraqtive', 'summery': 'Mandelbrot family fractal generator', 'isInstalled': False, 'icon': None, 'security': False}, {'id': 'xgnokii.desktop', 'pkg': ['xgnokii'], 'name': 'Xgnokii', 'summery': 'Manage your mobile phone', 'isInstalled': False, 'icon': '/var/lib/app-info/icons/ubuntu-bionic-universe/128x128/xgnokii_phone.png', 'security': True}]
+
+    return render_template('list_package.html', updates = updates)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
