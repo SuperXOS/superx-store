@@ -125,7 +125,7 @@ def detail():
     return render_template('appdetails.html',
                            data=datas, addons = addons,
                            description = new_string,
-                           related_app_list = related_app_list,
+                           app_list = related_app_list,
                            rating=3.1,
                            rating_comments=893,
                            category = categories_list,
@@ -170,7 +170,7 @@ def search():
     for app_id in search_apps:
         search_app_list.append(backend_obj.appSummery(app_id))
 
-    return render_template('search.html', search_app_list=search_app_list)
+    return render_template('search.html', app_list=search_app_list)
 
 
 @app.route('/tasks/')

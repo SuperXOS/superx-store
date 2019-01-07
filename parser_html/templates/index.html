@@ -160,7 +160,11 @@ alert = function(mesg) {console.trace(mesg)}
                 {{editor_app['summery']|truncate(18)}}
             </div>
             <div>
-                <a href="/install/{{editor_app['id']}}" id="btn-install" class="button editor-btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% if editor_app['isInstalled'] == False %}
+                    <a href="/install/?id={{editor_app['id']}}&p_type=apt" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% else %}
+                    <a href="/install/{{editor_app['id']}}" id="btn-remove" class="button btn{{loop.index}} btn btn-success" style="">Open</a>
+                {% endif %}
             </div>
         </div>
         <script>

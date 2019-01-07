@@ -57,64 +57,7 @@
                 </div>
             </div>
             <div class="row" style="margin-right: 5px; padding-right: 29px;">
-            {% for search_app in search_app_list  %}
-                <a href="/details?id={{ search_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
-                <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}" style="margin-top: 35px;">
-                    <div class="searchApp-color{{loop.index}} app-box">
-                    </div>
-                    <div class="app-icon" align="center">
-                        {% if search_app['icon'] == None %}
-                            <img id="icon_searchApps{{loop.index}}" src="/static/icons/default.png">
-                        {% else %}
-                            {% set app_list = search_app['icon'].split('/') %}
-                            {% set app_path = search_app['icon'].split(app_list[app_list|length - 1]) %}
-                            <img id="icon_searchApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
-                        {% endif %}
-                    </div>
-                    <div class="app-summery app-summery{{loop.index}}" align="center">
-                        {{search_app['name']|truncate(15)}}
-                        <br>
-                        {{search_app['summery']|truncate(15)}}
-                    </div>
-                    <div>
-                        <a href="/install/{{search_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
-                    </div>
-                    <script>
-                        img = document.querySelector("#icon_searchApps{{loop.index}}");
-                        vibrant = new Vibrant(img);
-                        if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
-                            {
-                            $('.searchApp-color{{loop.index}}').css('background-color', getRandomColor());
-                            }
-                        else{
-                            try {
-                                $('.searchApp-color{{loop.index}}').css('background-color', vibrant.DarkVibrantSwatch.getHex());
-                                }
-                            catch(err) {
-                                $('.searchApp-color{{loop.index}}').css('background-color', getRandomColor());
-                                }
-                            }
-                        $(".hover-box{{loop.index}}").hover(function(){
-                            $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                            $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
-                            }, function(){
-                            $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
-                            $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                        });
-                        
-                        function getRandomColor() {
-                            var letters = 'BCDEF'.split('');
-                            var color = '#';
-                            for (var i = 0; i < 6; i++ ) {
-                                color += letters[Math.floor(Math.random() * letters.length)];
-                            }
-                            return color;
-                        }
-
-                    </script>
-                </div>
-                </a>
-            {% endfor %}
+                {% include 'appDisplay.html' %}
             </div> 
             </div>
             {% endblock %}

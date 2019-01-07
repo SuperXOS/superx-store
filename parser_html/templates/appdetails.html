@@ -409,44 +409,7 @@ document.onreadystatechange = function () {
             <br>
             <br>
             <div class="row" style="margin-right: 5px; padding-right: 29px;">
-            {% for related_app in related_app_list[:4]  %}
-                <a href="/details?id={{ related_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
-                <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}">
-                    <div class="topApp-color{{loop.index}} app-box">
-                    </div>
-                    <div class="app-icon" align="center">
-                        {% if related_app['icon'] == None %}
-                            <img id="icon_topApps{{loop.index}}" src="/static/icons/default.png">
-                        {% else %}
-                            {% set app_list = related_app['icon'].split('/') %}
-                            {% set app_path = related_app['icon'].split(app_list[app_list|length - 1]) %}
-                            <img id="icon_topApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
-                        {% endif %}
-                    </div>
-                    <div class="app-summery app-summery{{loop.index}}" align="center">
-                        {{related_app['name']|truncate(15)}}
-                        <br>
-                        {{related_app['summery']|truncate(15)}}
-                    </div>
-                    <div>
-                        <a href="/install/{{related_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
-                    </div>
-                    <script>
-                        img = document.querySelector("#icon_topApps{{loop.index}}");
-                        vibrant = new Vibrant(img);
-                        $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
-                        
-                        $(".hover-box{{loop.index}}").hover(function(){
-                            $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                            $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
-                            }, function(){
-                            $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
-                            $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                        });
-                    </script>
-                </div>
-                </a>
-            {% endfor %}
+            {% include 'appDisplay.html' %}
             </div>
             <br>
         </td>

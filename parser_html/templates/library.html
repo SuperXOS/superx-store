@@ -23,11 +23,11 @@
         <div class="row">
         <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:11px;">
         {% if app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon pull-right">
+            <img src="/static/icons/default.png" class="icon pull-right" height="64px" width="64px">
         {% else %}
         {% set app_list = app['icon'].split('/') %}
         {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="50px" width="50px">
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
         {% endif %}
         </div>
         <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left:0; padding-top:11px;">

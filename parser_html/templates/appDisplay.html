@@ -1,92 +1,58 @@
-<style>
-.pheadingimage {
-  margin-top: -10px !important;
-}
-</style>
-{% for app in data %}
-<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6 padding5">
-                                   <a href="details?id={{ app[0] }}" style="cursor: cursor;">
-                                   <div class="hover1">
-                                   <div class="panel panel-default switch-hover1 border1 vibrant{{ loop.index }}" style="background-image: url('{{ app.apptile }}'); background-size:cover;  background-repeat: no-repeat;">
-                                      <div class="panel-heading pheadeing{{ loop.index }}" style="padding: 0px;">
+{% for app in app_list  %}
+    <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}" style="margin-top: 35px;">
+            <div class="app-color{{loop.index}} app-box">
+            </div>
+            <div class="app-icon" align="center">
+                {% if app['icon'] == None %}
+                    <img id="icon_apps{{loop.index}}" src="/static/icons/default.png">
+                {% else %}
+                    {% set app_list = app['icon'].split('/') %}
+                    {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+                    <img id="icon_apps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
+                {% endif %}
+            </div>
+            <div class="app-summery app-summery{{loop.index}}" align="center">
+                {{app['name']|truncate(15)}}
+                <br>
+                {{app['summery']|truncate(15)}}
+            </div>
+            <div>
+                <a href="/install/{{app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+            </div>
+            <script>
+                img = document.querySelector("#icon_apps{{loop.index}}");
+                vibrant = new Vibrant(img);
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+                    {
+                    $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.app-color{{loop.index}}').css('background-color', vibrant.DarkVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
+                $(".hover-box{{loop.index}}").hover(function(){
+                    $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    }, function(){
+                    $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                });
+                
+                function getRandomColor() {
+                    var letters = 'BCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++ ) {
+                        color += letters[Math.floor(Math.random() * letters.length)];
+                    }
+                    return color;
+                }
 
-                                        <div class="image-app background{{ loop.index }}" style="width:100%; height:150px; text-align:center; ">
-                                            {% set app_list = app[7].split('/') %}
-                                          {% set app_path = app[7].split(app_list[app_list|length - 1]) %}
-
-                                        <div class="image-app background{{ loop.index }}" style="width:100%; height:150px; text-align:center; ">
-                                            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" draggable="false" class="iconNotHover icon{{ loop.index }} iconTop{{ loop.index }}" style="width:70px;height:70px; margin-top: 11%; filter:none;">
-					    <h4 class="app_name" style="color:#ffffff;text-align:center;font-weight:900; font-size:150%; text-shadow:5px 5px 10px #000000; padding-top: 0px;">{{ app[2]|truncate(25) }}</h4>
-                                            <h4 class="text-app" style="display:none; color:#ffffff;text-align:center;font-weight:900; font-size:150%; text-shadow:5px 5px 10px #000000; padding-top: 15px;">{{ app[2]|truncate(25)}}</h4>
-
-
-
-                                        </div>
-
-                                      </div>
-                                      <div class="panel-body pbody ph{{ loop.index }}" style="padding: 0px;height:45px;text-align:center;line-height: 1.5em;">
-                                        <small class="deptxt" style="color:#000;">{{ app[3]|truncate(46) }}</small>
-                                        <div class="star-rating"  style="text-align:center">
-
-                                            </div>
-				      </div>
-				      <script>
-
-				      $(document).ready(function() {
-					function getRandomColor() {
-					  var letters = '0123456789ABCDEF';
-					  var color = '#';
-					  for (var i = 0; i < 6; i++) {
-					    color += letters[Math.floor(Math.random() * 16)];
-					  }
-					  return color;
-					}
-
-					var image = new Image();
-					  image.src = "{{ app.apptile }}";
-					  if (image.width == 0) {
-// 						  alert("no image2");
-						  if (image.width == 0) {
-						  $( ".background{{ loop.index }}" ).addClass( "bckgrnd2" );
-						  $( ".ph{{ loop.index }}" ).addClass( "pnoimage" );
-						  $( ".pheadeing{{ loop.index }}" ).addClass( "pheadingnoimage" );
-						  img = document.querySelector(".icon{{ loop.index }}");
-						  var url = img.src
-						  var filename = url.split('/').pop().split('#')[0].split('?')[0];
-						  if( filename == 'default.png') {
-						  $(".vibrant{{ loop.index }}").css("background-color", getRandomColor());
-						  }
-						  else {
-						  try {
-						  vibrant = new Vibrant(img);
-						  console.log("{{ app.application_name }}")
-						  console.log(vibrant.VibrantSwatch.getHex());
-						  $('.vibrant{{ loop.index }}').css('background-color', vibrant.VibrantSwatch.getHex());
-						  }
-						  catch(err) {
-
-						  }
-						  finally {
-						      $(".vibrant{{ loop.index }}").css("background-color", getRandomColor());
-						  }
-						  }
-						}
-					  }
-					  else{
-						  $( ".pheadeing{{ loop.index }}" ).addClass( "pheadingimage" );
-						  $( ".ph{{ loop.index }}" ).addClass( "pimage" );
-						  $( ".iconTop{{ loop.index }}" ).hide();
-						}
-						});
-					</script>
-                                   </div>
-                                 </a>
-                                 </div>
-
-
-                                 <a href="/superxstore/details/{{ app[0] }}/{{ app[1] }}/appstream>{{ app[0] }}" style="cursor: cursor;">
-				    <img class="icon" src="{{ app[7] }}" onerror="this.src='/static/icons/default.png'" draggable="false" style="">
-				 </a>
-                                   </div>
-                                    </div>
+            </script>
+        </div>
+    </a>
 {% endfor %}
