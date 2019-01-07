@@ -19,7 +19,7 @@
   <div id="appUpdates" class="tab-pane fade in active">
   {% for app in installed %}
 <div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body" id="app">
+    <div class="panel-body" id="app" style="padding: 9px;">
         <div class="row">
         <div class="col-sm-1 col-md-1 col-lg-1" style="">
         {% if app['icon'] == None %}
@@ -31,10 +31,8 @@
         {% endif %}
         </div>
         <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
-            <font size="4">{{ app['name'] }}</font>
-            
-            <br>
-            
+            <font size="4" style="color:#111;">{{ app['name'] }}</font>
+            <break>
             {{ app['summery'] }}
         </div>
         </div>
@@ -55,5 +53,12 @@
         padding-left: 28px !important;
         }
         }
+.summery{
+    padding-top: 9px;
+}
+break{
+   display: block;
+   margin: -7px 0;
+}
 </style>
 {% endblock %}
