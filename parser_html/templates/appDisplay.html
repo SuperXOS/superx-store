@@ -7,8 +7,8 @@
                 {% if app['icon'] == None %}
                     <img id="icon_apps{{loop.index}}" src="/static/icons/default.png">
                 {% else %}
-                    {% set app_list = app['icon'].split('/') %}
-                    {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+                    {% set app_list = data['icon'].split('/') %}
+                    {% set app_path = data['icon'].split(app_list[app_list|length - 1]) %}
                     <img id="icon_apps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
                 {% endif %}
             </div>
