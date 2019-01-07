@@ -183,15 +183,15 @@ def task():
 
 
 @app.route('/library/')
-def labrary():
-    return render_template('updates.html',
-                           updates = backend_obj.listInstalled())
+def library():
+    return render_template('library.html',
+                           installed = backend_obj.listInstalled())
 
 
 @app.route('/updates/')
 def updates():
-    backend_obj.listUpdates()
-    return "Yes"
+    return render_template('updates.html',
+                           updates = backend_obj.listUpdates())
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

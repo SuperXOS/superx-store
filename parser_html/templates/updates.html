@@ -7,46 +7,53 @@
     background-color: transparent;
 }
 </style>
-<div class="container">
-    <h3 style="padding-bottom: 20px">Your applications from present and past in one place</h3>
+<div class="container" style="padding-top:30px;">
+         <div class="panel panel-default " style="border-radius: 0 !important;">
+        <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                  <h5 style="color:#4d4d4d;margin-bottom:-9px;">For system stability, installation of new applications are disabled until you upgrade the system.</h5><br>
+              </div>
+              <div class="col-sm-4 col-md-4 col-lg-4 padding1"  style="margin-top:8px; margin-left: -6px;">
+                  <a href="#" class="btn btn-info pull-right" style="background-color:#3daee9;border-radius:3px;box-shadow: 1px 1px 2px grey;">Install Updates</a>
+              </div>
+            </div>
+        </div>
+     </div>
     <ul class="nav nav-tabs" style="background-color:#F0F0F0">
-        <li class="active hover10"><a data-toggle="tab" href="#appUpdates">Installed on this Computer</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#sysUpdates">Installed on your other Computers</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#sysUpdates">Previously Installed</a></li>
+        <li class="active hover10"><a data-toggle="tab" href="#appUpdates">Application Updates</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#sysUpdates">System &amp; Security</a></li>
     </ul>
     <br>
 <div class="tab-content">
   <div id="appUpdates" class="tab-pane fade in active">
-  {% for app in updates %}
-    {% if app.security == False %}
-     <div class="panel panel-default " style="border-radius: 0 !important;">
-        <div class="panel-body">
+  {% for app in updates[0] %}
+    <div class="panel panel-default" style="border-radius:0px;">
+        <div class="panel-body" id="app">
             <div class="row">
-                <a href="#">
-                  <div class="col-sm-1 col-md-1 col-lg-1">
-                    <img src="/static/icons/default.png" onerror="this.src='/static/icons/default.png'" style="width:50px;height:50px">
-                  </div>
-                  <div class="col-sm-7 col-md-7 col-lg-7">
-                      <label style="color:#4d4d4d;margin-bottom:-9px;">{{ app.name }}</label><br>
-                  </div>
-                </a>
-                  <!-- <div class="col-md-offset-2 col-md-2" style="margin-top:15px;">
-                      <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
-                      </i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
-                      </i><i class="fa fa-star"></i>
-                  </div> -->
-                  <div class="col-sm-4 col-md-4 col-lg-4 padding1"  style="margin-top:8px; margin-left: -6px;">
-                      <a href="#" class="btn btn-info pull-right" style="background-color:#3daee9;border-radius:3px;box-shadow: 1px 1px 2px grey;">Install</a>
-                  </div>
+            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:11px;">
+            {% if app['icon'] == None %}
+                <img src="/static/icons/default.png" class="icon pull-right">
+            {% else %}
+            {% set app_list = app['icon'].split('/') %}
+            {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+                <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="50px" width="50px">
+            {% endif %}
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left:0; padding-top:11px;">
+                <label style="color:#4d4d4d;">{{ app['name'] }}</label>
+            </div>
+            <div class="col-sm-9 col-md-9 col-lg-9" style="padding-left:0; padding-top:11px;">
+                <label style="color:#4d4d4d;">{{ app['summery'] }}</label><br>
+            </div>
+            <span class="progress_percent" style="padding-left: 24.5%; margin-bottom: 4px;">{{ app['action'] }}</span>
             </div>
         </div>
-     </div>
-  {% endif %}
+  </div>
   {% endfor %}
   </div>
   <div id="sysUpdates" class="tab-pane fade">
-      {% for app in updates %}
-      {% if app.security == True %}
+      {% for app in updates[1] %}
       <div class="panel panel-default" style="border-radius: 0 !important;">
         <div class="panel-body">
             <div class="row">
@@ -69,24 +76,11 @@
               <div class="col-sm-7 col-md-7 col-lg-7">
                   <label style="color:#4d4d4d;margin-bottom:-9px">{{ app.name }}</label><br>
               </div>
-              <!-- <div class="col-md-offset-2 col-md-2"  style="margin-top:15px;">
-                  <i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
-                  </i><i class="price-text-color fa fa-star"></i><i class="price-text-color fa fa-star">
-                  </i><i class="fa fa-star"></i>
-              </div> -->
-              <div class="col-sm-4 col-md-4 col-sm-4 padding1" style="margin-top:8px; margin-left: -6px;">
-                  <a href="#" class="btn btn-info pull-right" style="background-color:#3daee9;border-radius:3px;box-shadow: 1px 1px 2px grey;">Install</a>
-              </div>
             </div>
         </div>
       </div>
-      {% endif %}
       {% endfor %}
   </div>
 </div>
-    <div>
-        <a href="#" style="padding-right: 10px">Privacy Policy</a>
-        <a href="#" style="padding-right: 10px">Delete my account and data</a>
-    </div>
 </div>
 {% endblock %}
