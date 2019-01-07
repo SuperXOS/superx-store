@@ -1,7 +1,6 @@
 {% extends 'main.html' %}
 {% block content %}
 <br>
-<link href='/static/styles/apptileHover.css' rel='stylesheet' type='text/css'>
 <style>
 .hover10:hover{
     height: 5%;
@@ -18,7 +17,28 @@
     <br>
 <div class="tab-content">
   <div id="appUpdates" class="tab-pane fade in active">
-  {% include 'appDisplay.html' %}
+  {% for app in installed %}
+<div class="panel panel-default" style="border-radius:0px;">
+    <div class="panel-body" id="app" style="padding: 9px; box-shadow: inset 0px -1px 8px -10px #CCC, 3px -2px 8px 2px #CCC;">
+        <div class="row">
+        <div class="col-sm-1 col-md-1 col-lg-1" style="">
+        {% if app['icon'] == None %}
+            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
+        {% else %}
+        {% set app_list = app['icon'].split('/') %}
+        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+        {% endif %}
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
+            <font size="4" style="color:#555;">{{ app['name'] }}</font>
+            <break>
+            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+        </div>
+        </div>
+    </div>
+  </div>
+  {% endfor %}
   </div>
 </div>
     <div>
@@ -41,6 +61,4 @@ break{
    margin: -7px 0;
 }
 </style>
-
-
 {% endblock %}
