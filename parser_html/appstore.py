@@ -184,10 +184,14 @@ def task():
 
 @app.route('/library/')
 def labrary():
-    updates = [{'id': 'plm.desktop', 'pkg': ['plm'], 'name': 'PLM', 'summery': 'Learn programming interactively', 'isInstalled': False, 'icon': None, 'security': False}, {'id': 'mplinuxman.desktop', 'pkg': ['mplinuxman'], 'name': 'Mplinuxman', 'summery': 'Manage your MPMan portable mp3 player', 'isInstalled': False, 'icon': None, 'security': True}, {'id': 'fraqtive.desktop', 'pkg': ['fraqtive'], 'name': 'Fraqtive', 'summery': 'Mandelbrot family fractal generator', 'isInstalled': False, 'icon': None, 'security': False}, {'id': 'xgnokii.desktop', 'pkg': ['xgnokii'], 'name': 'Xgnokii', 'summery': 'Manage your mobile phone', 'isInstalled': False, 'icon': '/var/lib/app-info/icons/ubuntu-bionic-universe/128x128/xgnokii_phone.png', 'security': True}]
+    return render_template('updates.html',
+                           updates = backend_obj.listInstalled())
 
-    return render_template('list_package.html', updates = updates)
 
+@app.route('/updates/')
+def updates():
+    backend_obj.listUpdates()
+    return "Yes"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

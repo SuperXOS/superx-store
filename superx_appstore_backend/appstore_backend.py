@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
-from apt import Cache
+import os
+import sys
+import apt
+import apt_pkg
 import gi
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
@@ -147,7 +150,7 @@ class AppStoreBackend():
         if len(self.transacted) != len(set(self.transacted)):
             # Refresh cache when duplicates are found.
             self.transacted = []
-            self.apt_cache = Cache()
+            self.apt_cache = apt.Cache()
         try:
              installed = self.apt_cache[pkg].is_installed
         except KeyError:
@@ -160,12 +163,137 @@ class AppStoreBackend():
         else:
             return installed
 
+    def listInstalled(self):
+        installed_apps = []
+        for cpt in self.pool.get_components():
+            if self.isInstalled(cpt.get_pkgname()):
+                installed_apps.append(self.appSummery(cpt.props.id))
+        return installed_apps
 
-    def reloadAptCache(self):
-        self.apt_cache = Cache()
+    def listUpdates(self):
+        SYNAPTIC_PINFILE = "/var/lib/synaptic/preferences"
+        DISTRO = 'bionic'
+
+        def clean(cache, depcache):
+            """ unmark (clean) all changes from the given depcache """
+            # mvo: looping is too inefficient with the new auto-mark code
+            # for pkg in cache.Packages:
+            #    depcache.MarkKeep(pkg)
+            depcache.init()
+
+        def saveDistUpgrade(cache, depcache):
+            """ this functions mimics a upgrade but will never remove anything """
+            depcache.upgrade(True)
+            if depcache.del_count > 0:
+                clean(cache, depcache)
+            depcache.upgrade()
+
+        def isSecurityUpgrade(pkg, depcache):
+            def isSecurityUpgrade_helper(ver):
+                """ check if the given version is a security update (or masks one) """
+                security_pockets = [("Ubuntu", "%s-security" % DISTRO),
+                                    ("gNewSense", "%s-security" % DISTRO),
+                                    ("Debian", "%s-updates" % DISTRO)]
+
+                for (file, index) in ver.file_list:
+                    for origin, archive in security_pockets:
+                        if (
+                                file.archive == archive and file.origin == origin):
+                            return True
+                return False
+
+            inst_ver = pkg.current_ver
+            cand_ver = depcache.get_candidate_ver(pkg)
+
+            if isSecurityUpgrade_helper(cand_ver):
+                return True
+
+            # now check for security updates that are masked by a
+            # canidate version from another repo (-proposed or -updates)
+            for ver in pkg.version_list:
+                if (inst_ver and
+                        apt_pkg.version_compare(ver.ver_str,
+                                                inst_ver.ver_str) <= 0):
+                    # print "skipping '%s' " % ver.VerStr
+                    continue
+                if isSecurityUpgrade_helper(ver):
+                    return True
+
+            return False
+
+        """
+        Return a list of dict about package updates
+        """
+        pkgs = []
+
+        apt_pkg.init()
+        # force apt to build its caches in memory for now to make sure
+        # that there is no race when the pkgcache file gets re-generated
+        apt_pkg.config.set("Dir::Cache::pkgcache", "")
+
+        try:
+            cache = apt_pkg.Cache(apt.progress.base.OpProgress())
+        except SystemError as e:
+            sys.stderr.write("Error: Opening the cache (%s)" % e)
+            sys.exit(-1)
+
+        depcache = apt_pkg.DepCache(cache)
+        # read the pin files
+        depcache.read_pinfile()
+        # read the synaptic pins too
+        if os.path.exists(SYNAPTIC_PINFILE):
+            depcache.read_pinfile(SYNAPTIC_PINFILE)
+        # init the depcache
+        depcache.init()
+
+        try:
+            saveDistUpgrade(cache, depcache)
+        except SystemError as e:
+            sys.stderr.write("Error: Marking the upgrade (%s)" % e)
+            sys.exit(-1)
+
+        # use assignment here since apt.Cache() doesn't provide a __exit__ method
+        # on Ubuntu 12.04 it looks like
+        # aptcache = apt.Cache()
+        for pkg in cache.packages:
+            if not (depcache.marked_install(
+                    pkg) or depcache.marked_upgrade(pkg)):
+                continue
+            inst_ver = pkg.current_ver
+            cand_ver = depcache.get_candidate_ver(pkg)
+            if cand_ver == inst_ver:
+                continue
+            record = {"name": pkg.name,
+                      "isSecurity": isSecurityUpgrade(pkg, depcache),
+                      }
+
+            pkgs.append(record)
+
+        app_updates = []
+        system_updates = []
+        security_counter = 0
+        for cpt in self.pool.get_components():
+            for package in pkgs:
+                if package['name'] == cpt.get_pkgname():
+                    package_ = self.appSummery(cpt.props.id)
+                    if package['isSecurity']:
+                        security_counter = security_counter + 1
+                    app_updates.append(package_)
+        for pkg in pkgs:
+            for i in app_updates:
+                if not pkg['name'] in i['pkg']:
+                    if pkg['isSecurity']:
+                        security_counter = security_counter + 1
+                    system_updates.append(pkg)
+
+        return app_updates, system_updates, security_counter
+
+
+
+
 
     def __init__(self):
-        self.apt_cache = Cache()
+        self.apt_cache = apt.Cache()
         self.pool = AppStream.Pool()
         self.pool.load()
         self.transacted = []

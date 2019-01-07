@@ -147,7 +147,7 @@ class MainWindow(QMainWindow):
             self.actionPurchases.setVisible(False)
 
         # Only show updates when software updates are available.
-        updates_available = False
+        updates_available = True
         if updates_available:
             self.actionUpdates.setVisible(True)
         else:
@@ -299,7 +299,7 @@ class MainWindow(QMainWindow):
         appstore.tasks.append(task)
 
     # FIXME: Remove this when 2 is primary
-    def processTasks(self, url, action, id, p_type):
+    def processTasks(self, url):
         print(url)
         pkg_id = url.split('?id=')[1].split('&p_type=')
         transaction = None
