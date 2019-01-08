@@ -80,6 +80,8 @@ alert = function(mesg) {console.trace(mesg)}
         </div>
     </div>
     <br>
+    <!-- here we have added two block for both TopApps and Editor's Choice apps. Actually same code hase been repeated. But if we set same div class name and id names
+    like App-color,hover-box it conflicts between both the block. So we have seaperated it. -->
     <div class="row">
     {% for top_app in top_app_list  %}
         <a href="/details?id={{ top_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
@@ -101,7 +103,11 @@ alert = function(mesg) {console.trace(mesg)}
                 {{top_app['summery']|truncate(18)}}
             </div>
             <div>
-                <a href="/install/{{top_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% if top_app['isInstalled'] == False %}
+                <a href="/install/?id={{top_app['id']}}&p_type=apt" id="btn-install" class="button top-btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% else %}
+                <a href="/install/{{top_app['id']}}" id="btn-remove" class="button top-btn{{loop.index}} btn btn-success" style="">Open</a>
+                {% endif %}
             </div>
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
@@ -109,10 +115,10 @@ alert = function(mesg) {console.trace(mesg)}
                 $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
                 
                 $(".hover-box{{loop.index}}").hover(function(){
-                    $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".top-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
                     }, function(){
-                    $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    $(".top-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
             </script>
@@ -156,7 +162,11 @@ alert = function(mesg) {console.trace(mesg)}
                 {{editor_app['summery']|truncate(18)}}
             </div>
             <div>
-                <a href="/install/{{editor_app['id']}}" id="btn-install" class="button editor-btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% if editor_app['isInstalled'] == False %}
+                <a href="/install/?id={{editor_app['id']}}&p_type=apt" id="btn-install" class="button editor-btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% else %}
+                <a href="/install/{{editor_app['id']}}" id="btn-remove" class="button editor-btn{{loop.index}} btn btn-success" style="">Open</a>
+                {% endif %}
             </div>
         </div>
         <script>

@@ -18,7 +18,11 @@
                 {{app['summery']|truncate(15)}}
             </div>
             <div>
-                <a href="/install/{{app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% if app['isInstalled'] == False %}
+                <a href="/install/?id={{app['id']}}&p_type=apt" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                {% else %}
+                <a href="/install/{{app['id']}}" id="btn-remove" class="button btn{{loop.index}} btn btn-success" style="">Open</a>
+                {% endif %}
             </div>
             <script>
                 img = document.querySelector("#icon_apps{{loop.index}}");
