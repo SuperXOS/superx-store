@@ -183,8 +183,12 @@ def task():
 
 @app.route('/library/')
 def library():
+    installedOthers = []
+    installedPreviously = []
     return render_template('library.html',
-                           app_list = backend_obj.listInstalled())
+                           installed = backend_obj.listInstalled(),
+                           installedOthers = installedOthers,
+                           installedPreviously = installedPreviously)
 
 
 @app.route('/updates/')
