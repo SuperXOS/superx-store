@@ -2,9 +2,12 @@
 
 import os
 import sys
+from operator import itemgetter
+
 import apt
 import apt_pkg
 import gi
+
 gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
 
@@ -168,6 +171,7 @@ class AppStoreBackend():
         for cpt in self.pool.get_components():
             if self.isInstalled(cpt.get_pkgname()):
                 installed_apps.append(self.appSummery(cpt.props.id))
+        installed_apps = sorted(installed_apps, key=itemgetter('name'))
         return installed_apps
 
     def listUpdates(self):
@@ -266,7 +270,6 @@ class AppStoreBackend():
             record = {"name": pkg.name,
                       "isSecurity": isSecurityUpgrade(pkg, depcache),
                       }
-
             pkgs.append(record)
 
         app_updates = []
@@ -285,7 +288,7 @@ class AppStoreBackend():
                     if pkg['isSecurity']:
                         security_counter = security_counter + 1
                     system_updates.append(pkg)
-
+        app_updates = sorted(app_updates, key=itemgetter('name'))
         return app_updates, system_updates, security_counter
 
 
