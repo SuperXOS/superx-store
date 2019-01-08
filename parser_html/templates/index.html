@@ -101,11 +101,7 @@ alert = function(mesg) {console.trace(mesg)}
                 {{top_app['summery']|truncate(18)}}
             </div>
             <div>
-                {% if top_app['isInstalled'] == False %}
-                    <a href="/install/?id={{top_app['id']}}&p_type=apt" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
-                {% else %}
-                    <a href="/install/{{top_app['id']}}" id="btn-remove" class="button btn{{loop.index}} btn btn-success" style="">Open</a>
-                {% endif %}
+                <a href="/install/{{top_app['id']}}" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
             </div>
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
@@ -160,11 +156,7 @@ alert = function(mesg) {console.trace(mesg)}
                 {{editor_app['summery']|truncate(18)}}
             </div>
             <div>
-                {% if editor_app['isInstalled'] == False %}
-                    <a href="/install/?id={{editor_app['id']}}&p_type=apt" id="btn-install" class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
-                {% else %}
-                    <a href="/install/{{editor_app['id']}}" id="btn-remove" class="button btn{{loop.index}} btn btn-success" style="">Open</a>
-                {% endif %}
+                <a href="/install/{{editor_app['id']}}" id="btn-install" class="button editor-btn{{loop.index}} btn btn-primary" style="">Install</a>
             </div>
         </div>
         <script>
@@ -186,61 +178,4 @@ alert = function(mesg) {console.trace(mesg)}
 </div>
 <br>
 <br>
-<style>
-.slick-list .draggable{
-  height: 500px;
-}
-</style>
-
-<style>
-.app-box{
-box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-height: 137px;
-padding: 15px;
-margin: 0 auto;
-border: 1px solid #6b6464e0;
--webkit-filter: opacity(65%); /* Safari 6.0 - 9.0 */
-  filter: opacity(65%);
-}
-
-.app-icon{
-position: absolute;
-top: 12%;
-display: block;
-margin: 0 auto;
-left: 0;
-right: 0;
-}
-
-.app-summery{
-width: 70%;
-position: absolute;
-top: 62%;
-margin: 0 auto;
-left: 0;
-right: 0;
-}
-
-.button{
-position: absolute;
-top:80%;
-opacity: 0;
-margin: 0 auto;
-left: 0;
-right: 0;
-}
-@media (max-width: 1199px){
-    .app-box{
-        width: 100% !important;
-    }
-    }
-    
-@media (min-width: 1200px){
-    .app-box{
-        width: 87% !important;
-    }
-    }
-
-</style>
-
 {% endblock %}

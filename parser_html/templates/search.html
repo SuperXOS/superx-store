@@ -1,63 +1,13 @@
 {% extends 'main.html' %}
 {% block content %}
-<style>
-            .app-box{
-            box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            height: 137px;
-            padding: 15px;
-            margin: 0 auto;
-            border: 1px solid #6b6464e0;
-            -webkit-filter: opacity(65%); /* Safari 6.0 - 9.0 */
-            filter: opacity(65%);
-            }
-
-            .app-icon{
-            position: absolute;
-            top: 12%;
-            display: block;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            }
-
-            .app-summery{
-            width: 70%;
-            position: absolute;
-            top: 62%;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            }
-
-            .button{
-            position: absolute;
-            top:80%;
-            opacity: 0;
-            margin: 0 auto;
-            left: 0;
-            right: 0;
-            }
-            @media (max-width: 1199px){
-                .app-box{
-                    width: 100% !important;
-                }
-                }
-                
-            @media (min-width: 1200px){
-                .app-box{
-                    width: 87% !important;
-                }
-                }
-        </style>
-</style>
-            <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center; margin-top: 15px;">
-                    <font size="5"> Search Result </font>
-                </div>
-            </div>
-            <div class="row" style="margin-right: 5px; padding-right: 29px;">
-                {% include 'appBox.html' %}
-            </div> 
-            </div>
-            {% endblock %}
+<div class="container">
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12" style="text-align:center; margin-top: 15px;">
+        <font size="5"> Search Result </font>
+    </div>
+</div>
+<div class="row" style="margin-right: 5px; padding-right: 29px;">
+    {% include 'appBox.html' %}
+</div> 
+</div>
+{% endblock %}
