@@ -1,168 +1,47 @@
-.hover1:hover{
-border: 1px #ff0000 !important;
-border-radius: 0px !important;
-}
-.hover1:hover .switch-hover1 {
-/*   border: 0px #000000 !important; */
-  border-radius: 0px !important;
-  box-shadow: 0px 0px 0px 0px !important;
-  -webkit-filter: grayscale(40%) blur(0px);
-  background-filter: grayscale(40%) blur(0px);
-  transition: .1s ease-in-out;
+.app-box{
+box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+height: 137px;
+padding: 15px;
+margin: 0 auto;
+border: 1px solid #6b6464e0;
+-webkit-filter: opacity(65%); /* Safari 6.0 - 9.0 */
+  filter: opacity(65%);
 }
 
-.hover1:hover .panel-heading{
-    background:rgba(0, 0, 0, 0.7) !important;
-    transition: .1s ease-in-out !important;
+.app-icon{
+position: absolute;
+top: 12%;
+display: block;
+margin: 0 auto;
+left: 0;
+right: 0;
 }
 
-.hover1:hover .pheadingnoimage{
-    border-color: rgba(0, 0, 0, 0.0) !important;
+.app-summery{
+width: 70%;
+position: absolute;
+top: 62%;
+margin: 0 auto;
+left: 0;
+right: 0;
 }
 
-.hover1:hover .pheadingimage{
-    border-color:rgba(0, 0, 0, 0.0) !important;
+.button{
+position: absolute;
+top:80%;
+opacity: 0;
+margin: 0 auto;
+left: 0;
+right: 0;
 }
-
-.hover1:hover .iconNotHover{
-    opacity:0 !important;
-}
-
-.hover1:not( :hover ) .iconNotHover{
-    opacity:1 !important;
-    transition: .1s ease-in-out;
-}
-
-.hover1:not( :hover ) .panel-heading{
-    background:transparent !important;
-    transition: .1s ease-in-out !important;
-}
-
-.hover1:hover .icon{
-    position: absolute;
-    top: 15%;
-    left: 40%;
-    opacity: 1 !important;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    z-index: 0;
-    width: 70px;
-    height: 70px;
-    text-align: center;
-    transition: .1s ease-in-out !important;
-    line-height:150px;
-    margin:0;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:not( :hover ) .icon{
-    position: absolute;
-    top: 15%;
-    left: 40%;
-    opacity: 0 !important;
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: bold;
-    z-index: 0;
-    width: 70px;
-    height: 70px;
-    text-align: center;
-    transition: .1s ease-in-out !important;
-    line-height:150px;
-    margin:0;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:hover #bton{
-    background-color:#3daee9;
-    border-radius:3px;
-    box-shadow: 1px 1px 2px grey;
-    width:49%;
-    position: absolute;
-    top: 125px;
-    opacity: 1 !important;
-    transition: .1s ease-in-out !important;
-    margin:5px;
-    left: 25%;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:not( :hover ) #bton{
-    opacity:0 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-    background-color:#3daee9;
-    border-radius:3px;
-    box-shadow: 1px 1px 2px grey;
-    width:50%;
-    position: absolute;
-    top: 120px;
-    opacity: 0 !important;
-    transition: .1s ease-in-out !important;
-    margin:10px;
-    left: 23%;
-}
-
-
-
-.hover1:not( :hover ) .pbody{
-  background-color: rgba(255,255, 255, 0.7) !important;
-  transition: .1s ease-in-out !important;
-}
-
-.hover1:hover .pnoimage{
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  transition: .1s ease-in-out !important;
-}
-
-.hover1:hover .pimage{
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  transition: .1s ease-in-out !important;
-}
-
-.hover1:hover .app_name{
-    opacity:0 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:not( :hover ) .app_name{
-    opacity:1 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:hover .deptxt{
-    opacity:0 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:not( :hover ) .deptxt{
-    opacity:1 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:hover .star-rating{
-    opacity:0 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-.hover1:not( :hover ) .star-rating{
-    opacity:1 !important;
-    transition: .1s ease-in-out !important;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
+@media (max-width: 1199px){
+    .app-box{
+        width: 100% !important;
+    }
+    }
+    
+@media (min-width: 1200px){
+    .app-box{
+        width: 87% !important;
+    }
+    }
