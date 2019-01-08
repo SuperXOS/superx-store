@@ -120,7 +120,9 @@ def detail():
     for app_id in app_id_list:
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
-
+    
+    print("related_app_list")
+    print(related_app_list)
     return render_template('appdetails.html',
                            data=datas, addons = addons,
                            description = new_string,

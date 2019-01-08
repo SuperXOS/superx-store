@@ -33,9 +33,9 @@ document.onreadystatechange = function () {
         {% if data['icon'] == None %}
             <img src="/static/icons/default.png" class="icon pull-right">
         {% else %}
-            {% set app_list = data['icon'].split('/') %}
-            {% set app_path = data['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon pull-right" height="100px" width="100px">
+            {% set app_icon_list = data['icon'].split('/') %}
+            {% set app_path = data['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}" class="icon pull-right" height="100px" width="100px">
         {% endif %}
     </div>
     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5" style="padding-top: 1px;">
@@ -409,8 +409,11 @@ document.onreadystatechange = function () {
             <br>
             <br>
             <div class="row" style="margin-right: 5px; padding-right: 29px;">
+            {% for app in app_list  %}
             {% include 'appDisplay.html' %}
+            {% endfor %}
             </div>
+            <br>
             <br>
         </td>
         <style>
