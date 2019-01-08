@@ -81,7 +81,7 @@ alert = function(mesg) {console.trace(mesg)}
     </div>
     <br>
     <!-- here we have added two block for both TopApps and Editor's Choice apps. Actually same code hase been repeated. But if we set same div class name and id names
-    like App-color,hover-box it conflicts between both the block. So we have seaperated it. -->
+    like App-color,hover-box it conflicts between both the block in case of jquery and css. So we have seaperated it. -->
     <div class="row">
     {% for top_app in top_app_list  %}
         <a href="/details?id={{ top_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">

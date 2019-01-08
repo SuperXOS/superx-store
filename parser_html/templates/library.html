@@ -16,80 +16,23 @@
     </ul>
     <br>
 <div class="tab-content">
-  <div id="installed" class="tab-pane fade in active">
-  {% for app in installed %}
-<div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body app-bar" id="app" style="padding: 9px;">
-        <div class="row">
-        <div class="col-sm-1 col-md-1 col-lg-1" style="">
-        {% if app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
-        {% else %}
-        {% set app_list = app['icon'].split('/') %}
-        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
-        {% endif %}
-        </div>
-        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
-            <font size="4" style="color:#555;">{{ app['name'] }}</font>
-            <break></break>
-            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
-        </div>
-        </div>
+    <div id="installed" class="tab-pane fade in active">
+    {% for app in installed %}
+        {% include 'library-app-bar.html' %}
+    {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-  </div>
 
-<div id="installedOthers" class="tab-pane fade in active">
-{% for app in installedOthers %}
-<div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body app-bar" id="app" style="padding: 9px;">
-        <div class="row">
-        <div class="col-sm-1 col-md-1 col-lg-1" style="">
-        {% if app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
-        {% else %}
-        {% set app_list = app['icon'].split('/') %}
-        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
-        {% endif %}
-        </div>
-        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
-            <font size="4" style="color:#555;">{{ app['name'] }}</font>
-            <break></break>
-            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
-        </div>
-        </div>
+    <div id="installedOthers" class="tab-pane fade in active">
+    {% for app in installedOthers %}
+        {% include 'library-app-bar.html' %}
+    {% endfor %}
     </div>
-  </div>
-{% endfor %}
-</div>
 
-<div id="previouslyInstalled" class="tab-pane fade in active">
-{% for app in previouslyInstalled %}
-<div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body app-bar" id="app" style="padding: 9px;">
-        <div class="row">
-        <div class="col-sm-1 col-md-1 col-lg-1" style="">
-        {% if app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
-        {% else %}
-        {% set app_list = app['icon'].split('/') %}
-        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
-        {% endif %}
-        </div>
-        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
-            <font size="4" style="color:#555;">{{ app['name'] }}</font>
-            <break></break>
-            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
-        </div>
-        </div>
+    <div id="previouslyInstalled" class="tab-pane fade in active">
+    {% for app in previouslyInstalled %}
+        {% include 'library-app-bar.html' %}
+    {% endfor %}
     </div>
-  </div>
-{% endfor %}
-</div>
 </div>
 
 <div>
@@ -116,6 +59,10 @@ border: 0.01px solid #7F7F7F;
 break{
    display: block;
    margin: -7px 0;
+}
+
+.library-btn{
+    padding-top: 14px;
 }
 </style>
 {% endblock %}
