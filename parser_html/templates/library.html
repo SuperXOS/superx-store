@@ -10,16 +10,16 @@
 <div class="container">
     <h3 style="padding-bottom: 20px">Your applications from present and past in one place</h3>
     <ul class="nav nav-tabs" style="background-color:#F0F0F0">
-        <li class="active hover10"><a data-toggle="tab" href="#appUpdates">Installed on this Computer</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#sysUpdates">Installed on your other Computers</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#sysUpdates">Previously Installed</a></li>
+        <li class="active hover10"><a data-toggle="tab" href="#installed">Installed on this Computer</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#installedOthers">Installed on your other Computers</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#previouslyInstalled">Previously Installed</a></li>
     </ul>
     <br>
 <div class="tab-content">
-  <div id="appUpdates" class="tab-pane fade in active">
+  <div id="installed" class="tab-pane fade in active">
   {% for app in installed %}
 <div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body" id="app" style="padding: 9px; box-shadow: inset 0px -1px 8px -10px #CCC, 3px -2px 8px 2px #CCC;">
+    <div class="panel-body app-bar" id="app" style="padding: 9px;">
         <div class="row">
         <div class="col-sm-1 col-md-1 col-lg-1" style="">
         {% if app['icon'] == None %}
@@ -32,7 +32,7 @@
         </div>
         <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
             <font size="4" style="color:#555;">{{ app['name'] }}</font>
-            <break>
+            <break></break>
             <font size="2" style="color:#555;">{{ app['summery'] }}</font>
         </div>
         </div>
@@ -40,14 +40,71 @@
   </div>
   {% endfor %}
   </div>
-</div>
-    <div>
-        <a href="#" style="padding-right: 10px">Privacy Policy</a>
-        <a href="#" style="padding-right: 10px">Delete my account and data</a>
+
+<div id="installedOthers" class="tab-pane fade in active">
+{% for app in installedOthers %}
+<div class="panel panel-default" style="border-radius:0px;">
+    <div class="panel-body app-bar" id="app" style="padding: 9px;">
+        <div class="row">
+        <div class="col-sm-1 col-md-1 col-lg-1" style="">
+        {% if app['icon'] == None %}
+            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
+        {% else %}
+        {% set app_list = app['icon'].split('/') %}
+        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+        {% endif %}
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
+            <font size="4" style="color:#555;">{{ app['name'] }}</font>
+            <break></break>
+            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+        </div>
+        </div>
     </div>
+  </div>
+{% endfor %}
+</div>
+
+<div id="previouslyInstalled" class="tab-pane fade in active">
+{% for app in previouslyInstalled %}
+<div class="panel panel-default" style="border-radius:0px;">
+    <div class="panel-body app-bar" id="app" style="padding: 9px;">
+        <div class="row">
+        <div class="col-sm-1 col-md-1 col-lg-1" style="">
+        {% if app['icon'] == None %}
+            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
+        {% else %}
+        {% set app_list = app['icon'].split('/') %}
+        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+        {% endif %}
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
+            <font size="4" style="color:#555;">{{ app['name'] }}</font>
+            <break></break>
+            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+        </div>
+        </div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+</div>
+
+<div>
+    <a href="#" style="padding-right: 10px">Privacy Policy</a>
+    <a href="#" style="padding-right: 10px">Delete my account and data</a>
+</div>
 </div>
 
 <style>
+.app-bar{
+box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+margin: 0 auto;
+border: 0.01px solid #7F7F7F;
+}
+
 @media (max-width: 1199px){
     .summery{
         padding-left: 28px !important;
