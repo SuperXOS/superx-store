@@ -4,22 +4,31 @@
             <div class="row" id="hidden">
                 <div class="col-xs-12 col-md-12 col-centered" style="width: 96.7%;">
                     <div id="carousel" class="carousel slide" data-ride="carousel" data-type="multi" data-interval="500000">
-                        {% if (data['thumbnails'] == None) and (data['screenshots'] != None) %}
-                            {% set screenshot_length = data['screenshots']|length %}
+                        {% if (app['thumbnails'] == None) and
+                        (app['screenshots'] != None) %}
+                        {% set screenshot_length = app['screenshots']|length %}
                         <div class="carousel-inner">
                             {% if screenshot_length == 0 %}
                                 <div class="item active">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                             {% elif screenshot_length == 1 %}
-                                {% for screenshot in data['screenshots'] %}
+                            {% for screenshot in app['screenshots'] %}
                                     <div class="item active">
                                         <div class="carousel-col">
                                             <div class="block img-responsive" style="background: url({{screenshot}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{screenshot}}')"> </div>
@@ -27,12 +36,16 @@
                                     </div>
                                     <div class="item">
                                         <div class="carousel-col">
-                                            <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                            <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                               style="text-decoration:none">
+                                                <div class="block img-responsive"
+                                                     style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                            </a>
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% elif screenshot_length == 2 %}
-                                {% for screenshot in data['screenshots'] %}
+                            {% for screenshot in app['screenshots'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
@@ -47,13 +60,17 @@
                                         </div>
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                                <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                                   style="text-decoration:none">
+                                                    <div class="block img-responsive"
+                                                         style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                                </a>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                {% for screenshot in data['screenshots'] %}
+                            {% for screenshot in app['screenshots'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
@@ -71,10 +88,11 @@
                             {% endif %}
                             
                         </div>
-                        {% elif (data['thumbnails'] != None) and (data['screenshots'] == None) %}
-                        {% set screenshot_length = data['thumbnails']|length %}
+                        {% elif (app['thumbnails'] != None) and
+                        (app['screenshots'] == None) %}
+                        {% set screenshot_length = app['thumbnails']|length %}
                         {% if screenshot_length > 0 %}
-                            {% for screenshot in data['thumbnails'] %}
+                        {% for screenshot in app['thumbnails'] %}
                                 <script>
                                     function load_image{{loop.index0}}(){
                                     var my_image{{loop.index0}} = new Image();
@@ -87,60 +105,96 @@
                             {% if screenshot_length == 0 %}
                                 <div class="item active">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                             {% elif screenshot_length == 1 %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     <div class="item active">
                                         <div class="carousel-col">
-                                            <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                            <div class="block img-responsive"
+                                                 style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                 data-toggle="modal"
+                                                 data-target="#myModal2"
+                                                 onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                         </div>
                                     </div>
                                     <div class="item">
                                         <div class="carousel-col">
-                                            <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                            <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                               style="text-decoration:none">
+                                                <div class="block img-responsive"
+                                                     style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                            </a>
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% elif screenshot_length == 2 %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div> 
                                     {% else %}
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div>
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                                <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                                   style="text-decoration:none">
+                                                    <div class="block img-responsive"
+                                                         style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                                </a>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div> 
                                     {% else %}
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div>
                                     {% endif %}
@@ -148,15 +202,16 @@
                             {% endif %}
                             
                         </div>
-                        {% elif (data['thumbnails'] != None) and (data['screenshots'] != None) %}
+                        {% elif (app['thumbnails'] != None) and
+                        (app['screenshots'] != None) %}
                         <style>
                         .block {
                             background: url('https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif') center no-repeat;
                             }
                         </style>
-                        {% set screenshot_length = data['thumbnails']|length %}
+                        {% set screenshot_length = app['thumbnails']|length %}
                         {% if screenshot_length > 0 %}
-                            {% for screenshot in data['screenshots'] %}
+                        {% for screenshot in app['screenshots'] %}
                                 <script>
                                     function load_image{{loop.index0}}(){
                                     var my_image{{loop.index0}} = new Image();
@@ -169,60 +224,96 @@
                             {% if screenshot_length == 0 %}
                                 <div class="item active">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                             {% elif screenshot_length == 1 %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     <div class="item active">
                                         <div class="carousel-col">
-                                            <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                            <div class="block img-responsive"
+                                                 style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                 data-toggle="modal"
+                                                 data-target="#myModal2"
+                                                 onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                         </div>
                                     </div>
                                     <div class="item">
                                         <div class="carousel-col">
-                                            <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                            <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                               style="text-decoration:none">
+                                                <div class="block img-responsive"
+                                                     style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                            </a>
                                         </div>
                                     </div>
                                 {% endfor %}
                             {% elif screenshot_length == 2 %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div> 
                                     {% else %}
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div>
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                                <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                                   style="text-decoration:none">
+                                                    <div class="block img-responsive"
+                                                         style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                                </a>
                                             </div>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
-                                {% for thumbnails in data['thumbnails'] %}
+                            {% for thumbnails in app['thumbnails'] %}
                                     {% if loop.index == 1 %}
                                     <div class="item active">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div> 
                                     {% else %}
                                         <div class="item">
                                             <div class="carousel-col">
-                                                <div class="block img-responsive" style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;" data-toggle="modal" data-target="#myModal2" onclick="modal_show('{{data['screenshots'][loop.index0]}}')"> </div>
+                                                <div class="block img-responsive"
+                                                     style="background: url({{thumbnails}}); background-size: cover; background-repeat: no-repeat; background-position: center;"
+                                                     data-toggle="modal"
+                                                     data-target="#myModal2"
+                                                     onclick="modal_show('{{app['screenshots'][loop.index0]}}')"></div>
                                             </div>
                                         </div>
                                     {% endif %}
@@ -234,12 +325,20 @@
                             <div class="carousel-inner">
                                 <div class="item active">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="carousel-col">
-                                        <a href="/uploadScreenshot/?id={{ data['id'] }}" style="text-decoration:none"><div class="block img-responsive" style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"> </div></a>
+                                        <a href="/uploadScreenshot/?id={{ app['id'] }}"
+                                           style="text-decoration:none">
+                                            <div class="block img-responsive"
+                                                 style="background: url('/static/images/noScreenShot.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"></div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
