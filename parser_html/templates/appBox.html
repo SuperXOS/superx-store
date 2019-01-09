@@ -19,11 +19,13 @@
             </div>
             <div>
                 {% if app['isInstalled'] == False %}
-                {% set show_install_btn = True %}
+                <a href="/install/?id={{app['id']}}&p_type=apt"
+                   id="btn-install"
+                   class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
                 {% else %}
-                {% set show_open_btn == True %}
+                <a href="/install/{{app['id']}}" id="btn-remove"
+                   class="button btn{{loop.index}} btn btn-success" style="">Open</a>
                 {% endif %}
-                {% include 'btn-progstat' %}
             </div>
             <script>
                 img = document.querySelector("#icon_apps{{loop.index}}");
@@ -47,7 +49,7 @@
                     $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
-                
+
                 function getRandomColor() {
                     var letters = 'BCDEF'.split('');
                     var color = '#';
