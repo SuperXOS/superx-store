@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, send_from_directory
 import os
-from random import randint
+from ast import literal_eval
 from os import listdir
 from os.path import isfile, join
-from ast import  literal_eval
-from superx_appstore_backend.appstore_backend import AppStoreBackend
 from random import shuffle
+
+from flask import Flask, render_template, request, send_from_directory
+
+from superx_appstore_backend.appstore_backend import AppStoreBackend
 
 _progress = None
 app = Flask(__name__, static_url_path='/static')
@@ -124,7 +125,7 @@ def detail():
     print("related_app_list")
     print(related_app_list)
     return render_template('appdetails.html',
-                           data=datas, addons = addons,
+                           app=datas, addons=addons,
                            description = new_string,
                            app_list = related_app_list,
                            rating=3.1,
