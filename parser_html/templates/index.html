@@ -112,7 +112,18 @@ alert = function(mesg) {console.trace(mesg)}
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
                 vibrant = new Vibrant(img);
-                $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+                    {
+                    $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
                 
                 $(".hover-box{{loop.index}}").hover(function(){
                     $(".top-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
@@ -121,6 +132,15 @@ alert = function(mesg) {console.trace(mesg)}
                     $(".top-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
+                
+                function getRandomColor() {
+                    var letters = 'BCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++ ) {
+                        color += letters[Math.floor(Math.random() * letters.length)];
+                    }
+                    return color;
+                }
             </script>
         </div>
         </a>
@@ -172,7 +192,18 @@ alert = function(mesg) {console.trace(mesg)}
         <script>
             img = document.querySelector("#icon{{loop.index}}");
             vibrant = new Vibrant(img);
-            $('.app-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+            if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+                    {
+                    $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.app-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
             
             $(".editor-hover-box{{loop.index}}").hover(function(){
                     $(".editor-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
