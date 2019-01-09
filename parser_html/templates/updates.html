@@ -1,55 +1,26 @@
 {% extends 'main.html' %}
 {% block content %}
-<br>
+{% set icon = 'update' %}
+{% set title = 'update' %}
+{% set sub_title = 'update' %}
+{% set header_btn = 'update' %}
+{% include 'header.html' %}
 <style>
 .hover10:hover{
     height: 5%;
     background-color: transparent;
 }
 </style>
-<div class="container" style="padding-top:30px;">
-         <div class="panel panel-default " style="border-radius: 0 !important;">
-        <div class="panel-body">
-            <div class="row">
-              <div class="col-sm-8 col-md-8 col-lg-8">
-                  <h5 style="color:#4d4d4d;margin-bottom:-9px;">For system stability, installation of new applications are disabled until you upgrade the system.</h5><br>
-              </div>
-              <div class="col-sm-4 col-md-4 col-lg-4 padding1"  style="margin-top:8px; margin-left: -6px;">
-                  <a href="#" class="btn btn-info pull-right" style="background-color:#3daee9;border-radius:3px;box-shadow: 1px 1px 2px grey;">Upgrade System</a>
-              </div>
-            </div>
-        </div>
-     </div>
-    <ul class="nav nav-tabs" style="background-color:#F0F0F0">
+<div class="container" style="padding-top: 150px;">
+    <ul class="nav nav-tabs" style="background-color:#F0F0F0;">
         <li class="active hover10"><a data-toggle="tab" href="#appUpdates">Application Updates</a></li>
         <li class="hover10"><a data-toggle="tab" href="#sysUpdates">System &amp; Security</a></li>
     </ul>
     <br>
-<div class="tab-content">
+    <div class="tab-content" style="padding-bottom: 30px;">
   <div id="appUpdates" class="tab-pane fade in active">
   {% for app in updates[0] %}
-    <div class="panel panel-default" style="border-radius:0px;">
-        <div class="panel-body" id="app">
-            <div class="row">
-            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:11px;">
-            {% if app['icon'] == None %}
-                <img src="/static/icons/default.png" class="icon pull-right">
-            {% else %}
-            {% set app_list = app['icon'].split('/') %}
-            {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-                <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="50px" width="50px">
-            {% endif %}
-            </div>
-            <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left:0; padding-top:11px;">
-                <label style="color:#4d4d4d;">{{ app['name'] }}</label>
-            </div>
-            <div class="col-sm-9 col-md-9 col-lg-9" style="padding-left:0; padding-top:11px;">
-                <label style="color:#4d4d4d;">{{ app['summery'] }}</label><br>
-            </div>
-            <span class="progress_percent" style="padding-left: 24.5%; margin-bottom: 4px;">{{ app['action'] }}</span>
-            </div>
-        </div>
-  </div>
+      {% include 'library-app-bar.html' %}
   {% endfor %}
   </div>
   <div id="sysUpdates" class="tab-pane fade">
@@ -83,4 +54,29 @@
   </div>
 </div>
 </div>
+<style>
+.app-bar{
+box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+margin: 0 auto;
+border: 0.01px solid #7F7F7F;
+}
+
+@media (max-width: 1199px){
+    .summery{
+        padding-left: 28px !important;
+        }
+        }
+.summery{
+    padding-top: 9px;
+}
+break{
+   display: block;
+   margin: -7px 0;
+}
+
+.library-btn{
+    padding-top: 14px;
+}
+
+</style>
 {% endblock %}

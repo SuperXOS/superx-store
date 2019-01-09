@@ -1,0 +1,92 @@
+<div class="container-fluid fixed-top"
+     style="background-color:#fff; box-shadow: inset 0px -1px 8px -10px #CCC, 3px -2px 8px 2px #CCC; border-top: 1px solid #ddd; position: fixed; z-index: 1000; width:100%; overflow-x: hidden; overflow-y: auto; height: 130px;">
+    <div class="row" style="padding-top: 5px;">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+            {% if icon == 'update' %}
+            <img src="/static/icons/default.png" class="icon pull-right">
+            {% elif icon == 'library' %}
+            <img src="/static/icons/default.png" class="icon pull-right">
+            {% elif app['icon'] == None %}
+            <img src="/static/icons/default.png" class="icon pull-right">
+            {% else %}
+            {% set app_icon_list = app['icon'].split('/') %}
+            {% set app_path =
+            app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
+                 class="icon pull-right" height="100px" width="100px">
+            {% endif %}
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
+             style="padding-top: 1px;">
+            {% if title == 'update' %}
+            <font size="6" style="color:#333">System Upgrade</font>
+            {% elif title == 'library' %}
+            <font size="6" style="color:#333">Software Library</font>
+            {% else %}
+            <font size="6" style="color:#333">{{app['name']}}</font>
+            {% endif %}
+            <br>
+            {% if sub_title == 'update' %}
+            <font style="color:#333">For system stability you must upgrade your
+                system before installing any application...</font>
+            {% elif sub_title == 'library' %}
+            <font style="color:#333">Your applications from present and past in
+                one place...</font>
+            {% else %}
+            <font style="color:#333">{{app['summery']}}</font>
+            <hr style="margin-top: 4px; margin-bottom: 4px;">
+            {% set rating_round = rating|round %}
+            <font size="5" style="color:#333"> {{rating}} </font>&nbsp;
+            {% for i in range(5) %}
+            {% if i < rating_round %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span>
+            {% endif %}
+            {% endfor %}
+            <br>
+            <font size="2" style="color:#999; line-height: 6px;">
+                {{rating_comments}} Ratings </font>
+            {% endif %}
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2"
+             style="padding-top: 34px;">
+            {% if header_btn == 'update' %}
+            <div class="row" style="padding-right: 47%;">
+                <a href="#" id="btn-install"
+                   class="btn btn-primary margin-7 pull-right" style="">Install
+                    Updates</a>
+            </div>
+            {% elif header_btn == 'library' %}
+            <div></div>
+            {% else %}
+            {% if app['isInstalled'] == False %}
+            <div class="row" style="padding-right: 47%;">
+                <a href="/install/?id={{app['id']}}&p_type=apt"
+                   id="btn-install" class="btn btn-primary margin-7 pull-right"
+                   style="">Install</a>
+            </div>
+            {% else %}
+            <div class="row" style="padding-right: 20%;">
+                <a href="/remove/?id={{app['id']}}&p_type=apt" id="btn-open"
+                   class="btn btn-success margin-7 pull-right"
+                   style="">Open</a>
+                <a href="/remove/?id={{app['id']}}&p_type=apt" id="btn-remove"
+                   class="btn btn-danger margin-7 pull-right"
+                   style="">Remove</a>
+            </div>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <style>
+    .checked{
+        color: #3daee9;
+    }
+    .margin-7{
+        margin-right: 0px;
+        margin-left: 7px;
+        }
+
+    </style>
+</div>

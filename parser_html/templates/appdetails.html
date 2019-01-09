@@ -10,13 +10,13 @@ document.onreadystatechange = function () {
          document.getElementById('interactive');
          document.getElementById('load').style.visibility="hidden";
          document.getElementById('hidden').style.display="block";
-         {% if data['thumbnails'] != None %}
-            {% for screenshot in data['thumbnails'] %}
+         {% if app['thumbnails'] != None %}
+            {% for screenshot in app['thumbnails'] %}
             load_image{{loop.index0}}();
             {% endfor %}
         {% endif %}
-        {% if data['screenshots'] != None %}
-            {% for screenshot in data['screenshots'] %}
+        {% if app['screenshots'] != None %}
+            {% for screenshot in app['screenshots'] %}
             load_image{{loop.index0}}();
             {% endfor %}
         {% endif %}
@@ -27,59 +27,8 @@ document.onreadystatechange = function () {
 <style>
 </style>
 <link href='/static/styles/appDetails.css' rel='stylesheet' type='text/css'>
-<div class="container-fluid fixed-top" style="background-color:#fff; box-shadow: inset 0px -1px 8px -10px #CCC, 3px -2px 8px 2px #CCC; border-top: 1px solid #ddd; position: fixed; z-index: 1000; width:100%; overflow-x: hidden; overflow-y: auto; height: 130px;">
-  <div class="row" style="padding-top: 5px;">
-    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-        {% if data['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon pull-right">
-        {% else %}
-            {% set app_icon_list = data['icon'].split('/') %}
-            {% set app_path = data['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}" class="icon pull-right" height="100px" width="100px">
-        {% endif %}
-    </div>
-    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5" style="padding-top: 1px;">
-        <font size="6" style="color:#333">{{data['name']}}</font>
-        <br>
-        <font style="color:#333">{{data['summery']}}</font>
-        <hr style="margin-top: 4px; margin-bottom: 4px;">
-        {% set rating_round = rating|round %}
-        <font size="5" style="color:#333"> {{rating}} </font>&nbsp;
-        {% for i in range(5) %}
-            {% if i < rating_round %}
-                <span class="fa fa-star checked"></span>
-            {% else %}
-                <span class="fa fa-star"></span>
-            {% endif %}
-        {% endfor %}
-        <br>
-        <font size="2" style="color:#999; line-height: 6px;"> {{rating_comments}} Ratings </font>
-    </div>
-    <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2" style="padding-top: 34px;">
-        {% if data['isInstalled'] == False %}
-            <div class="row" style="padding-right: 47%;">
-            <a href="/install/?id={{data['id']}}&p_type=apt" id="btn-install" class="btn btn-primary margin-7 pull-right" style="">Install</a>
-            </div>
-        {% else %}
-            <div class="row" style="padding-right: 20%;">
-                <a href="/remove/?id={{data['id']}}&p_type=apt" id="btn-open" class="btn btn-success margin-7 pull-right" style="">Open</a>
-                <a href="/remove/?id={{data['id']}}&p_type=apt" id="btn-remove" class="btn btn-danger margin-7 pull-right" style="">Remove</a>
-            </div>
-        {% endif%}
-    </div>
-  </div>
-  <style>
-    .checked{
-        color: #3daee9;
-    }
-    .margin-7{
-        margin-right: 0px;
-        margin-left: 7px;
-        }
-  </style>
-</div>
+{% include 'header.html' %}
 <br>
-
 <style>
 #main-table{
     width:95%;
@@ -148,13 +97,26 @@ document.onreadystatechange = function () {
                 </li>
             </ul>
             <ul class="list-group">
-                    {% if data['license'] != None %}
+                {% if app['license'] != None %}
                         <li class="list-group-item">
                         <font size="2" class="info-title"><span class="glyphicon glyphicon-list-alt"></span> License</font>
-                        {% set license_length = data['license']|length %}
+                            {% set license_length = app['license']|length %}
                         {% if license_length >= 20 %}
-                            <font size="2" style="" id="license-description-small" class="info">{{data['license']|truncate(20)}} &nbsp;<a data-toggle="collapse" data-target="#license-description" onclick="myFunction_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="license-description" class="info collapse">{{data['license']}} <a data-toggle="collapse" data-target="#license-description" onclick="myFunction_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
+                            <font size="2" style=""
+                                  id="license-description-small" class="info">{{app['license']|truncate(20)}}
+                                &nbsp;<a data-toggle="collapse"
+                                         data-target="#license-description"
+                                         onclick="myFunction_description()"><sub><i
+                                        class="fa fa-angle-down"
+                                        style="font-size:16px"></i></sub></a></font>
+                            <font size="2" style="" id="license-description"
+                                  class="info collapse">{{app['license']}} <a
+                                    data-toggle="collapse"
+                                    data-target="#license-description"
+                                    onclick="myFunction_description()"
+                                    style="text-decoration:none;"> &nbsp;
+                                &nbsp;<i class="fa fa-angle-up"
+                                         style="font-size:16px"></i></a></font>
                             <script>
                             function myFunction_description() {
                             var x = document.getElementById("license-description-small");
@@ -167,21 +129,21 @@ document.onreadystatechange = function () {
                             </script>
                             
                         {% else %}
-                        <font size="2" style="" class="info">{{data['license']}}</font>
+                            <font size="2" style="" class="info">{{app['license']}}</font>
                         {% endif %}
                         </li>
                 {% endif %}
 
-                    {% if data['developer'] == None %}
-                        {% if 'org.kde' in data['id'] %}
+                {% if app['developer'] == None %}
+                {% if 'org.kde' in app['id'] %}
                             {% set developer = ['The KDE Community'] %}
-                        {% elif 'org.gnome' in data['id'] %}
+                {% elif 'org.gnome' in app['id'] %}
                             {% set developer = ['The GNOME Project'] %}
                         {% else %}
                             {% set developer = ['Unknown'] %}
                         {% endif %}
                     {% else %}
-                    {% set developer = data['developer'].split('<') %}
+                {% set developer = app['developer'].split('<') %}
                     {% endif %}
                     
                     {% if developer[0] != 'Unknown' %}
@@ -206,13 +168,25 @@ document.onreadystatechange = function () {
                         {% endif %}
                     {% endif %}
                 </li>
-                {% if data['homepage'] != None %}
+                {% if app['homepage'] != None %}
                 <li class="list-group-item">
                     <font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Homepage</font>
-                    {% set category_length = data['homepage']|length %}
+                    {% set category_length = app['homepage']|length %}
                     {% if category_length >= 11 %}
-                            <font size="2" style="" id="homepage-description-small" class="info"> {{ data['homepage']|truncate(11) }}&nbsp;<a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="homepage-description" class="info collapse">{{data['homepage']}} <a data-toggle="collapse" data-target="#homepage-description" onclick="myFunction_homepage_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
+                    <font size="2" style="" id="homepage-description-small"
+                          class="info"> {{ app['homepage']|truncate(11) }}&nbsp;<a
+                            data-toggle="collapse"
+                            data-target="#homepage-description"
+                            onclick="myFunction_homepage_description()"><sub><i
+                            class="fa fa-angle-down"
+                            style="font-size:16px"></i></sub></a></font>
+                    <font size="2" style="" id="homepage-description"
+                          class="info collapse">{{app['homepage']}} <a
+                            data-toggle="collapse"
+                            data-target="#homepage-description"
+                            onclick="myFunction_homepage_description()"
+                            style="text-decoration:none;"> &nbsp; &nbsp;<i
+                            class="fa fa-angle-up" style="font-size:16px"></i></a></font>
                         <script>
                         function myFunction_homepage_description() {
                         var x = document.getElementById("homepage-description-small");
@@ -224,7 +198,8 @@ document.onreadystatechange = function () {
                         }
                         </script>
                     {% else %}
-                        <font size="2" style="" class="info">{{data['homepage']}}</font>
+                    <font size="2" style=""
+                          class="info">{{app['homepage']}}</font>
                     {% endif %}
                 </li>
                 {% endif %}
