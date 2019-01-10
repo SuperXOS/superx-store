@@ -2,18 +2,33 @@
     <div class="panel-body app-bar" id="app" style="padding: 9px;">
         <div class="row">
         <div class="col-sm-1 col-md-1 col-lg-1" style="">
-        {% if app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon" height="64px" width="64px">
-        {% else %}
-        {% set app_list = app['icon'].split('/') %}
-        {% set app_path = app['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
-        {% endif %}
+            {% if static_sec == 'system-update' %}
+            <img src="/static/icons/default.png" class="icon" height="64px"
+                 width="64px">
+            {% elif static_sec == 'security-update' %}
+            <img src="/static/icons/default.png" class="icon" height="64px"
+                 width="64px">
+            {% elif app['icon'] == None %}
+            <img src="/static/icons/default.png" class="icon" height="64px"
+                 width="64px">
+            {% else %}
+            {% set app_list = app['icon'].split('/') %}
+            {% set app_path = app['icon'].split(app_list[app_list|length - 1])
+            %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                 class="icon" height="64px" width="64px">
+            {% endif %}
         </div>
         <div class="col-sm-8 col-md-8 col-lg-8 summery" style="padding-left:0;">
+            {% if static_sec == 'system-update' %}
+            <font size="4" style="color:#555;">{{ app }}</font>
+            {% elif static_sec == 'security-update' %}
+            <font size="4" style="color:#555;">{{ app }}</font>
+            {% else %}
             <font size="4" style="color:#555;">{{ app['name'] }}</font>
             <break></break>
             <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+            {% endif %}
         </div>
             <div class="col-sm-3 col-md-3 col-lg-3 library-btn"
                  style="padding: 10px">
