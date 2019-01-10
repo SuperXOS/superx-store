@@ -104,7 +104,7 @@ alert = function(mesg) {console.trace(mesg)}
             </div>
             <div>
                 {% if top_app['isInstalled'] == False %}
-                <a href="/install/?id={{top_app['id']}}&p_type=apt" id="btn-install" class="button top-btn{{loop.index}} btn btn-primary" style="">Install</a>
+                <a href="#" id="btn-install" class="button top-btn{{loop.index}} btn btn-primary" style="" onclick="setTitle('install','{{top_app['pkg'][0]}}', 'appstream', 'SuperX', 'None')">Install</a>
                 {% else %}
                 <a href="/install/{{top_app['id']}}" id="btn-remove" class="button top-btn{{loop.index}} btn btn-success" style="">Open</a>
                 {% endif %}
