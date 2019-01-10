@@ -228,7 +228,13 @@ class AppStoreBackend():
         """
         Return a list of dict about package updates
         """
-        pkgs = []
+        appstream_cpts = []
+        app_updates = []
+        system_updates = []
+        security_updates = []
+
+        for i in self.pool.get_components():
+            appstream_cpts.append(self.appSummery(i.props.id))
 
         apt_pkg.init()
         # force apt to build its caches in memory for now to make sure
@@ -267,29 +273,34 @@ class AppStoreBackend():
             cand_ver = depcache.get_candidate_ver(pkg)
             if cand_ver == inst_ver:
                 continue
-            record = {"name": pkg.name,
-                      "isSecurity": isSecurityUpgrade(pkg, depcache),
-                      }
-            pkgs.append(record)
+            if isSecurityUpgrade(pkg, depcache):
+                security_updates.append(pkg.name)
+            else:
+                system_updates.append(pkg.name)
 
-        app_updates = []
-        system_updates = []
-        security_counter = 0
-        for cpt in self.pool.get_components():
-            for package in pkgs:
-                if package['name'] == cpt.get_pkgname():
-                    package_ = self.appSummery(cpt.props.id)
-                    if package['isSecurity']:
-                        security_counter = security_counter + 1
-                    app_updates.append(package_)
-        for pkg in pkgs:
-            for i in app_updates:
-                if not pkg['name'] in i['pkg']:
-                    if pkg['isSecurity']:
-                        security_counter = security_counter + 1
-                    system_updates.append(pkg)
+        appstream_pkgs = []
+        for i in appstream_cpts:
+            try:
+                as_pkg = i['pkg'][0]
+            except IndexError:
+                pass
+
+            for package in system_updates + security_updates:
+                if package == as_pkg:
+                    app_updates.append(i)
+
+            appstream_pkgs.append(as_pkg)
+
+        for i in list(set(appstream_pkgs).intersection(system_updates)):
+            system_updates.remove(i)
+
+        for i in list(set(appstream_pkgs).intersection(security_updates)):
+            security_updates.remove(i)
+
         app_updates = sorted(app_updates, key=itemgetter('name'))
-        return app_updates, system_updates, security_counter
+        system_updates = sorted(system_updates)
+        security_updates = sorted(security_updates)
+        return app_updates, system_updates, security_updates
 
 
 
