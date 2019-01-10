@@ -97,10 +97,10 @@ alert = function(mesg) {console.trace(mesg)}
                     <img id="icon_topApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
                 {% endif %}
             </div>
-            <div class="app-summery app-summery{{loop.index}}" align="center">
-                {{top_app['name']|truncate(15)}}
+            <div class="app-summery app-summery{{loop.index}} truncate" align="center">
+                {{top_app['name']}}
                 <br>
-                {{top_app['summery']|truncate(18)}}
+                {{top_app['summery']}}
             </div>
             <div>
                 {% if top_app['isInstalled'] == False %}
@@ -176,10 +176,10 @@ alert = function(mesg) {console.trace(mesg)}
                 
                 <br>
             </div>
-            <div class="app-summery editor-app-summery{{loop.index}}" align="center">
-                {{editor_app['name']|truncate(15)}}
+            <div class="app-summery editor-app-summery{{loop.index}} truncate" align="center">
+                {{editor_app['name']}}
                 <br>
-                {{editor_app['summery']|truncate(18)}}
+                {{editor_app['summery']}}
             </div>
             <div>
                 {% if editor_app['isInstalled'] == False %}

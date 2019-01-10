@@ -39,14 +39,15 @@
             </div>
             <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
              style="padding-top: 1px;">
-             <font size="6" style="color:#333">{{app['name']}}</font>
         {% endif %}
-            <br>
             {% if sub_title == 'update' %}
+            <br>
             <font style="color:#333">For system stability you must upgrade your
                 system before installing any application...</font>
             {% elif sub_title == 'library' %}
             {% else %}
+            <font size="6" style="color:#333">{{app['name']}}</font>
+            <br>
             <font style="color:#333">{{app['summery']}}</font>
             <hr style="margin-top: 4px; margin-bottom: 4px;">
             {% set rating_round = rating|round %}
@@ -64,7 +65,7 @@
             {% endif %}
         </div>
             {% if header_btn == 'update' %}
-            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2"
+            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-5 col-xl-5"
                 style="padding-top: 34px;">
                 <div class="row" style="padding-right: 47%;">
                     <a href="#" id="btn-install"
@@ -73,7 +74,7 @@
                 </div>
             {% elif header_btn == 'library' %}
             {% else %}
-            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2"
+            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3"
                 style="padding-top: 34px;">
             {% if app['isInstalled'] == False %}
             <div class="row" style="padding-right: 47%;">
@@ -82,8 +83,6 @@
                    style="">Install</a>
             </div>
             {% else %}
-            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-2 col-xl-2"
-                style="padding-top: 34px;">
             <div class="row" style="padding-right: 20%;">
                 <a href="/remove/?id={{app['id']}}&p_type=apt" id="btn-open"
                    class="btn btn-success margin-7 pull-right"
@@ -106,4 +105,5 @@
         }
 
     </style>
+</div>
 </div>

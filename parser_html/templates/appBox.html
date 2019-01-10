@@ -12,10 +12,10 @@
                     <img id="icon_apps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}" height="60px" width="60px">
                 {% endif %}
             </div>
-            <div class="app-summery app-summery{{loop.index}}" align="center">
-                {{app['name']|truncate(15)}}
+            <div class="app-summery app-summery{{loop.index}} truncate" align="center">
+                {{app['name']}}
                 <br>
-                {{app['summery']|truncate(15)}}
+                {{app['summery']}}
             </div>
             <div>
                 {% if app['isInstalled'] == False %}
