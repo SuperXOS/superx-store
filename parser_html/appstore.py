@@ -15,6 +15,10 @@ backend_obj = AppStoreBackend()
 
 tasks = []
 current_task_details = None
+updates = None
+installed = []
+installedOthers = []
+installedPreviously = []
 
 @app.route('/')
 def index():
@@ -186,18 +190,16 @@ def task():
 
 @app.route('/library/')
 def library():
-    installedOthers = []
-    installedPreviously = []
     return render_template('library.html',
-                           installed = backend_obj.listInstalled(),
-                           installedOthers = installedOthers,
-                           installedPreviously = installedPreviously)
+                           installed=installed,
+                           installedOthers=installedOthers,
+                           installedPreviously=installedPreviously)
 
 
 @app.route('/updates/')
 def updates():
     return render_template('updates.html',
-                           updates = backend_obj.listUpdates())
+                           updates=updates)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
