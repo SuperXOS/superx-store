@@ -6,13 +6,13 @@
             <div class="app-icon" align="center">
                 {% if app['icon'] == None %}
                 <img id="icon_apps{{loop.index}}"
-                     src="/static/icons/default.svg">
+                     src="/static/icons/default.svg" height="64px">
                 {% else %}
                     {% set app_icon_list = app['icon'].split('/') %}
                     {% set app_path = app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
                 <img id="icon_apps{{loop.index}}"
                      src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
-                     height="64px" width="64px">
+                     height="64px">
                 {% endif %}
             </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
