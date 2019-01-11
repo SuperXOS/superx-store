@@ -100,8 +100,9 @@ document.onreadystatechange = function () {
 <script>
     function setTitle(action,id, p_type, user, launchable)
     {
-    title ="{action: " +action+", id: "+id+", p_type: "+p_type+", user: "+user+", launchable: "+launchable+"}";
+    title = "task: " + [action, id , p_type, user, launchable]
     document.title = title;
+    document.title = 'none';
     }
 </script>
 </body>
