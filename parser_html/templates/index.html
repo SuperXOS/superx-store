@@ -90,11 +90,14 @@ alert = function(mesg) {console.trace(mesg)}
             </div>
             <div class="app-icon" align="center">
                 {% if top_app['icon'] == None %}
-                    <img id="icon_topApps{{loop.index}}" src="/static/icons/default.png">
+                <img id="icon_topApps{{loop.index}}"
+                     src="/static/icons/default.svg">
                 {% else %}
                     {% set app_list = top_app['icon'].split('/') %}
                     {% set app_path = top_app['icon'].split(app_list[app_list|length - 1]) %}
-                    <img id="icon_topApps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px">
+                <img id="icon_topApps{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                     height="64px" width="64px">
                 {% endif %}
             </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
@@ -118,7 +121,7 @@ alert = function(mesg) {console.trace(mesg)}
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
                 vibrant = new Vibrant(img);
-                if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
                     {
                     $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
                     }
@@ -174,11 +177,13 @@ alert = function(mesg) {console.trace(mesg)}
             </div>
             <div class="app-icon" align="center">
                 {% if editor_app['icon'] == None %}
-                    <img id="icon" src="/static/icons/default.png">
+                <img id="icon" src="/static/icons/default.svg">
                 {% else %}
                     {% set app_list = editor_app['icon'].split('/') %}
                     {% set app_path = editor_app['icon'].split(app_list[app_list|length - 1]) %}
-                    <img id="icon{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" height="60px" width="60px" align="center">
+                <img id="icon{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                     height="64px" width="64px" align="center">
                 {% endif %}
                 
                 <br>
@@ -205,7 +210,7 @@ alert = function(mesg) {console.trace(mesg)}
         <script>
             img = document.querySelector("#icon{{loop.index}}");
             vibrant = new Vibrant(img);
-            if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+            if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
                     {
                     $('.app-color{{loop.index}}').css('background-color', getRandomColor());
                     }

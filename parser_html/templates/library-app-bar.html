@@ -3,13 +3,15 @@
         <div class="row">
         <div class="col-sm-1 col-md-1 col-lg-1" style="">
             {% if static_sec == 'system-update' %}
-            <img src="/static/icons/default.png" class="icon" height="64px"
+            <img src="/static/icons/run-build-install.svg" class="icon"
+                 height="64px"
                  width="64px">
             {% elif static_sec == 'security-update' %}
-            <img src="/static/icons/default.png" class="icon" height="64px"
+            <img src="/static/icons/security-medium.svg" class="icon"
+                 height="64px"
                  width="64px">
             {% elif app['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon" height="64px"
+            <img src="/static/icons/default.svg" class="icon" height="64px"
                  width="64px">
             {% else %}
             {% set app_list = app['icon'].split('/') %}

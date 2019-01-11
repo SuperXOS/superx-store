@@ -5,11 +5,14 @@
             </div>
             <div class="app-icon" align="center">
                 {% if app['icon'] == None %}
-                    <img id="icon_apps{{loop.index}}" src="/static/icons/default.png">
+                <img id="icon_apps{{loop.index}}"
+                     src="/static/icons/default.svg">
                 {% else %}
                     {% set app_icon_list = app['icon'].split('/') %}
                     {% set app_path = app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
-                    <img id="icon_apps{{loop.index}}" src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}" height="60px" width="60px">
+                <img id="icon_apps{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
+                     height="64px" width="64px">
                 {% endif %}
             </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
@@ -31,7 +34,7 @@
             <script>
                 img = document.querySelector("#icon_apps{{loop.index}}");
                 vibrant = new Vibrant(img);
-                if (img.src == 'http://0.0.0.0:5000/static/icons/default.png')
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
                     {
                     $('.app-color{{loop.index}}').css('background-color', getRandomColor());
                     }
