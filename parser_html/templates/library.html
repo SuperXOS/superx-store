@@ -23,7 +23,9 @@
         {% set show_open_btn = True %}
         {% set show_remove_btn = True %}
         {% for app in installed %}
+        {% if app['launchable'] != None %}
         {% include 'library-app-bar.html' %}
+        {% endif %}
         {% endfor %}
     </div>
 
