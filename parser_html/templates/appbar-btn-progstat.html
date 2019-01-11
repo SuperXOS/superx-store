@@ -1,14 +1,17 @@
 {% if show_install_btn == True %}
-<a href="/install/{{app['id']}}" id="btn-remove"
-   class="btn btn-info pull-right" style="margin: 5px;">Install</a>
+<a href="#" id="btn-remove"
+   class="btn btn-info pull-right" style="margin: 5px;"
+   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
 {% endif %}
 {% if show_open_btn == True %}
-<a href="/install/{{app['id']}}" id="btn-remove"
-   class="btn btn-success pull-right" style="margin: 5px;">Open</a>
+<a href="#" id="btn-remove"
+   class="btn btn-success pull-right" style="margin: 5px;"
+   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
 {% endif %}
 {% if show_remove_btn == True %}
-<a href="/install/{{app['id']}}" id="btn-remove"
-   class="btn btn-danger pull-right" style="margin: 5px;">Remove</a>
+<a href="#" id="btn-remove"
+   class="btn btn-danger pull-right" style="margin: 5px;"
+   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Remove</a>
 {% endif %}
 {% if show_progress == True %}
 <h3>26%</h3>
