@@ -99,38 +99,7 @@ document.onreadystatechange = function () {
             <ul class="list-group">
                 {% if app['license'] != None %}
                         <li class="list-group-item">
-                        <font size="2" class="info-title"><span class="glyphicon glyphicon-list-alt"></span> License</font>
-                            {% set license_length = app['license']|length %}
-                        {% if license_length >= 20 %}
-                            <font size="2" style=""
-                                  id="license-description-small" class="info">{{app['license']|truncate(20)}}
-                                &nbsp;<a data-toggle="collapse"
-                                         data-target="#license-description"
-                                         onclick="myFunction_description()"><sub><i
-                                        class="fa fa-angle-down"
-                                        style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="license-description"
-                                  class="info collapse">{{app['license']}} <a
-                                    data-toggle="collapse"
-                                    data-target="#license-description"
-                                    onclick="myFunction_description()"
-                                    style="text-decoration:none;"> &nbsp;
-                                &nbsp;<i class="fa fa-angle-up"
-                                         style="font-size:16px"></i></a></font>
-                            <script>
-                            function myFunction_description() {
-                            var x = document.getElementById("license-description-small");
-                            if (x.style.display === "none") {
-                                x.style.display = "block";
-                            } else {
-                                x.style.display = "none";
-                            }
-                            }
-                            </script>
-                            
-                        {% else %}
-                            <font size="2" style="" class="info">{{app['license']}}</font>
-                        {% endif %}
+                        <font size="2" class="info-title"><a href="#" data-toggle="tooltip" data-placement="top" style="text-decoration: none; width: 168px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: block;" title="{{app['license']}}"><font size="2" class="info"><span class="glyphicon glyphicon-list-alt"></span> License: {{app['license']}}</font></a></font>
                         </li>
                 {% endif %}
 
@@ -146,84 +115,20 @@ document.onreadystatechange = function () {
                 {% set developer = app['developer'].split('<') %}
                     {% endif %}
                     
-                    {% if developer[0] != 'Unknown' %}
-                        <li class="list-group-item">
-                            <font size="2" class="info-title"><span class="glyphicon glyphicon-user"></span> Developer</font>
-                        {% set developer_length = developer[0]|length %}
-                        {% if developer_length >= 11 %}
-                            <font size="2" style="" id="developer-description-small" class="info">{{developer[0]|truncate(11)}} &nbsp;<a data-toggle="collapse" data-target="#developer-description" onclick="myFunction_developer_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="developer-description" class="info collapse">{{developer[0]}} <a data-toggle="collapse" data-target="#developer-description" onclick="myFunction_developer_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
-                            <script>
-                            function myFunction_developer_description() {
-                            var x = document.getElementById("developer-description-small");
-                            if (x.style.display === "none") {
-                                x.style.display = "";
-                            } else {
-                                x.style.display = "none";
-                            }
-                            }
-                            </script>
-                        {% else %}
-                            <font size="2" style="" class="info">{{developer[0]}}</font>
-                        {% endif %}
-                    {% endif %}
-                </li>
+                {% if developer[0] != 'Unknown' %}
+                    <li class="list-group-item">
+                        <font size="2" class="info-title"><a href="#" data-toggle="tooltip" data-placement="top" style="text-decoration: none; width: 168px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: block;" title="{{developer[0]}}"><font size="2" class="info"><font size="2" class="info-title"><span class="glyphicon glyphicon-user"></span> Developer:</font> {{developer[0]}}</font></a></font>
+                    </li>
+                {% endif %}
                 {% if app['homepage'] != None %}
                 <li class="list-group-item">
-                    <font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Homepage</font>
-                    {% set category_length = app['homepage']|length %}
-                    {% if category_length >= 11 %}
-                    <font size="2" style="" id="homepage-description-small"
-                          class="info"> {{ app['homepage']|truncate(11) }}&nbsp;<a
-                            data-toggle="collapse"
-                            data-target="#homepage-description"
-                            onclick="myFunction_homepage_description()"><sub><i
-                            class="fa fa-angle-down"
-                            style="font-size:16px"></i></sub></a></font>
-                    <font size="2" style="" id="homepage-description"
-                          class="info collapse">{{app['homepage']}} <a
-                            data-toggle="collapse"
-                            data-target="#homepage-description"
-                            onclick="myFunction_homepage_description()"
-                            style="text-decoration:none;"> &nbsp; &nbsp;<i
-                            class="fa fa-angle-up" style="font-size:16px"></i></a></font>
-                        <script>
-                        function myFunction_homepage_description() {
-                        var x = document.getElementById("homepage-description-small");
-                        if (x.style.display === "none") {
-                            x.style.display = "";
-                        } else {
-                            x.style.display = "none";
-                        }
-                        }
-                        </script>
-                    {% else %}
-                    <font size="2" style=""
-                          class="info">{{app['homepage']}}</font>
-                    {% endif %}
+                    <font size="2" class="info-title"><a href="#" data-toggle="tooltip" data-placement="top" style="text-decoration: none; width: 168px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: block;" title="{{app['homepage']}}"><font size="2" class="info"><font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Homepage:</font> {{app['homepage']}}</font></a></font>
                 </li>
                 {% endif %}
                 
                 {% if category[0] != None %}
                 <li class="list-group-item">
-                    <font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Category</font>
-                    {% set category_length = category[0]|length %}
-                    {% if category_length >= 11 %}
-                            <font size="2" style="" id="homepage-description-small" class="info"> {{ category[0]|truncate(11) }}&nbsp;<a data-toggle="collapse" data-target="#category-description" onclick="myFunction_category_description()"><sub><i class="fa fa-angle-down" style="font-size:16px"></i></sub></a></font>
-                            <font size="2" style="" id="category-description" class="info collapse">{{category[0]}} <a data-toggle="collapse" data-target="#category-description" onclick="myFunction_category_description()" style="text-decoration:none;"> &nbsp; &nbsp;<i class="fa fa-angle-up" style="font-size:16px"></i></a></font>
-                        <script>
-                        function myFunction_category_description() {
-                        var x = document.getElementById("category-description-small");
-                        if (x.style.display === "none") {
-                            x.style.display = "";
-                        } else {
-                            x.style.display = "none";
-                        }
-                        }
-                        </script>
-                    {% else %}
-                        <font size="2" style="" class="info">{{category[0]}}</font>
-                    {% endif %}
+                    <font size="2" class="info-title"><a href="#" data-toggle="tooltip" data-placement="top" style="text-decoration: none; width: 168px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;display: block;" title="{{category[0]}}"><font size="2" class="info"><font size="2" class="info-title"><font size="2" class="info-title"><span class="glyphicon glyphicon-home"></span> Category:</font> {{category[0]}}</font></a></font>
                 </li>
                 {% endif %}
             </ul>
