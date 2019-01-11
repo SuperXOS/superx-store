@@ -2,7 +2,6 @@
 
 import os
 import sys
-from ast import literal_eval
 from datetime import datetime
 from random import randint
 from time import sleep
@@ -204,6 +203,8 @@ class MainWindow(QMainWindow):
 
         self.webEngine.urlChanged.connect(self.urlProcess)
 
+        self.webEngine.page().titleChanged.connect(self.titleActions)
+
         self.actionSearchName.toggled.connect(self.settingsWrite)
         self.actionSearchSummery.toggled.connect(self.settingsWrite)
         self.actionSearchDescription.toggled.connect(self.settingsWrite)
@@ -274,23 +275,36 @@ class MainWindow(QMainWindow):
     def titleActions(self):
         '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
         action = self.webEngine.title()
-        action = literal_eval(action)
-
-        if action['action'] in ('install', 'remove'):
-            self.processTasks(action['action'], action['id'], action['p_type'])
-        elif action['action'] == 'exec':
-            prog = QProcess()
-            prog.startDetached('kioclient5 exec %s' % action['launchable'])
-        elif action[action] in ('screenshot', 'ratings-review'):
-            browser = QProcess()
-            browser.startDetached('xdg-open %s/store-api/%s/%s' %
-                                  (self.api_service, action['action'],
-                                   action['id']))
+        if action.startswith('task: '):
+            action = action.replace('task: ', '').split(",")
+            action = {
+                'action': action[0],
+                'id': action[1],
+                'p_type': action[2],
+                'user': action[3],
+                'launchable': action[4]
+            }
+            print(action)
+            if action['action'] in ('installing', 'removing'):
+                self.processTasks(action['action'], action['id'],
+                                  action['p_type'])
+            elif action['action'] == 'exec':
+                prog = QProcess()
+                print(action['launchable'])
+                prog.startDetached(
+                    'kioclient5 exec /usr/share/applications/%s' % action[
+                        'launchable'])
+            # elif action['action'] in ('screenshot', 'ratings-review'):
+            #     browser = QProcess()
+            #     browser.startDetached('xdg-open %s/store-api/%s/%s' %
+            #                           (self.api_service, action['action'],
+            #                            action['id']))
 
     # FIXME: Make this primary
-    def processTasks2(self, action, id, p_type):
+    def processTasks(self, action, id, p_type):
         transaction = None
         task_details = appstore.backend_obj.appSummery(id)
+        print(task_details)
         task_details['pkg_type'] = p_type
         task_details['action'] = action
         if p_type == 'apt':
@@ -304,11 +318,12 @@ class MainWindow(QMainWindow):
             pass # TODO
 
         task = {'details': task_details, 'transaction': transaction}
+        print(task)
 
         appstore.tasks.append(task)
 
     # FIXME: Remove this when 2 is primary
-    def processTasks(self, url):
+    def processTasks2(self, url):
         pkg_id = url.split('?id=')[1].split('&p_type=')
         transaction = None
         task_details = appstore.backend_obj.appSummery(pkg_id[0])
