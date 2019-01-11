@@ -31,8 +31,8 @@ class AppStoreBackend():
         }
 
         try:
-            component_data['launchable'] = str(cpt.get_launchable(
-                AppStream.LaunchableKind.DESKTOP_ID).get_entries())
+            component_data['launchable'] = cpt.get_launchable(
+                AppStream.LaunchableKind.DESKTOP_ID).get_entries()
         except AttributeError:
             component_data['launchable'] = None
 

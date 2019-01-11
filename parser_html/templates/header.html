@@ -80,16 +80,16 @@
             <div class="row" style="padding-right: 47%;">
                 <a href="#" id="btn-install"
                    class="btn btn-primary margin-7 pull-right" style=""
-                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
+                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>
             </div>
             {% else %}
             <div class="row" style="padding-right: 20%;">
                 <a href="#" id="btn-open"
                    class="btn btn-success margin-7 pull-right" style=""
-                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
+                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Open</a>
                 <a href="#" id="btn-remove"
                    class="btn btn-danger margin-7 pull-right" style=""
-                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Remove</a>
+                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Remove</a>
             </div>
             {% endif %}
             {% endif %}
