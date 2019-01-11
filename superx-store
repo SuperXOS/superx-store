@@ -65,6 +65,7 @@ class InstallerThread(QThread):
                 appstore.current_task_details['pkg'][0])
 
         self.transactionCompleted.emit(exit_status)
+        appstore.updates = appstore.backend_obj.listUpdates()
         appstore.installed = appstore.backend_obj.listInstalled()
         window.webEngine.reload()
 
@@ -145,15 +146,11 @@ class MainWindow(QMainWindow):
         toolbarGroup.addAction(self.actionLibrary)
         toolbarGroup.addAction(self.actionUpdates)
         toolbarGroup.addAction(self.actionTasks)
-        toolbarGroup.addAction(self.actionExplorer)
         toolbarGroup.addAction(self.actionApp)
         toolbarGroup.addAction(self.actionSearch)
         toolbarGroup.addAction(self.actionPurchases)
         toolbarGroup.setExclusive(True)
         toolbarGroup.setEnabled(False)
-
-        # Only show explorer when user goes to dynamic pages.
-        self.actionExplorer.setVisible(False)
 
         # TODO: Implement app purchase and display
         purchased_apps = False
@@ -353,9 +350,7 @@ class MainWindow(QMainWindow):
     def urlProcess(self):
         self.searchBar.clear()
         url = self.webEngine.url().toString()
-   
-        self.actionExplorer.setVisible(False)
-        self.actionExplorer.setChecked(False)
+
         self.actionApp.setVisible(False)
         self.actionSearch.setVisible(False)
 
@@ -379,12 +374,6 @@ class MainWindow(QMainWindow):
             url = url.split(self.server)[1]
             browser = QProcess()
             browser.startDetached('xdg-open %s/%s ' % (self.api_service, url))
-        elif url.startswith('%sinstall' % self.server) or \
-                url.startswith('%sremove' % self.server):
-            self.processTasks(url)
-        else:
-            self.actionExplorer.setVisible(True)
-            self.actionExplorer.setChecked(True)
 
     def aboutDialog(self):
         dialog = QDialog(parent=window)
