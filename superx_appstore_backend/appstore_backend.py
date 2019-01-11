@@ -93,6 +93,13 @@ class AppStoreBackend():
             'summery': app.props.summary,
             'isInstalled': self.isInstalled(app.get_pkgname())
         }
+
+        try:
+            component_data['launchable'] = app.get_launchable(
+                AppStream.LaunchableKind.DESKTOP_ID).get_entries()[0]
+        except AttributeError:
+            component_data['launchable'] = None
+
         icon = app.get_icon_by_size(128, 128)
         if icon == None:
             component_data['icon'] = None
