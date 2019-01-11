@@ -69,7 +69,7 @@
                 style="padding-top: 34px;">
                 <div class="row" style="padding-right: 47%;">
                     <a href="#" id="btn-install"
-                    class="btn btn-primary margin-7 pull-right" style="">Install
+                       class="btn btn-primary margin-7 pull-right" style="">Install
                         Updates</a>
                 </div>
             {% elif header_btn == 'library' %}
@@ -78,18 +78,18 @@
                 style="padding-top: 34px;">
             {% if app['isInstalled'] == False %}
             <div class="row" style="padding-right: 47%;">
-                <a href="/install/?id={{app['id']}}&p_type=apt"
-                   id="btn-install" class="btn btn-primary margin-7 pull-right"
-                   style="">Install</a>
+                <a href="#" id="btn-install"
+                   class="btn btn-primary margin-7 pull-right" style=""
+                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
             </div>
             {% else %}
             <div class="row" style="padding-right: 20%;">
-                <a href="/remove/?id={{app['id']}}&p_type=apt" id="btn-open"
-                   class="btn btn-success margin-7 pull-right"
-                   style="">Open</a>
-                <a href="/remove/?id={{app['id']}}&p_type=apt" id="btn-remove"
-                   class="btn btn-danger margin-7 pull-right"
-                   style="">Remove</a>
+                <a href="#" id="btn-open"
+                   class="btn btn-success margin-7 pull-right" style=""
+                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
+                <a href="#" id="btn-remove"
+                   class="btn btn-danger margin-7 pull-right" style=""
+                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Remove</a>
             </div>
             {% endif %}
             {% endif %}
@@ -106,4 +106,6 @@
 
     </style>
 </div>
+</div>
+    </div>
 </div>
