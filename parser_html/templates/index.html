@@ -167,7 +167,7 @@ alert = function(mesg) {console.trace(mesg)}
     <br>
     <div class="row">
     {% for editor_app in editor_app_list  %}
-        <div href="/details?id={{ editor_app['id'] }}" id="app-details-url"
+        <a href="/details?id={{ editor_app['id'] }}" id="app-details-url"
              style="text-decoration:none; color: #666;">
         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 editor-hover-box{{loop.index}}">
             <div class="app-color{{loop.index}} app-box">
@@ -225,9 +225,7 @@ alert = function(mesg) {console.trace(mesg)}
                     $(".editor-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
-        </script>
-            <a href="/details?id={{ editor_app['id'] }}"
-               style="text-decoration:none; color: #666;"></a>
+        </script></a>
     {% endfor %}
     </div>
 </div>
