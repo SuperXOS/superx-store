@@ -61,7 +61,6 @@
    <addaction name="actionPurchases"/>
    <addaction name="actionUpdates"/>
    <addaction name="actionTasks"/>
-   <addaction name="actionExplorer"/>
    <addaction name="actionApp"/>
    <addaction name="actionSearch"/>
   </widget>
@@ -270,21 +269,6 @@
    </property>
    <property name="toolTip">
     <string>About SuperX AppStore</string>
-   </property>
-  </action>
-  <action name="actionExplorer">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="globe">
-     <normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</normaloff>../../../../media/wrix/Work/Workspace/New_AppStore</iconset>
-   </property>
-   <property name="text">
-    <string>Explorer</string>
-   </property>
-   <property name="toolTip">
-    <string>Explore new possibilities...</string>
    </property>
   </action>
   <action name="actionApp">
