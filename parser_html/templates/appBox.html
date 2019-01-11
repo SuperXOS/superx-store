@@ -19,12 +19,13 @@
             </div>
             <div>
                 {% if app['isInstalled'] == False %}
-                <a href="/install/?id={{app['id']}}&p_type=apt"
-                   id="btn-install"
-                   class="button btn{{loop.index}} btn btn-primary" style="">Install</a>
+                <a href="#" id="btn-install"
+                   class="button btn{{loop.index}} btn btn-primary" style=""
+                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
                 {% else %}
-                <a href="/install/{{app['id']}}" id="btn-remove"
-                   class="button btn{{loop.index}} btn btn-success" style="">Open</a>
+                <a href="#" id="btn-remove"
+                   class="button btn{{loop.index}} btn btn-success" style=""
+                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
                 {% endif %}
             </div>
             <script>
