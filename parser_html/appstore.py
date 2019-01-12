@@ -138,21 +138,6 @@ def detail():
                            )
 
 
-def most_fequent_color(image):
-    colour_tuple = [None, None, None]
-    for channel in range(3):
-        # Get data for one channel at a time
-        pixels = image.getdata(band=channel)
-
-        values = []
-        for pixel in pixels:
-            values.append(pixel)
-
-        colour_tuple[channel] = round((sum(values) / len(values)) - 10)
-
-    return '#%02x%02x%02x' % tuple(colour_tuple)
-
-
 @app.route('/uploadScreenshot/')
 def uploadScreenshot():
     
@@ -180,11 +165,8 @@ def search():
 
 @app.route('/tasks/')
 def task():
-    task = tasks
-    current_task_detail = current_task_details
-    
-    print(current_task_detail)
-    return render_template('task.html', tasks=task, current_task = current_task_detail)
+    return render_template('task.html', tasks=tasks,
+                           current_task=current_task_details)
 
 
 @app.route('/library/')
