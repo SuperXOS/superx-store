@@ -1,5 +1,9 @@
 <div class="panel panel-default" style="border-radius:0px;">
+    {% if static_sec == 'current_task' %}
+    <div class="panel-body app-bar" id="current_task" style="padding: 9px;">
+    {% else %}
     <div class="panel-body app-bar" id="app" style="padding: 9px;">
+    {% endif %}
         <div class="row">
         <div class="col-sm-1 col-md-1 col-lg-1" style="">
             {% if static_sec == 'system-update' %}
@@ -10,6 +14,23 @@
             <img src="/static/icons/security-medium.svg" class="icon"
                  height="64px"
                  width="64px">
+            {% elif static_sec == 'current_task' %}
+                {% if current_task['icon'] == None %}
+                    <img src="/static/icons/default.png" class="icon" class="icon" height="64px" width="64px">
+                {% else %}
+                {% set app_list = current_task['icon'].split('/') %}
+                {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
+                    <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                {% endif %}
+            {% elif static_sec == 'task' %}
+                {% if task['details']['icon'] == None %}
+                    <img src="/static/icons/default.svg" class="icon" height="64px"
+                        width="64px">
+                {% else %}
+                {% set app_list = task['details']['icon'].split('/') %}
+                {% set app_path = task['details']['icon'].split(app_list[app_list|length - 1]) %}
+                    <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                {% endif %}
             {% elif app['icon'] == None %}
             <img src="/static/icons/default.svg" class="icon" height="64px"
                  width="64px">
@@ -26,6 +47,14 @@
             <font size="4" style="color:#555;">{{ app }}</font>
             {% elif static_sec == 'security-update' %}
             <font size="4" style="color:#555;">{{ app }}</font>
+            {% elif static_sec == 'current_task' %}
+            <font size="4" style="color:#555;">{{ current_task['name'] }} ({{ current_task['action'] }})</font>
+            <break></break>
+            <font size="2" style="color:#555;">{{ current_task['summery'] }}</font>
+            {% elif static_sec == 'task' %}
+            <font size="4" style="color:#555;">{{ task['details']['name'] }}</font>
+            <break></break>
+            <font size="2" style="color:#555;">{{ task['details']['summery'] }}</font>
             {% else %}
             <font size="4" style="color:#555;">{{ app['name'] }}</font>
             <break></break>
@@ -39,3 +68,27 @@
         </div>
     </div>
 </div>
+<style>
+.app-bar{
+box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+margin: 0 auto;
+border: 0.01px solid #7F7F7F;
+}
+
+@media (max-width: 1199px){
+    .summery{
+        padding-left: 28px !important;
+        }
+        }
+.summery{
+    padding-top: 9px;
+}
+break{
+   display: block;
+   margin: -7px 0;
+}
+
+.library-btn{
+    padding-top: 14px;
+}
+</style>

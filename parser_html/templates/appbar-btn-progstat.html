@@ -14,5 +14,26 @@
    onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Remove</a>
 {% endif %}
 {% if show_progress == True %}
-<h3>26%</h3>
+<font size="4" style="color:#555;" class="pull-right progress_percent">0%</font>
+
+<style>
+.progress_percent{
+    padding: 18px !important;
+    }
+.library-btn{
+    padding: 0px !important;
+    }
+</style>
+{% endif %}
+{% if show_pending == True %}
+<font size="4" style="color:#555;" class="pull-right library-action">{{ task['details']['action'] }} (Pending)</font>
+
+<style>
+.progress_percent{
+    padding: 18px !important;
+    }
+.library-action{
+    padding: 15px !important;
+    }
+</style>
 {% endif %}

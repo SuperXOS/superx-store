@@ -6,54 +6,20 @@
 <body>
 <div class="container">
   <h2>Tasks</h2>
-  {% if current_task != None %}
-  <div class="panel panel-default" style="border-radius:0px;">
-    <div class="panel-body" id="current_task">
-        <div class="row">
-        <div class="col-sm-2 col-md-2 col-lg-2" style="padding-top:11px;">
-        {% if current_task['icon'] == None %}
-            <img src="/static/icons/default.png" class="icon pull-right">
-        {% else %}
-        {% set app_list = current_task['icon'].split('/') %}
-        {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="50px" width="50px">
-        {% endif %}
-        </div>
-        <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left:0; padding-top:11px;">
-            <label style="color:#4d4d4d;">{{ current_task['name'] }}</label>
-        </div>
-        <div class="col-sm-9 col-md-9 col-lg-9" style="padding-left:0; padding-top:11px;">
-            <label style="color:#4d4d4d;">{{ current_task['summery'] }}</label><br>
-        </div>
-        <span class="progress_percent" style="padding-left: 24.5%; margin-bottom: 4px;">{{ current_task['action'] }}</span>
-        </div>
-    </div>
-  </div>
+    {% if current_task != None %}
+    {% set show_progress = True %}
+    {% set static_sec = 'current_task' %}
+    {% include 'library-app-bar.html' %}
   {% else %}
   No Current Task
   {% endif %}
   
-  {% if task != [] %}
+    {% if task != [] %}
+        {% set static_sec = 'task' %}
+        {% set show_progress = Flase %}
+        {% set show_pending = True %}
         {% for task in tasks %}
-        <div class="panel panel-default" style="border-radius:0px;">
-            <div class="panel-body">
-                <div class="row">
-                <div class="col-sm-2 col-md-2 col-lg-2">
-                {% if task['details']['icon'] == None %}
-                    <img src="/static/icons/default.png" class="icon pull-right">
-                {% else %}
-                {% set app_list = task['details']['icon'].split('/') %}
-                {% set app_path = task['details']['icon'].split(app_list[app_list|length - 1]) %}
-                    <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="50px" width="50px">
-                {% endif %}
-                </div>
-                <div class="col-sm-2 col-md-2 col-lg-2" style="padding-left:0;">
-                    <label style="color:#4d4d4d;margin-bottom:-9px">{{ task['details']['name'] }}</label><br>
-                </div>
-                <span class="progress_percent" style="padding-left: 24.5%; margin-bottom: 4px;">{{ task['details']['action'] }} (Pending)</span>
-            </div>
-        </div>
-        </div>
+        {% include 'library-app-bar.html' %}
         {% endfor %}
     {% endif %}
 </div>
@@ -61,10 +27,8 @@
 <script>
     function setProgress(x){
     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
-    $('#current_task').css(
-    "background", style);
-    
-    ('.progress_percent').text(x);
+    $('#current_task').css("background", style);
+    $('.progress_percent').html(x+'%');
     }
 </script>
 {% endblock %}
