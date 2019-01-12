@@ -24,20 +24,20 @@
         {% set show_remove_btn = True %}
         {% for app in installed %}
         {% if app['launchable'] != None %}
-        {% include 'library-app-bar.html' %}
+        {% include 'app-bar.html' %}
         {% endif %}
         {% endfor %}
     </div>
 
     <div id="installedOthers" class="tab-pane fade in active">
     {% for app in installedOthers %}
-        {% include 'library-app-bar.html' %}
+        {% include 'app-bar.html' %}
     {% endfor %}
     </div>
 
     <div id="previouslyInstalled" class="tab-pane fade in active">
     {% for app in previouslyInstalled %}
-        {% include 'library-app-bar.html' %}
+        {% include 'app-bar.html' %}
     {% endfor %}
     </div>
 </div>

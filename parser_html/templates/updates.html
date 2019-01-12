@@ -23,19 +23,19 @@
     <div class="tab-content" style="padding-bottom: 30px;">
         <div id="appUpdates" class="tab-pane fade in active">
             {% for app in updates[0] %}
-            {% include 'library-app-bar.html' %}
+            {% include 'app-bar.html' %}
             {% endfor %}
         </div>
         <div id="sysUpdates" class="tab-pane fade">
             {% set static_sec = 'system-update' %}
       {% for app in updates[1] %}
-            {% include 'library-app-bar.html' %}
+            {% include 'app-bar.html' %}
       {% endfor %}
         </div>
         <div id="secUpdates" class="tab-pane fade">
             {% set static_sec = 'security-update' %}
             {% for app in updates[2] %}
-            {% include 'library-app-bar.html' %}
+            {% include 'app-bar.html' %}
             {% endfor %}
         </div>
 
