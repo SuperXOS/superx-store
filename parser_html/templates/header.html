@@ -43,7 +43,7 @@
             </div>
         {% elif app['icon'] == None %}
             <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                <img src="/static/icons/default.png" class="icon pull-right">
+                <img src="/static/icons/default.svg" class="icon pull-right">
             </div>
             <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
              style="padding-top: 1px;">
@@ -93,7 +93,7 @@
             <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3"
                 style="padding-top: 34px;">
             {% if app['isInstalled'] == False %}
-            <div class="row" style="padding-right: 47%;">
+            <div class="row" id="progress_percent" style="padding-right: 47%;">
                 <a href="#" id="btn-install"
                    class="btn btn-primary margin-7 pull-right" style=""
                    onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>

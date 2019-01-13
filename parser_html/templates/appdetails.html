@@ -28,6 +28,15 @@ document.onreadystatechange = function () {
 </style>
 <link href='/static/styles/appDetails.css' rel='stylesheet' type='text/css'>
 {% include 'header.html' %}
+{% if app['id'] == current_task['id'] %}
+<script>
+    function setProgress(x){
+    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+    $('.fixed-top').css("background", style);
+    $('#progress_percent').html(x+'%');
+    }
+</script>
+{% endif %}
 <br>
 <style>
 #main-table{
@@ -41,6 +50,9 @@ document.onreadystatechange = function () {
             <div class="row">
             <div class="col-sm-12" id="app-description">
                 <div id="description" style="margin-right: 38px;text-align:justify">
+                
+{{app['id']}}
+{{current_task['id']}}
                 {% set desc_len = description|length %}
                 <font size="5" class="main-hearder-title">Description </font>
                     {{description|safe|truncate(500)}}

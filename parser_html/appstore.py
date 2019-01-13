@@ -165,6 +165,7 @@ def search():
 
 @app.route('/tasks/')
 def task():
+    print(current_task_details)
     return render_template('task.html', tasks=tasks,
                            current_task=current_task_details)
 
