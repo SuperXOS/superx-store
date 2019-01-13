@@ -9,109 +9,111 @@
         </style>
             <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
                 <img src="/static/icons/system-software-update.svg"
-                     class="icon update-icon pull-right" height="100px" style="margin-right: -32px;">
+                     class="icon update-icon" height="100px">
             </div>
-            <style>
-                @media (max-width: 999px) {
-                    .update-icon{
-                        padding-top: 63% !important;
-                    }
-                }
-            </style>
-            <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+        <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8 col-xl-8"
              style="padding-top: 15px;">
-                <font size="6" style="color:#333">System Upgrade</font>
-        {% elif icon == 'library' %}
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12"
-                     style="padding-top: 8px;">
-                <table width="425px" style="margin: 0 auto !important;">
-                <tr>
-                    <td>
-                        <img src="/static/icons/system-software-install.svg"
-                             class="icon update-icon pull-right"
-                             height="100px">
-                    </td>
-                    <td>
-                        <font size="6" style="color:#333">Software
-                            Library</font>
+            <font size="6" style="color:#333; margin-left: 45px">System
+                Upgrade</font>
+            {% elif icon == 'library' %}
+            <style>
+            .row-update{
+                margin: 0 auto !important;
+            }
+            </style>
+            <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 col-xl-1">
+                <img src="/static/icons/system-software-install.svg"
+                     class="icon update-icon" height="100px">
+            </div>
+            <div class="col-xs-7 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+                 style="padding-top: 15px;">
+                <font size="6" style="color:#333; margin-left: 45px">Software
+                    Library</font>
+
+                {% elif app['icon'] == None %}
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                    <img src="/static/icons/default.svg" class="icon pull-right" height="100px" width="100px">
+                </div>
+                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
+                     style="padding-top: 1px;">
+                    {% else %}
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                        {% set app_icon_list = app['icon'].split('/') %}
+                        {% set app_path =
+                        app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
+                        <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
+                             class="icon pull-right" height="100px" width="100px">
+                    </div>
+                    <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
+                         style="padding-top: 1px;">
+                        {% endif %}
+                        {% if sub_title == 'update' %}
                         <br>
-                        <font style="color:#333">Your applications from present
-                            and past at one place...</font>
-                    </td>
-                </tr>
-                </table>
-            </div>
-        {% elif app['icon'] == None %}
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                <img src="/static/icons/default.svg" class="icon pull-right" height="100px" width="100px">
-            </div>
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
-             style="padding-top: 1px;">
-        {% else %}
-            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                {% set app_icon_list = app['icon'].split('/') %}
-                {% set app_path =
-                app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
-                <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
-                    class="icon pull-right" height="100px" width="100px">
-            </div>
-            <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
-             style="padding-top: 1px;">
-        {% endif %}
-            {% if sub_title == 'update' %}
-            <br>
-            <font style="color:#333">For system stability you must upgrade your
-                system before installing any application...</font>
-            {% elif sub_title == 'library' %}
-            {% else %}
-            <font size="6" style="color:#333">{{app['name']}}</font>
-            <br>
-            <font style="color:#333">{{app['summery']}}</font>
-            <hr style="margin-top: 4px; margin-bottom: 4px;">
-            {% set rating_round = rating|round %}
-            <font size="5" style="color:#333"> {{rating}} </font>&nbsp;
-            {% for i in range(5) %}
-            {% if i < rating_round %}
-            <span class="fa fa-star checked"></span>
-            {% else %}
-            <span class="fa fa-star"></span>
-            {% endif %}
-            {% endfor %}
-            <br>
-            <font size="2" style="color:#999; line-height: 6px;">
-                {{rating_comments}} Ratings </font>
-            {% endif %}
-        </div>
-            {% if header_btn == 'update' %}
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
-                style="padding-top: 34px;">
-                    <a href="#" id="btn-update"
-                       class="btn btn-primary margin-7 pull-right" style="margin-right: -12px;">Install
-                        Updates</a>
-            {% elif header_btn == 'library' %}
-            {% else %}
-            <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3"
-                style="padding-top: 34px;">
-            {% if app['isInstalled'] == False %}
-            <div class="row" id="progress_percent" style="padding-right: 47%;">
-                <a href="#" id="btn-install"
-                   class="btn btn-primary margin-7 pull-right" style=""
-                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>
-            </div>
-            {% else %}
-            <div class="row" id="progress_percent" style="padding-right: 20%;">
-                <a href="#" id="btn-open"
-                   class="btn btn-success margin-7 pull-right" style=""
-                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Open</a>
-                <a href="#" id="btn-remove"
-                   class="btn btn-danger margin-7 pull-right" style=""
-                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Remove</a>
-            </div>
-            {% endif %}
-            {% endif %}
-        </div>
-    </div>
-    <style>
+                        <div style="padding-left: 45px">
+                            <font style="color:#333;">For system stability you
+                                must upgrade your system before installing any
+                                application...</font>
+                        </div>
+                        {% elif sub_title == 'library' %}
+                        <br>
+                        <div style="padding-left: 45px">
+                            <font style="color:#333;">All your applications
+                                from present and past at one place...</font>
+                        </div>
+                        {% else %}
+                        <font size="6" style="color:#333">{{app['name']}}</font>
+                        <br>
+                        <font style="color:#333">{{app['summery']}}</font>
+                        <hr style="margin-top: 4px; margin-bottom: 4px;">
+                        {% set rating_round = rating|round %}
+                        <font size="5" style="color:#333"> {{rating}} </font>&nbsp;
+                        {% for i in range(5) %}
+                        {% if i < rating_round %}
+                        <span class="fa fa-star checked"></span>
+                        {% else %}
+                        <span class="fa fa-star"></span>
+                        {% endif %}
+                        {% endfor %}
+                        <br>
+                        <font size="2" style="color:#999; line-height: 6px;">
+                            {{rating_comments}} Ratings </font>
+                        {% endif %}
+                    </div>
+                    {% if header_btn == 'library' %}
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                         style="padding-top: 34px;">
+                        <a href="#" id="btn-update"
+                           class="btn btn-primary margin-7">Login</a>
+                    </div>
+                    {% elif header_btn == 'update' %}
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
+                         style="padding-top: 34px;">
+                        <a href="#" id="btn-update"
+                           class="btn btn-primary margin-7">Install Updates</a>
+                        {% elif header_btn == 'library' %}
+                        {% else %}
+                        <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3"
+                             style="padding-top: 34px;">
+                            {% if app['isInstalled'] == False %}
+                            <div class="row" id="progress_percent" style="padding-right: 47%;">
+                                <a href="#" id="btn-install"
+                                   class="btn btn-primary margin-7 pull-right" style=""
+                                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>
+                            </div>
+                            {% else %}
+                            <div class="row" id="progress_percent" style="padding-right: 20%;">
+                                <a href="#" id="btn-open"
+                                   class="btn btn-success margin-7 pull-right" style=""
+                                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Open</a>
+                                <a href="#" id="btn-remove"
+                                   class="btn btn-danger margin-7 pull-right" style=""
+                                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Remove</a>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <style>
     .checked{
         color: #3daee9;
     }
@@ -123,7 +125,7 @@
     </style>
 </div>
 </div>
-    </div>
+        </div>
 </div>
 <script>
 $(document).ready(function() {
