@@ -42,7 +42,13 @@
                  class="icon" height="64px" width="64px">
             {% endif %}
         </div>
+        {% if summery == 'system' %}
+        <div class="col-sm-7 col-md-8 col-lg-8 summery-system" style="padding-left:0;">
+        {% elif summery == 'security' %}
+        <div class="col-sm-7 col-md-8 col-lg-8 summery-security" style="padding-left:0;">
+        {% else %}
         <div class="col-sm-7 col-md-8 col-lg-8 summery" style="padding-left:0;">
+        {% endif %}
             {% if static_sec == 'system-update' %}
             <font size="4" style="color:#555;">{{ app }}</font>
             {% elif static_sec == 'security-update' %}
@@ -77,6 +83,12 @@ border: 0.01px solid #7F7F7F;
 
 @media (max-width: 1199px){
     .summery{
+        padding-left: 28px !important;
+        }
+    .summery-system{
+        padding-left: 28px !important;
+        }
+    .summery-security{
         padding-left: 28px !important;
         }
         }

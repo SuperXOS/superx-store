@@ -28,15 +28,27 @@
         </div>
         <div id="sysUpdates" class="tab-pane fade">
             {% set static_sec = 'system-update' %}
-      {% for app in updates[1] %}
-            {% include 'app-bar.html' %}
-      {% endfor %}
+            {% set summery = 'system' %}
+            {% for app in updates[1] %}
+                    {% include 'app-bar.html' %}
+            {% endfor %}
+            <style>
+                .summery-system{
+                    padding-top: 16px !important;
+                }
+            </style>
         </div>
         <div id="secUpdates" class="tab-pane fade">
             {% set static_sec = 'security-update' %}
+            {% set summery = 'security' %}
             {% for app in updates[2] %}
-            {% include 'app-bar.html' %}
+                {% include 'app-bar.html' %}
             {% endfor %}
+            <style>
+            .summery-security{
+                padding-top: 16px !important;
+            }
+            </style>
         </div>
 
     </div>
