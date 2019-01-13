@@ -99,7 +99,7 @@
                    onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>
             </div>
             {% else %}
-            <div class="row" style="padding-right: 20%;">
+            <div class="row" id="progress_percent" style="padding-right: 20%;">
                 <a href="#" id="btn-open"
                    class="btn btn-success margin-7 pull-right" style=""
                    onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Open</a>

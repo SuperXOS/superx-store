@@ -28,15 +28,15 @@ document.onreadystatechange = function () {
 </style>
 <link href='/static/styles/appDetails.css' rel='stylesheet' type='text/css'>
 {% include 'header.html' %}
-{% if app['id'] == current_task['id'] %}
 <script>
-    function setProgress(x){
+    function setProgress(x, current_task_id){
+    if ('{{app["id"]}}' == current_task_id){
     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
     $('.fixed-top').css("background", style);
-    $('#progress_percent').html(x+'%');
+    $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
+    }
     }
 </script>
-{% endif %}
 <br>
 <style>
 #main-table{

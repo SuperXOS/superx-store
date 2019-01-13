@@ -25,7 +25,7 @@
 </div>
 </div>
 <script>
-    function setProgress(x){
+    function setProgress(x, current_task_id){
     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
     $('#current_task').css("background", style);
     $('.progress_percent').html(x+'%');

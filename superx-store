@@ -46,7 +46,7 @@ class InstallerThread(QThread):
         current_task = appstore.tasks.pop(0)
         appstore.current_task_details = current_task['details']
         transaction = current_task['transaction']
-
+        self.current_task_id = current_task['details']['id']
         # Check if the transaction is a aptdaemon transaction...
         if current_task['details']['pkg_type'] == 'apt':
             # This is not a PyQt signals and slots!
@@ -59,7 +59,7 @@ class InstallerThread(QThread):
             pass  # TODO
 
     def setProgress(self, trans, progress):
-        window.webEngine.page().runJavaScript('setProgress(%s)' % progress)
+        window.webEngine.page().runJavaScript('setProgress(%s, "%s")' % (progress, self.current_task_id))
 
     def transactionFinished(self, trans, exit_status):
         if exit_status == 'exit-success':
