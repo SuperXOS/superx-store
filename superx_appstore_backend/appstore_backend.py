@@ -129,7 +129,7 @@ class AppStoreBackend():
         return top_apps
 
     def listAppsInCategories(self, categories):
-        """Example self.listAppsinCategories(["Development", Audio, ...])"""
+        """Example self.listAppsInCategories(["Development", Audio, ...])"""
         category_apps = []
         for i in self.pool.get_components():
             if not len(list(set(i.get_categories()) & set(categories))) == 0:

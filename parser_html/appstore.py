@@ -57,8 +57,15 @@ def categories():
 
 @app.route('/category')
 def category():
+    category_list = []
     category = request.args.get('category')
-    return render_template('category.html', category=category)
+    category_list.append(category)
+    list_apps = backend_obj.listAppsInCategories(category_list)
+    
+    category_app_list = []
+    for app_id in list_apps:
+        category_app_list.append(backend_obj.appSummery(app_id))
+    return render_template('category.html', category=category, app_list=category_app_list)
 
 
 @app.route('/update')
