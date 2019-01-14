@@ -20,6 +20,7 @@
     <br>
 <div class="tab-content">
     <div id="installed" class="tab-pane fade in active">
+        {% set static_sec = 'library' %}
         {% set show_open_btn = True %}
         {% set show_remove_btn = True %}
         {% for app in installed %}
@@ -30,12 +31,14 @@
     </div>
 
     <div id="installedOthers" class="tab-pane fade in active">
+    {% set static_sec = 'library' %}
     {% for app in installedOthers %}
         {% include 'app-bar.html' %}
     {% endfor %}
     </div>
 
     <div id="previouslyInstalled" class="tab-pane fade in active">
+    {% set static_sec = 'library' %}
     {% for app in previouslyInstalled %}
         {% include 'app-bar.html' %}
     {% endfor %}

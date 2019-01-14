@@ -1,6 +1,10 @@
 <div class="panel panel-default" style="border-radius:0px;">
     {% if static_sec == 'current_task' %}
+    <a href="/details?id={{ current_task['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
     <div class="panel-body app-bar" id="current_task" style="padding: 9px;">
+    {% elif static_sec == 'task' %}
+    <a href="/details?id={{ task['details']['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+    <div class="panel-body app-bar" id="app" style="padding: 9px;">
     {% else %}
     <div class="panel-body app-bar" id="app" style="padding: 9px;">
     {% endif %}
@@ -38,8 +42,15 @@
             {% set app_list = app['icon'].split('/') %}
             {% set app_path = app['icon'].split(app_list[app_list|length - 1])
             %}
+            {% if static_sec == 'library' %}
+            <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none;">
             <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
                  class="icon" height="64px" width="64px">
+            </a>
+            {% else %}
+            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                 class="icon" height="64px" width="64px">
+            {% endif %}
             {% endif %}
         </div>
         {% if summery == 'system' %}
@@ -62,9 +73,17 @@
             <break></break>
             <font size="2" style="color:#555;">{{ task['details']['summery'] }}</font>
             {% else %}
+            {% if static_sec == 'library' %}
+            <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none;">
             <font size="4" style="color:#555;">{{ app['name'] }}</font>
             <break></break>
             <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+            </a>
+            {% else %}
+            <font size="4" style="color:#555;">{{ app['name'] }}</font>
+            <break></break>
+            <font size="2" style="color:#555;">{{ app['summery'] }}</font>
+            {% endif %}
             {% endif %}
         </div>
             <div class="col-sm-4 col-md-3 col-lg-3 library-btn"
@@ -73,6 +92,7 @@
             </div>
         </div>
     </div>
+    </a>
 </div>
 <style>
 .app-bar{
