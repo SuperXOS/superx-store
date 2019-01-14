@@ -43,13 +43,14 @@ class InstallerThread(QThread):
         QThread.__init__(self)
 
     def run(self):
+        print(appstore.tasks)
         current_task = appstore.tasks.pop(0)
         appstore.current_task_details = current_task['details']
         transaction = current_task['transaction']
         self.current_task_id = current_task['details']['id']
         # Check if the transaction is a aptdaemon transaction...
         if current_task['details']['pkg_type'] == 'apt':
-            transaction.set_debconf_frontend('Kde')
+            transaction.set_debconf_frontend('kde')
             # This is not a PyQt signals and slots!
             transaction.connect('progress-changed', self.setProgress)
             transaction.connect('finished', self.transactionFinished)
@@ -60,7 +61,7 @@ class InstallerThread(QThread):
             pass  # TODO
 
         elif current_task['details']['pkg_type'] == 'upgrade':
-            transaction.set_debconf_frontend('Kde')
+            transaction.set_debconf_frontend('kde')
             # This is not a PyQt signals and slots!
             transaction.connect('progress-changed', self.setProgress)
             transaction.connect('finished', self.transactionFinished)
@@ -68,6 +69,7 @@ class InstallerThread(QThread):
             window.actionTasks.setVisible(True)
 
     def setProgress(self, trans, progress):
+        print(progress)
         window.webEngine.page().runJavaScript('setProgress(%s, "%s")' %
                                               (progress, self.current_task_id))
 
@@ -283,6 +285,7 @@ class MainWindow(QMainWindow):
     def titleActions(self):
         '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
         action = self.webEngine.title()
+        print(action)
         if action.startswith('task: '):
             action = action.replace('task: ', '').split(",")
             action = {
@@ -307,16 +310,17 @@ class MainWindow(QMainWindow):
                 browser.startDetached('xdg-open %s/store-api/%s/%s' %
                                       (self.api_service, action['action'],
                                        action['id']))
-            elif action['action'] == 'upgrade':
-                self.processTasks((action['action']))
+            elif action['action'] == 'upgrading':
+                self.processTasks(action=action['action'],
+                                  p_type=action['p_type'])
 
     def processTasks(self, action, id=None, p_type=None):
         transaction = None
-        task_details = appstore.backend_obj.appSummery(id)
-        print(task_details)
-        task_details['pkg_type'] = p_type
-        task_details['action'] = action
+        task_details = None
         if p_type == 'apt':
+            task_details = appstore.backend_obj.appSummery(id)
+            task_details['pkg_type'] = p_type
+            task_details['action'] = action
             if action == 'installing':
                 transaction = self.apt.aptd.install_packages(
                     task_details['pkg'])
@@ -331,15 +335,14 @@ class MainWindow(QMainWindow):
                 transaction = self.apt.aptd.upgrade_system()
                 task_details = {
                     'id': 'upgrade',
+                    'pkg': 'upgrade',
                     'action': 'upgrading',
                     'pkg_type': 'upgrade'
                 }
 
         task = {'details': task_details, 'transaction': transaction}
-
-        print(task)
-
         appstore.tasks.append(task)
+        print(appstore.tasks)
 
     def urlProcess(self):
 
