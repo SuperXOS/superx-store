@@ -26,7 +26,7 @@
 </style>
 {% endif %}
 {% if show_pending == True %}
-<font size="4" style="color:#555;" class="pull-right library-action">{{ task['details']['action'] }} (Pending)</font>
+<font size="4" style="color:#555;" class="pull-right library-action">{{ task['details']['action']|capitalize }} (Pending)</font>
 
 <style>
 .progress_percent{
