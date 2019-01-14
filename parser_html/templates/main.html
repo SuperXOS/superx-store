@@ -71,7 +71,6 @@ document.onreadystatechange = function () {
 //        document.getElementById('contents').style.visibility="hidden";
   } else if (state == 'complete') {
       setTimeout(function(){
-         document.getElementById('interactive');
          document.getElementById('load').style.visibility="hidden";
       },1000);
   }
@@ -91,6 +90,16 @@ document.onreadystatechange = function () {
 {% block content %}
 
 {% endblock %}
+<script>
+function show(){
+document.getElementById('load').style.visibility="visible";
+setTimeout(hide, 3000); 
+}
+
+function hide(){
+document.getElementById('load').style.visibility="hidden";
+}
+</script>
 <script type="text/javascript" src="/static/js/appdetail.js"></script>
 
 </script>

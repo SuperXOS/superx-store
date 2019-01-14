@@ -24,7 +24,7 @@
                 {% if app['isInstalled'] == False %}
                 <a href="#" id="btn-install"
                    class="button btn{{loop.index}} btn btn-primary" style=""
-                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
+                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}'); show()">Install</a>
                 {% else %}
                 <a href="#" id="btn-remove"
                    class="button btn{{loop.index}} btn btn-success" style=""

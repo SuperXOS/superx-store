@@ -89,7 +89,7 @@
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
                          style="padding-top: 34px;">
                         <a href="#" id="btn-update"
-                           class="btn btn-primary margin-7" onclick="setTitle('upgrading', 'upgrade', 'upgrade', 'None', 'None')">Install Updates</a>
+                           class="btn btn-primary margin-7" onclick="setTitle('upgrading', 'upgrade', 'upgrade', 'None', 'None'); show()">Install Updates</a>
                         {% elif header_btn == 'library' %}
                         {% else %}
                         <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3 col-xl-3"
@@ -98,7 +98,7 @@
                             <div class="row" id="progress_percent" style="padding-right: 47%;">
                                 <a href="#" id="btn-install"
                                    class="btn btn-primary margin-7 pull-right" style=""
-                                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Install</a>
+                                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}'); show()">Install</a>
                             </div>
                             {% else %}
                             <div class="row" id="progress_percent" style="padding-right: 20%;">
@@ -108,7 +108,7 @@
                                    onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Open</a>
                                 <a href="#" id="btn-remove"
                                    class="btn btn-danger margin-7 pull-right" style=""
-                                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}')">Remove</a>
+                                   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}'); show()">Remove</a>
                             </div>
                             {% endif %}
                             {% endif %}
@@ -141,3 +141,4 @@ $(window).resize(function() {
   });
 });
 </script>
+

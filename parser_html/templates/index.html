@@ -110,7 +110,7 @@ alert = function(mesg) {console.trace(mesg)}
                 <a href="#" id="btn-install"
                    class="button top-btn{{loop.index}} btn btn-primary"
                    style=""
-                   onclick="setTitle('installing', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}')">Install</a>
+                   onclick="setTitle('installing', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}'); show()">Install</a>
                 {% else %}
                 <a href="#" id="btn-remove"
                    class="button top-btn{{loop.index}} btn btn-success"
@@ -198,7 +198,7 @@ alert = function(mesg) {console.trace(mesg)}
                 <a href="#" id="btn-install"
                    class="button editor-btn{{loop.index}} btn btn-primary"
                    style=""
-                   onclick="setTitle('installing', '{{editor_app['id']}}', 'apt', 'None', '{{editor_app['launchable']}}')">Install</a>
+                   onclick="setTitle('installing', '{{editor_app['id']}}', 'apt', 'None', '{{editor_app['launchable']}}'); show()">Install</a>
                 {% else %}
                 <a href="#" id="btn-remove"
                    class="button editor-btn{{loop.index}} btn btn-success"
