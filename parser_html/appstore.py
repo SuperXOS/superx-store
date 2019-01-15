@@ -15,6 +15,7 @@ backend_obj = AppStoreBackend()
 
 tasks = []
 current_task_details = None
+current_progress = None
 updates = None
 installed = []
 installedOthers = []

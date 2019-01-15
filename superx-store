@@ -69,6 +69,7 @@ class InstallerThread(QThread):
             window.actionTasks.setVisible(True)
 
     def setProgress(self, trans, progress):
+        appstore.current_progress = progress
         print(progress)
         window.webEngine.page().runJavaScript('setProgress(%s, "%s")' %
                                               (progress, self.current_task_id))
