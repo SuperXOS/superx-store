@@ -6,6 +6,11 @@ The SuperX Application Store is the centralized package managment and applicatio
 
     * Unreleased to public, planned release with SuperX 5.0 "Lamarr".
     * Debianization pending.
+    * Support for Flatpak is planned but not implemented.
+    * Can display application details using AppStream.
+    * Can install/remove applications using aptdaemon.
+    * Can display available updates using apt.
+    * Can upgrade the system, howver functionality is Currently limited to equivalent of apt-get upgrade.
 
 ## Building
 
