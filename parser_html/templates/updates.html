@@ -11,6 +11,15 @@
     background-color: transparent;
 }
 </style>
+<script>
+    function setProgress(x, current_task_id){
+    if (current_task_id == 'upgrade'){
+    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+    $('.fixed-top').css("background", style);
+    $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
+    }
+    }
+</script>
 <div class="container" style="padding-top: 180px;">
     <ul class="nav nav-tabs" style="background-color:#F0F0F0;">
         <li class="active hover10"><a data-toggle="tab" href="#appUpdates">Application Updates</a></li>

@@ -19,12 +19,16 @@
                  height="64px"
                  width="64px">
             {% elif static_sec == 'current_task' %}
-                {% if current_task['icon'] == None %}
-                    <img src="/static/icons/default.svg" class="icon" class="icon" height="64px" width="64px">
+                {% if current_task['id'] == 'upgrade' %}
+                    <img src="/static/icons/system-software-update.svg" class="icon" class="icon" height="64px" width="64px">
                 {% else %}
-                {% set app_list = current_task['icon'].split('/') %}
-                {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
-                    <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                    {% if current_task['icon'] == None %}
+                        <img src="/static/icons/default.svg" class="icon" class="icon" height="64px" width="64px">
+                    {% else %}
+                    {% set app_list = current_task['icon'].split('/') %}
+                    {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
+                        <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                    {% endif %}
                 {% endif %}
             {% elif static_sec == 'task' %}
                 {% if task['details']['icon'] == None %}
@@ -65,9 +69,15 @@
             {% elif static_sec == 'security-update' %}
             <font size="4" style="color:#555;">{{ app }}</font>
             {% elif static_sec == 'current_task' %}
-            <font size="4" style="color:#555;">{{ current_task['action']|capitalize }} {{ current_task['name'] }}</font>
-            <break></break>
-            <font size="2" style="color:#555;">{{ current_task['summery'] }}</font>
+                {% if current_task['id'] == 'upgrade' %}
+                <font size="4" style="color:#555;">Upgrading</font>
+                <break></break>
+                <font size="2" style="color:#555;">System is upgrading. Don't shutdown your PC.</font>
+                {% else %}
+                <font size="4" style="color:#555;">{{ current_task['action']|capitalize }} {{ current_task['name'] }}</font>
+                <break></break>
+                <font size="2" style="color:#555;">{{ current_task['summery'] }}</font>
+                {% endif %}
             {% elif static_sec == 'task' %}
             <font size="4" style="color:#555;">{{ task['details']['name'] }}</font>
             <break></break>
