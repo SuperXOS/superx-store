@@ -19,6 +19,18 @@
     </ul>
     <br>
 <div class="tab-content">
+    <input class="form-control" id="myInputInstalled" type="text" placeholder="Search..">
+    <br>
+    <script>
+    $(document).ready(function(){
+    $("#myInputInstalled").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#installed #panel").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+    });
+    </script>
     <div id="installed" class="tab-pane fade in active">
         {% set static_sec = 'library' %}
         {% set show_open_btn = True %}
@@ -50,5 +62,4 @@
     <a href="#" style="padding-right: 10px">Delete my account and data</a>
 </div>
 </div>
-
 {% endblock %}
