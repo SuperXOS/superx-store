@@ -107,8 +107,8 @@ class WebUiThread(QThread):
             break
 
     # We need this sleep time otherwise initial value (default) of self.port is
-    # passed to the main thread. This results in QWebEngine loading URL with
-    # wrong port. The number 0.12 is completely arbitrary, fast enough for
+    # not passed to the main thread. This results in QWebEngine loading URL
+    # with wrong port. The number 0.12 is completely arbitrary, fast enough for
     # humans to see, slow enough for machine to process.
 
     def getPort(self):
