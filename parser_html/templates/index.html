@@ -108,7 +108,7 @@ alert = function(mesg) {console.trace(mesg)}
             <div>
                 {% if top_app['isInstalled'] == False %}
                 <a href="#" id="btn-install"
-                   class="button top-btn{{loop.index}} btn btn-primary"
+                   class="button top-btn{{loop.index}} btn btn-primary btn-install"
                    style=""
                    onclick="setTitle('installing', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}'); show()">Install</a>
                 {% else %}
@@ -196,7 +196,7 @@ alert = function(mesg) {console.trace(mesg)}
             <div>
                 {% if editor_app['isInstalled'] == False %}
                 <a href="#" id="btn-install"
-                   class="button editor-btn{{loop.index}} btn btn-primary"
+                   class="button editor-btn{{loop.index}} btn btn-primary btn-install"
                    style=""
                    onclick="setTitle('installing', '{{editor_app['id']}}', 'apt', 'None', '{{editor_app['launchable']}}'); show()">Install</a>
                 {% else %}
