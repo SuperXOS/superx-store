@@ -50,9 +50,6 @@ document.onreadystatechange = function () {
             <div class="row">
             <div class="col-sm-12" id="app-description">
                 <div id="description" style="margin-right: 38px;text-align:justify">
-                
-{{app['id']}}
-{{current_task['id']}}
                 {% set desc_len = description|length %}
                 <font size="5" class="main-hearder-title">Description </font>
                     {{description|safe|truncate(500)}}
