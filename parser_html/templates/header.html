@@ -97,7 +97,7 @@
                             {% if app['isInstalled'] == False %}
                             <div class="row" id="progress_percent" style="padding-right: 47%;">
                                 <a href="#" id="btn-install"
-                                   class="btn btn-primary margin-7 pull-right" style=""
+                                   class="btn btn-primary margin-7 pull-right btn-install" style=""
                                    onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable'][0]}}'); show()">Install</a>
                             </div>
                             {% else %}
