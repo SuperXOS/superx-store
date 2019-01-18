@@ -121,5 +121,20 @@ $(".btn-install").css("opacity", "0");
 $(".btn-install").css("background-color", "#bce1f5");
 }
 </script>
+{% if update_len > 0 %}
+<script>
+
+$(document).ready(function(){
+disabled();
+});
+</script>
+{% endif %}
+<script>
+function disabled(){
+$("#btn-install").addClass("disabled");
+$("#btn-install").css("opacity", "0");
+$("#btn-install").css("background-color", "#bce1f5");
+}
+</script>
 </body>
 </html>

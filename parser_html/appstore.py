@@ -191,5 +191,17 @@ def updates():
     return render_template('updates.html',
                            updates=updates)
 
+@app.context_processor
+def context_processor():
+    print('updates=', type(updates))
+    total_len = 0
+    if isinstance(updates,(tuple,)):
+        for update in updates:
+            total_len = total_len + len(update)
+        print(total_len)
+    return dict(update_len=total_len)
+
+
 if __name__ == '__main__':
+    sleep(.5)
     app.run(host='0.0.0.0', debug=True)
