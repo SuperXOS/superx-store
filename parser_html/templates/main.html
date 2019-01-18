@@ -116,15 +116,15 @@ document.getElementById('load').style.visibility="hidden";
 </script>
 <script>
 function disabled(){
-$(".btn-install").addClass("disabled");
-$(".btn-install-header").addClass("disabled");
+$(".btn-install").removeClass("disabled");
+$(".btn-install-header").removeClass("disabled");
 $(".btn-install").css("opacity", "0");
-$(".btn-install").css("background-color", "#bce1f5");
-$(".btn-install-header").css("background-color", "#bce1f5");
+// $(".btn-install").css("background-color", "#bce1f5");
+// $(".btn-install-header").css("background-color", "#bce1f5");
 }
 </script>
 
-{% if update_len > 0 %}
+{% if update_len == 0 %}
     <script>
     disabled();
     </script>
