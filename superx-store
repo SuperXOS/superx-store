@@ -33,6 +33,7 @@ class checkUpdateInstalledThread(QThread):
             window.actionUpdates.setIcon(QIcon.fromTheme('update-low'))
             window.actionUpdates.setToolTip('Updates are available...')
         else:
+            appstore.complete_update = True
             window.webEngine.page().runJavaScript('buttonEnabled()')
             
 

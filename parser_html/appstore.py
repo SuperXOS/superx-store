@@ -20,6 +20,7 @@ updates = None
 installed = []
 installedOthers = []
 installedPreviously = []
+complete_update = False
 
 @app.route('/')
 def index():

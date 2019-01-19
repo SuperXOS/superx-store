@@ -115,18 +115,19 @@ document.getElementById('load').style.visibility="hidden";
     }
 </script>
 <script>
-function disabled(){
+$(".btn-install").css("opacity", "0");
+function buttonEnabled(){
+alert('deep');
 $(".btn-install").removeClass("disabled");
 $(".btn-install-header").removeClass("disabled");
-$(".btn-install").css("opacity", "0");
+// $(".btn-install").css("opacity", "0");
 // $(".btn-install").css("background-color", "#bce1f5");
 // $(".btn-install-header").css("background-color", "#bce1f5");
 }
 </script>
-
-{% if update_len == 0 %}
+{% if update_len ==0 and complete_update%}
     <script>
-    disabled();
+    buttonEnabled();
     </script>
 {% endif %}
 </body>
