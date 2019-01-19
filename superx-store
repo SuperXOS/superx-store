@@ -29,11 +29,12 @@ class checkUpdateInstalledThread(QThread):
             window.actionUpdates.setIcon(QIcon.fromTheme('update-high'))
             window.actionUpdates.setToolTip(
                 'Security updates are available...')
-            window.webEngine.page().runJavaScript('disabled()')
         elif len(appstore.updates[0]) != 0 or len(appstore.updates[1]) != 0:
             window.actionUpdates.setIcon(QIcon.fromTheme('update-low'))
             window.actionUpdates.setToolTip('Updates are available...')
-            window.webEngine.page().runJavaScript('disabled()')
+        else:
+            window.webEngine.page().runJavaScript('buttonEnabled()')
+            
 
         appstore.installed = appstore.backend_obj.listInstalled()
 
