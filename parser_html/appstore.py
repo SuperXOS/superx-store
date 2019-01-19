@@ -22,6 +22,7 @@ installedOthers = []
 installedPreviously = []
 complete_update = False
 
+
 @app.route('/')
 def index():
     cwd = os.getcwd()
@@ -133,9 +134,7 @@ def detail():
     for app_id in app_id_list:
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
-    
-    print("related_app_list")
-    print(related_app_list)
+
     return render_template('appdetails.html',
                            app=datas, addons=addons,
                            description = new_string,
@@ -194,13 +193,15 @@ def updates():
 
 @app.context_processor
 def context_processor():
-    print('updates=', type(updates))
     total_len = 0
     if isinstance(updates,(tuple,)):
         for update in updates:
             total_len = total_len + len(update)
         print(total_len)
-    return dict(update_len=total_len)
+    if current_task_details == None:
+        return dict(update_len=total_len, current_progress = current_progress, current_task_id = None)
+    else:
+        return dict(update_len=total_len, current_progress = current_progress, current_task_id = current_task_details['id'])
 
 
 if __name__ == '__main__':

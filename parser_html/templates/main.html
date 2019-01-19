@@ -72,9 +72,17 @@ document.onreadystatechange = function () {
   } else if (state == 'complete') {
       setTimeout(function(){
          document.getElementById('load').style.visibility="hidden";
+         {% if current_progress!= None and current_task_id != None %}
+         {% endif %}
       },1000);
   }
 }
+
+
+$(document).ready(function() {
+    setProgress({{current_progress}}, "{{current_task_id}}");
+});
+
 </script>
 </head>
 <body ondragstart="return false;" ondrop="return false;">
