@@ -230,3 +230,7 @@ a:hover {
     overflow: hidden;
     text-overflow: ellipsis; 
 }
+
+.hover10:hover{
+    background-color: transparent;
+}
