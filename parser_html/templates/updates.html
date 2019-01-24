@@ -26,11 +26,16 @@
     <br>
     <div class="tab-content" style="padding-bottom: 30px;">
         <div id="appUpdates" class="tab-pane fade in active">
-            {% for app in updates[0] %}
-            {% include 'app-bar.html' %}
-            {% endfor %}
+            {% if updates[0] != [] %}
+                {% for app in updates[0] %}
+                {% include 'app-bar.html' %}
+                {% endfor %}
+            {% else %}
+                <img class="notFoundGIF img-responsive" src='/static/gif/not_found.gif'/>
+            {% endif %}
         </div>
         <div id="sysUpdates" class="tab-pane fade">
+            {% if updates[1] != [] %}
             {% set static_sec = 'system-update' %}
             {% set summery = 'system' %}
             {% for app in updates[1] %}
@@ -41,18 +46,25 @@
                     padding-top: 16px !important;
                 }
             </style>
+             {% else %}
+                <img class="notFoundGIF img-responsive" src='/static/gif/not_found.gif'/>
+            {% endif %}
         </div>
         <div id="secUpdates" class="tab-pane fade">
-            {% set static_sec = 'security-update' %}
-            {% set summery = 'security' %}
-            {% for app in updates[2] %}
-                {% include 'app-bar.html' %}
-            {% endfor %}
-            <style>
-            .summery-security{
-                padding-top: 16px !important;
-            }
-            </style>
+            {% if updates[0] != [] %}
+                {% set static_sec = 'security-update' %}
+                {% set summery = 'security' %}
+                {% for app in updates[2] %}
+                    {% include 'app-bar.html' %}
+                {% endfor %}
+                <style>
+                .summery-security{
+                    padding-top: 16px !important;
+                }
+                </style>
+            {% else %}
+                <img class="notFoundGIF img-responsive" src='/static/gif/not_found.gif'/>
+            {% endif %}
         </div>
 
     </div>
@@ -81,5 +93,8 @@ break{
     padding-top: 14px;
 }
 
+.notFoundGIF{
+    margin: 0 auto;
+}
 </style>
 {% endblock %}
