@@ -38,17 +38,21 @@
     </div>
 
     <div id="installedOthers" class="tab-pane fade in active">
-    {% set static_sec = 'library' %}
-    {% for app in installedOthers %}
-        {% include 'app-bar.html' %}
-    {% endfor %}
+    {% if installedOthers != []%}
+        {% set static_sec = 'library' %}
+        {% for app in installedOthers %}
+            {% include 'app-bar.html' %}
+        {% endfor %}
+    {% endif %}
     </div>
 
     <div id="previouslyInstalled" class="tab-pane fade in active">
-    {% set static_sec = 'library' %}
-    {% for app in previouslyInstalled %}
-        {% include 'app-bar.html' %}
-    {% endfor %}
+    {% if previouslyInstalled != []%}
+        {% set static_sec = 'library' %}
+        {% for app in previouslyInstalled %}
+            {% include 'app-bar.html' %}
+        {% endfor %}
+    {% endif %}
     </div>
 </div>
 
@@ -57,4 +61,10 @@
     <a href="#" style="padding-right: 10px">Delete my account and data</a>
 </div>
 </div>
+
+<style>
+    .notFoundGIF{
+        margin: 0 auto;
+    }
+</style>
 {% endblock %}
