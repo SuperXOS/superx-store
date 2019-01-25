@@ -11,7 +11,7 @@
     {% set static_sec = 'current_task' %}
     {% include 'app-bar.html' %}
   {% else %}
-  No Current Task
+  <img class="notFoundGIF img-responsive" src='/static/gif/not_found.gif'/>
   {% endif %}
   
     {% if task != [] %}
@@ -34,6 +34,12 @@
     $('.progress_percent').html(x+'%');
     }
 </script>
+
+<style>
+.notFoundGIF{
+    margin: 0 auto;
+}
+</style>
 {% endblock %}
 
 
