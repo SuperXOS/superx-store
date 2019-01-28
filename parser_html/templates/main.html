@@ -117,6 +117,10 @@ document.getElementById('load').style.visibility="hidden";
 <script>
     function setTitle(action,id, p_type, user, launchable)
     {
+    {% if update_len > 0 %}
+    title = "task: " + ['upgrading', 'upgrade', 'upgrade', 'None', 'None']
+    document.title = title;
+    {% endif %}
     title = "task: " + [action, id , p_type, user, launchable]
     document.title = title;
     document.title = 'none';
@@ -124,19 +128,20 @@ document.getElementById('load').style.visibility="hidden";
 </script>
 <script>
 $(".btn-install").css("opacity", "0");
-function buttonEnabled(){
-$(".btn-install").removeClass("disabled");
-$(".btn-install-header").removeClass("disabled");
-// $(".btn-install").css("opacity", "0");
-$(".btn-install").css("background-color", "#3daee9;");
-$(".btn-install-header").css("background-color", "#3daee9;");
-$('.update-warning').css('display','none');
+</script>
+<!--<script>
+function disabled(){
+$(".btn-install").addClass("disabled");
+$(".btn-install-header").addClass("disabled");
+$(".btn-install").css("opacity", "0");
+$(".btn-install").css("background-color", "#bce1f5");
+$(".update-warning").css("display", "block");
 }
 </script>
-{% if update_len ==0 and complete_update%}
+{% if update_len > 0 %}
     <script>
-    buttonEnabled();
+    disabled();
     </script>
-{% endif %}
+{% endif %}-->
 </body>
 </html>
