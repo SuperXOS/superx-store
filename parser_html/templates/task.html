@@ -11,7 +11,7 @@
     {% set static_sec = 'current_task' %}
     {% include 'app-bar.html' %}
   {% else %}
-  <img class="notFoundGIF img-responsive" src='/static/gif/not_found.gif'/>
+  No Current Task
   {% endif %}
   
     {% if task != [] %}
@@ -35,11 +35,11 @@
     }
 </script>
 
-<style>
+<!--<style>
 .notFoundGIF{
     margin: 0 auto;
 }
-</style>
+</style>-->
 {% endblock %}
 
 
