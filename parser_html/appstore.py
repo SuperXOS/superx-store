@@ -135,9 +135,13 @@ def detail():
         if app_id != id:
             related_app_list.append(backend_obj.appSummery(app_id))
     
-    print(related_app_list)
-    
-    
+    ratings = {'avg_rating': '4.2', 'total_rating': '499', '5*': '70', '4*': '60', '3*': '50', '2*': '40', '1*': '30',
+              'reviews': [
+                          {'title': 'Lorem Ipsum is simply dummy text ', 'user': 'Lorem Ipsum', 'rating': '3', 'time': '1 year ago', 'review': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."},
+                          
+                          {'title': 'Lorem Ipsum is simply dummy text ', 'user': 'Lorem Ipsum', 'rating': '3', 'time': '2 year ago', 'review': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
+                          ]
+              } 
     return render_template('appdetails.html',
                            app=datas, addons=addons,
                            description = new_string,
@@ -145,7 +149,8 @@ def detail():
                            rating=3.1,
                            rating_comments=893,
                            category = categories_list,
-                           current_task = current_task_details
+                           current_task = current_task_details,
+                           ratings=ratings,
                            )
 
 
