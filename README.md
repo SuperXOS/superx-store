@@ -31,6 +31,7 @@ Install the following packages using apt (don't use pip etc.):
     * gir1.2-appstream-1.0
     * python3-aptdaemon
     * python3-apt
+    * python3-pyqt5.qtwebengine
     
 ## Usage
     * Make superx-store executable: chmod +x ./superx-store
