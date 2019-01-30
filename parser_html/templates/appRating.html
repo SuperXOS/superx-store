@@ -1,5 +1,12 @@
 <div style="width: 97%;">
-<font size="5" class="main-hearder-title">Rating & Reviews </font>
+<div class="row">
+    <div class="col-sm-8 col-md-8 col-lg-8">
+        <font size="5" class="main-hearder-title">Rating & Reviews </font>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4 pull-right">
+        <a href="#" id="see_more" class="pull-right"> <font size="5" class="main-hearder-title"> See More </font></a>
+    </div>
+</div>
 <br>
 <!--<font size="3" class="main-hearder-title"><i>No reviews done yet. </i></font>
 <a style="text-decoration:none;"> <font size="2" style="cursor:pointer"> Write your own reviews </font></a>-->
@@ -101,7 +108,7 @@
         </table>
     </div>
 </div>
-<hr style="margin-top: 2px;margin-bottom: 2px;">
+<hr style="margin-top: 5px;margin-bottom: 5px;">
 
 <div class="row">
     <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
@@ -144,16 +151,16 @@
             <table width="100%">
                 <tr>
                     <td width="60%" align="left">
-                        <font size="1"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ rating['title'] }} </font></br>
-                        <font size="1"><i class="fa fa-star" aria-hidden="true"></i>
+                        <b><font size="3"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ rating['title'] }} </font></b></br>
+                        <font size="2"><i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i>
                         <i class="fa fa-star" aria-hidden="true"></i></font>
                     <td>
-                    <td width="60%" align="right">
-                        <font size="1"> {{ rating['user'] }} </font></br>
-                        <font size="1"> {{ rating['time'] }} </font>
+                    <td width="60%" align="right" valign="top" style="padding-top: 3px;">
+                        <b><font size="2"> {{ rating['user'] }} </font></b></br>
+                        <font size="2"> {{ rating['time'] }} </font>
                     <td>
                 </tr>
             </table>
@@ -162,30 +169,7 @@
         </div>
     </div>
     {% endfor %}
-    <!--<div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
-        <div class="review-details">
-            <div class="review-details-inner">
-                <table width="100%">
-                    <tr>
-                        <td width="60%" align="left">
-                            <font size="1"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Lorem Ipsum is simply dummy text </font></br>
-                            <font size="1"><i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i></font>
-                        <td>
-                        <td width="60%" align="right">
-                            <font size="1"> Lorem Ipsum </font></br>
-                            <font size="1"> 1 Year Ago </font>
-                        <td>
-                    </tr>
-                </table>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            </div>
-        </div>
-    </div>-->
-</div>
+    </div>
 </div>
 <div>
 <hr>
@@ -194,6 +178,16 @@
 .progress {
     height: 6px;
     margin-bottom: 1px;
+    -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0) !important;
     }
-</style>
+    
+    .review-details{
+        background-color: #3baee91a;
+    }
+    
+    .review-details-inner{
+        width:100%;
+        text-align: justify;
+        padding: 15px;
+    }
 </style>

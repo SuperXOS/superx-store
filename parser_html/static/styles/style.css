@@ -238,3 +238,13 @@ a:hover {
 .notFoundGIF{
         margin: 0 auto;
     }
+
+#see_more{
+  margin-top:1px;
+  margin-left: 14px;
+  text-decoration:none;
+}
+
+#see_more:hover{
+  color: #555;
+}
