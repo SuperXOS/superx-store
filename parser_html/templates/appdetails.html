@@ -27,6 +27,7 @@ document.onreadystatechange = function () {
 <style>
 </style>
 <link href='/static/styles/appDetails.css' rel='stylesheet' type='text/css'>
+<link href="/static/star-rating.css" rel="stylesheet" type="text/css" media="all" />
 {% include 'header.html' %}
 <script>
     function setProgress(x, current_task_id){
@@ -86,7 +87,7 @@ document.onreadystatechange = function () {
             <br>
             <hr>
             
-            {% include 'appRating.html' %}
+            {% include 'appDetailsRating.html' %}
             
             <font size="5" class="main-hearder-title">More from this category</font>
             <br>
