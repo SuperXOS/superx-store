@@ -87,6 +87,7 @@ class InstallerThread(QThread):
         appstore.current_task_details = None
         appstore.updates = appstore.backend_obj.listUpdates()
         appstore.installed = appstore.backend_obj.listInstalled()
+        sleep(0.20)
         window.webEngine.reload()
 
 class WebUiThread(QThread):
