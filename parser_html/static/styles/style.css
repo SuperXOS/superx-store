@@ -248,3 +248,7 @@ a:hover {
 #see_more:hover{
   color: #555;
 }
+
+.app-box{
+    max-width: 225px;
+}
