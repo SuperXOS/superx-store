@@ -202,6 +202,11 @@ def updates():
     return render_template('updates.html',
                            updates=updates)
 
+
+@app.route('/login/')
+def login():
+    return render_template('login.html')
+
 @app.context_processor
 def context_processor():
     total_len = 0
