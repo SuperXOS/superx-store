@@ -64,26 +64,13 @@
                         <font size="6" style="color:#333">{{app['name']}}</font>
                         <br>
                         <font style="color:#333">{{app['summery']}}</font>
-                        <hr style="margin-top: 4px; margin-bottom: 4px;">
-                        {% set rating_round = rating|round %}
-                        <font size="5" style="color:#333"> {{rating}} </font>&nbsp;
-                        {% for i in range(5) %}
-                        {% if i < rating_round %}
-                        <span class="fa fa-star checked"></span>
-                        {% else %}
-                        <span class="fa fa-star"></span>
-                        {% endif %}
-                        {% endfor %}
-                        <br>
-                        <font size="2" style="color:#999; line-height: 6px;">
-                            {{rating_comments}} Ratings </font>
                         {% endif %}
                     </div>
                     {% if header_btn == 'library' %}
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3"
                          style="padding-top: 34px;">
-                        <a href="#" id="btn-update" onclick="show_login()"
-                           class="btn btn-primary margin-7">Login to Sync</a>
+                        <!--<a href="#" id="btn-update" onclick="show_login()"
+                           class="btn btn-primary margin-7">Login to Sync</a>-->
                     </div>
                     {% elif header_btn == 'update' %}
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3" id="progress_percent"

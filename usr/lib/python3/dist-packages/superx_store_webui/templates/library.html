@@ -9,8 +9,8 @@
 <div class="container" style="padding-top: 180px">
     <ul class="nav nav-tabs" style="background-color:#F0F0F0">
         <li class="active hover10"><a data-toggle="tab" href="#installed">Installed on this Computer</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#installedOthers">Installed on your other Computers</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#previouslyInstalled">Previously Installed</a></li>
+<!--        <li class="hover10"><a data-toggle="tab" href="#installedOthers">Installed on your other Computers</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#previouslyInstalled">Previously Installed</a></li>-->
     </ul>
     <br>
 <div class="tab-content">
@@ -37,7 +37,7 @@
         {% endfor %}
     </div>
 
-    <div id="installedOthers" class="tab-pane fade in active">
+    <!--<div id="installedOthers" class="tab-pane fade in active">
     {% if installedOthers != []%}
         {% set static_sec = 'library' %}
         {% for app in installedOthers %}
@@ -53,7 +53,7 @@
             {% include 'app-bar.html' %}
         {% endfor %}
     {% endif %}
-    </div>
+    </div>-->
 </div>
 
 <div>
