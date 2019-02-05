@@ -1,0 +1,15 @@
+[Desktop Entry]
+Categories=Qt;KDE;System;
+Comment[en_IN]=Modern Application Store for SuperX.
+Comment=Modern Application Store for SuperX.
+Exec=superx-store
+GenericName[en_IN]=SuperX AppStore
+GenericName=SuperX AppStore
+Icon=superx-store.png
+Name[en_IN]=SuperX AppStore
+Name=SuperX AppStore
+NoDisplay=true
+StartupNotify=true
+Terminal=false
+Type=Application
+X-KDE-SubstituteUID=false

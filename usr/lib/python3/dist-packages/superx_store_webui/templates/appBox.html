@@ -1,0 +1,69 @@
+{% for app in app_list  %}
+    <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}" style="margin-top: 35px;">
+            <div class="app-color{{loop.index}} app-box">
+            </div>
+            <div class="app-icon" align="center">
+                {% if app['icon'] == None %}
+                <img id="icon_apps{{loop.index}}"
+                     src="/static/icons/default.svg" height="64px">
+                {% else %}
+                    {% set app_icon_list = app['icon'].split('/') %}
+                    {% set app_path = app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
+                <img id="icon_apps{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
+                     height="64px">
+                {% endif %}
+            </div>
+            <div class="app-summery app-summery{{loop.index}} truncate" align="center">
+                {{app['name']}}
+                <br>
+                {{app['summery']}}
+            </div>
+            <div>
+                {% if app['isInstalled'] == False %}
+                <a href="#" id="btn-install"
+                   class="button btn{{loop.index}} btn btn-primary btn-install" style=""
+                   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}'); show()">Install</a>
+                {% else %}
+                <a href="#" id="btn-remove"
+                   class="button btn{{loop.index}} btn btn-success" style=""
+                   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
+                {% endif %}
+            </div>
+            <script>
+                img = document.querySelector("#icon_apps{{loop.index}}");
+                vibrant = new Vibrant(img);
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
+                    {
+                    $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.app-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
+                $(".hover-box{{loop.index}}").hover(function(){
+                    $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    }, function(){
+                    $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                });
+
+                function getRandomColor() {
+                    var letters = 'BCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++ ) {
+                        color += letters[Math.floor(Math.random() * letters.length)];
+                    }
+                    return color;
+                }
+
+            </script>
+        </div>
+    </a>
+{% endfor %}

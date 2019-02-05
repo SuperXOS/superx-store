@@ -1,0 +1,242 @@
+<div style="width: 97%;">
+<div class="row">
+    <div class="col-sm-8 col-md-8 col-lg-8">
+        <font size="5" class="main-hearder-title">Rating & Reviews </font>
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4 pull-right">
+        <a href="#" id="see_more" class="pull-right"> <font size="5" class="main-hearder-title"> See More </font></a>
+    </div>
+</div>
+<br>
+<!--<font size="3" class="main-hearder-title"><i>No reviews done yet. </i></font>
+<a style="text-decoration:none;"> <font size="2" style="cursor:pointer"> Write your own reviews </font></a>-->
+
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <table width="100%">
+            <tr>
+                <td width="100%" align="left" valign="bottom" style="padding-top: 12px;">
+                            <font size="8"> {{ ratings['avg_rating'] }} </font>
+                            <font size="4"> out of {{ ratings['total_rating'] }} </font>
+                            <font size="4" class="pull-right" style="margin-top: 31px;"> 499 Ratings </font>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <table width="100%">
+            <tr>
+                <td width="70px" align="left" valign="bottom">
+                            <font size="1">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </font>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                        aria-valuemin="0" aria-valuemax="100" style="width:{{ ratings['5*'] }}%">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70px" align="left" valign="bottom">
+                            <font size="1">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </font>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="60"
+                        aria-valuemin="0" aria-valuemax="100" style="width:{{ ratings['4*'] }}%">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70px" align="left" valign="bottom">
+                            <font size="1">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </font>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="50"
+                        aria-valuemin="0" aria-valuemax="100" style="width:{{ ratings['3*'] }}%">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70px" align="left" valign="bottom">
+                            <font size="1">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </font>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="40"
+                        aria-valuemin="0" aria-valuemax="100" style="width:{{ ratings['2*'] }}%">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="70px" align="left" valign="bottom">
+                            <font size="1">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                            </font>
+                </td>
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="30"
+                        aria-valuemin="0" aria-valuemax="100" style="width:{{ ratings['1*'] }}%">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<hr style="margin-top: 5px;margin-bottom: 5px;">
+
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <table width="100%">
+            <tr>
+                <td width="50%" align="left" valign="bottom">
+                    <font size="5"> Click to Rate </font>
+                <td>
+                <td width="50%" align="right" valign="bottom">
+                    <table>
+                        <tr>
+                            <fieldset class="rating pull-right">
+                                <input type="radio" id="star5" name="rating" value="5" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star5')"/><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                                <input type="radio" id="star4half" name="rating" value="4 and a half" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star4half')"/><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+                                <input type="radio" id="star4" name="rating" value="4" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star4')"/><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                                <input type="radio" id="star3half" name="rating" value="3 and a half" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star3half')"/><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                                <input type="radio" id="star3" name="rating" value="3" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star3')"/><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                                <input type="radio" id="star2half" name="rating" value="2 and a half" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star2half')"/><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+                                <input type="radio" id="star2" name="rating" value="2" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star2')"/><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                                <input type="radio" id="star1half" name="rating" value="1 and a half" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star1half')"/><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                                <input type="radio" id="star1" name="rating" value="1" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.star1')"/><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                                <input type="radio" id="starhalf" name="rating" value="half" data-toggle="modal" data-target="#myModalRating" onclick="set_rating('.starhalf')"/><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+                            </fieldset>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <table width="100%">
+            <tr>
+                <td width="100%" align="left" valign="bottom">
+                    <font size="5"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> &nbsp;Write a review </font>
+                <td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br>
+
+<div class="row">
+    {% for rating in ratings['reviews'] %}
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+        <div class="review-details">
+            <div class="review-details-inner">
+            <table width="100%">
+                <tr>
+                    <td width="60%" align="left">
+                        <b><font size="3"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{ rating['title'] }} </font></b></br>
+                        <font size="2"><i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                        <i class="fa fa-star" aria-hidden="true"></i></font>
+                    <td>
+                    <td width="60%" align="right" valign="top" style="padding-top: 3px;">
+                        <b><font size="2"> {{ rating['user'] }} </font></b></br>
+                        <font size="2"> {{ rating['time'] }} </font>
+                    <td>
+                </tr>
+            </table>
+                {{ rating['review'] }}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+</div>
+<div>
+<hr>
+
+<style>
+.progress {
+    height: 6px;
+    margin-bottom: 1px;
+    -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0) !important;
+    }
+    
+    .review-details{
+        background-color: #3baee91a;
+    }
+    
+    .review-details-inner{
+        width:100%;
+        text-align: justify;
+        padding: 15px;
+    }
+</style>
+
+<div id="myModalRating" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <div style="height:32px;">
+            <fieldset class="rating">
+                <input type="radio" id="star5" class="star5" name="rating" value="5"/><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+                <input type="radio" id="star4half" class="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+                <input type="radio" id="star4" class="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+                <input type="radio" id="star3half" class="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+                <input type="radio" id="star3" class="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+                <input type="radio" id="star2half" class="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+                <input type="radio" id="star2" class="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+                <input type="radio" id="star1half" class="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+                <input type="radio" id="star1" class="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+                <input type="radio" id="starhalf" class="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+            </fieldset>
+        </div>
+        <textarea rows="4" cols="50">
+        </textarea>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+    function set_rating(class_name){
+        $(class_name). prop("checked", true);
+        }
+</script>

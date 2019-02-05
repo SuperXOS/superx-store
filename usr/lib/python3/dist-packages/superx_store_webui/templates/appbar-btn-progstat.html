@@ -1,0 +1,39 @@
+{% if show_install_btn == True %}
+<a href="#" id="btn-remove"
+   class="btn btn-info pull-right" style="margin: 5px;"
+   onclick="setTitle('installing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Install</a>
+{% endif %}
+{% if show_open_btn == True %}
+<a href="#" id="btn-remove"
+   class="btn btn-success pull-right" style="margin: 5px;"
+   onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
+{% endif %}
+{% if show_remove_btn == True %}
+<a href="#" id="btn-remove"
+   class="btn btn-danger pull-right" style="margin: 5px;"
+   onclick="setTitle('removing', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Remove</a>
+{% endif %}
+{% if show_progress == True %}
+<font size="4" style="color:#555;" class="pull-right progress_percent">0%</font>
+
+<style>
+.progress_percent{
+    padding: 18px !important;
+    }
+.library-btn{
+    padding: 0px !important;
+    }
+</style>
+{% endif %}
+{% if show_pending == True %}
+<font size="4" style="color:#555;" class="pull-right library-action">{{ task['details']['action']|capitalize }} (Pending)</font>
+
+<style>
+.progress_percent{
+    padding: 18px !important;
+    }
+.library-action{
+    padding: 15px !important;
+    }
+</style>
+{% endif %}

@@ -1,0 +1,201 @@
+<html>
+  <head>
+  <script>
+    function setProgress(progress){
+        $("#progress-bar").width(progress+'%');
+        $("#progress-bar").html(progress+'%');
+    }
+    </script>
+<!-- for-mobile-apps -->
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+<style>
+  .container { width: @container-desktop !important; }
+body { overflow-y: scroll; }
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Music Life Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/roboto.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css">
+
+
+<script type="text/javascript"></script>
+
+
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+<link href="/static/btn-ripple.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/scroll-bar.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/custom_btn.css" rel="stylesheet">
+<link href="/static/styles/styleapp.css" rel="stylesheet">
+<link href="/static/styles/style.css" rel="stylesheet">
+<link href="/static/categories/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/categories/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/static/categories/css/component.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript" src="/static/categories/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/static/categories/js/jquery-1.11.1.min.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="/static/categories/js/move-top.js"></script>
+<script type="text/javascript" src="/static/categories/js/easing.js"></script>
+
+<script type="text/javascript" src="/static/slider/jssor.core.js"></script>
+<script type="text/javascript" src="/static/slider/jssor.slider.js"></script>
+<script type="text/javascript" src="/static/slider/jssor.utils.js"></script>
+<script type="text/javascript" src="/static/js/TweenMax.min.js"></script>
+<script type="text/javascript" src="/static/js/TweenLite.min.js"></script>
+<script type="text/javascript" src="/static/js/script.js"></script>
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/styles/animate.min.css" rel="stylesheet">
+<link href="/static/slider/slider_style.css" rel="stylesheet">
+<script src="/static/bootstrap/js/jquery.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<link href="/static/styles/font-awesome.min.css" rel="stylesheet">
+<link href="/static/styles/apptileHover.css" rel="stylesheet">
+<script src="/static/js/Vibrant.min.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $(".scroll").click(function(event){
+            event.preventDefault();
+            $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+        });
+    });
+</script>
+<!-- start-smoth-scrolling -->
+<script>
+document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+//        document.getElementById('contents').style.visibility="hidden";
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('load').style.visibility="hidden";
+         {% if current_progress!= None and current_task_id != None %}
+         {% endif %}
+      },1000);
+  }
+}
+
+
+$(document).ready(function() {
+    setProgress({{current_progress}}, "{{current_task_id}}");
+});
+
+</script>
+</head>
+<body ondragstart="return false;" ondrop="return false;">
+<div id="load">
+<div>
+<svg id="svgMain" align="center" xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <path d="M10.63 67.866c2.804 17.89 16.075 33.566 33.226 39.344 16.4 5.982 35.69 2.054 48.75-9.428 11.367-9.702 18-24.7 17.353-39.647l-9.229-3.502c1.712 12.947-3.252 31.925-22.123 41.896-18.87 9.97-38.063 1.052-45.388-5.395-1.457-2.869 1.464-9.329 1.464-9.329 1.283-2.49-.348-3.798-2.518-4.36z" fill="#3daee9"/>
+  <path d="M109.403 52.065c-2.833-17.835-15.96-33.597-33.124-39.33-17.414-6.24-37.99-1.478-51.104 11.506-10.029 9.653-15.796 23.668-15.125 37.6l9.23 3.144c-2.244-18.607 8.083-34.53 22.48-41.717 14.396-7.187 32.285-5.23 44.852 5.574 1.457 2.868 1.082 3.505-1.286 9.328-1.284 2.493.35 3.798 2.522 4.356z" fill="#f67400"/>
+</svg>
+</div>
+</div>
+
+{% block content %}
+
+{% endblock %}
+<script>
+function show(){
+document.getElementById('load').style.visibility="visible";
+setTimeout(hide, 3000); 
+}
+
+function hide(){
+document.getElementById('load').style.visibility="hidden";
+}
+</script>
+<script type="text/javascript" src="/static/js/appdetail.js"></script>
+
+</script>
+
+<script type="text/javascript" src="/static/js/body_jquery.js"></script>
+<script type="text/javascript" src="/static/js/modal.js"></script>
+<script>
+    function setTitle(action,id, p_type, user, launchable)
+    {
+    {% if update_len > 0 %}
+    title = "task: " + ['upgrading', 'upgrade', 'upgrade', 'None', 'None']
+    document.title = title;
+    {% endif %}
+    title = "task: " + [action, id , p_type, user, launchable]
+    document.title = title;
+    document.title = 'none';
+    }
+</script>
+<script>
+$(".btn-install").css("opacity", "0");
+</script>
+<!--<script>
+function disabled(){
+$(".btn-install").addClass("disabled");
+$(".btn-install-header").addClass("disabled");
+$(".btn-install").css("opacity", "0");
+$(".btn-install").css("background-color", "#bce1f5");
+$(".update-warning").css("display", "block");
+}
+</script>
+{% if update_len > 0 %}
+    <script>
+    disabled();
+    </script>
+{% endif %}-->
+
+<div id="myModalLogin" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Login</h4>
+      </div>
+      <div class="modal-body">
+        <style type="text/css">
+            .login-form {
+                width: 340px;
+                margin: 50px auto;
+            }
+            .login-form {
+                margin-bottom: 15px;
+                background: #f7f7f7;
+                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                padding: 30px;
+            }
+        </style>
+        </head>
+        <body>
+        <div class="login-form">
+            <form action="check.php" method="post">
+                <h2 class="text-center">Log in</h2>       
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Username" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" required="required">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                </div>
+            </form>
+            <p class="text-center"><a href="#">Create an Account</a></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function show_login(){
+    $('#myModalLogin').modal('show');
+    }
+</script>
+</body>
+</html>

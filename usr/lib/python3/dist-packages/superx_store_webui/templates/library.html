@@ -1,0 +1,70 @@
+{% extends 'main.html' %}
+{% block content %}
+{% set icon = 'library' %}
+{% set title = 'library' %}
+{% set sub_title = 'library' %}
+{% set header_btn = 'library' %}
+{% include 'header.html' %}
+
+<div class="container" style="padding-top: 180px">
+    <ul class="nav nav-tabs" style="background-color:#F0F0F0">
+        <li class="active hover10"><a data-toggle="tab" href="#installed">Installed on this Computer</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#installedOthers">Installed on your other Computers</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#previouslyInstalled">Previously Installed</a></li>
+    </ul>
+    <br>
+<div class="tab-content">
+    <input class="form-control" id="myInputInstalled" type="text" placeholder="Search..">
+    <br>
+    <script>
+    $(document).ready(function(){
+    $("#myInputInstalled").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#installed #panel").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+    });
+    </script>
+    <div id="installed" class="tab-pane fade in active">
+        {% set static_sec = 'library' %}
+        {% set show_open_btn = True %}
+        {% set show_remove_btn = True %}
+        {% for app in installed %}
+        {% if app['launchable'] != None %}
+        {% include 'app-bar.html' %}
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div id="installedOthers" class="tab-pane fade in active">
+    {% if installedOthers != []%}
+        {% set static_sec = 'library' %}
+        {% for app in installedOthers %}
+            {% include 'app-bar.html' %}
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    <div id="previouslyInstalled" class="tab-pane fade in active">
+    {% if previouslyInstalled != []%}
+        {% set static_sec = 'library' %}
+        {% for app in previouslyInstalled %}
+            {% include 'app-bar.html' %}
+        {% endfor %}
+    {% endif %}
+    </div>
+</div>
+
+<div>
+    <a href="#" style="padding-right: 10px">Privacy Policy</a>
+    <a href="#" style="padding-right: 10px">Delete my account and data</a>
+</div>
+</div>
+
+<style>
+    .notFoundGIF{
+        margin: 0 auto;
+    }
+</style>
+{% endblock %}

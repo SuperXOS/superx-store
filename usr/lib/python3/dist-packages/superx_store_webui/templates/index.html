@@ -1,0 +1,233 @@
+{% extends 'main.html' %}
+{% block content %}
+<script>
+$(document).ready(function(){
+ $('#home').addClass('active');
+});
+</script>
+<link href="static/styles/styleBorder.css" rel="stylesheet">
+<!--<script>
+alert = function(mesg) {console.trace(mesg)}
+</script>-->
+<style>
+
+</style>
+<div id="main">
+    <div class="container-fluid" style="border-top: 1px solid #ddd;">
+        <div class="row" style="">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 col-xl-9 padding-0" style="background-image: url(/static/images/index/{{ image_list.0 }});
+      background-size: 100% 100%;
+    background-repeat: no-repeat; height: 100%; padding-top: 10%;">
+            
+            </div>
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3 padding-0" style="height: 100%;">
+                <div>
+                    <div align="center" style="background-image: url(/static/images/index/{{ image_list.1 }});
+      background-size: 100% 99%;
+    background-repeat: no-repeat; height: 50%;">
+                        
+                    </div>
+                    <div align="center" style="background-image: url(/static/images/index/{{ image_list.2 }});
+      background-size: 100% 99%;
+    background-repeat: no-repeat; height: 50%; margin-top: 1%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .padding-0{
+            padding-right:0;
+            padding-left: 3px;
+        }
+
+    </style>
+    
+<!--     to keep aspect ratio of boxes same -->
+    <script>
+        var aspect_ratio_box2 = 0.2
+
+
+        var $box2 = jQuery(".container-fluid");
+
+
+        jQuery(document).ready(function($) {
+        $box2.height( $box2.width() * aspect_ratio_box2 );
+        });
+
+
+        jQuery(window).resize(function() {
+        $box2.height( $box2.width() * aspect_ratio_box2 );
+        });
+    </script>
+<!--     to keep aspect ratio of boxes same END-->
+<div class="panel panel-danger update-warning" style="position: fixed;left: 0;bottom: 0; width: 100%; overflow-x: hidden; overflow-y: auto; z-index: 1000; border-radius:0; display:none;">
+    <div class="panel-heading" style="text-align: center;">Please update your system to get get the install button active.</div>
+</div>
+<div class="container" style="padding-top: 25px">
+    <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h3>  Top Apps </h3>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 pull-right">
+            <a href="#" id="see_more" class="pull-right"> <h3> See more </h3></a>
+        </div>
+    </div>
+    <br>
+    <!-- here we have added two block for both TopApps and Editor's Choice apps. Actually same code hase been repeated. But if we set same div class name and id names
+    like App-color,hover-box it conflicts between both the block in case of jquery and css. So we have seaperated it. -->
+    <div class="row">
+    {% for top_app in top_app_list  %}
+        <a href="/details?id={{ top_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}">
+            <div class="topApp-color{{loop.index}} app-box">
+            </div>
+            <div class="app-icon" align="center">
+                {% if top_app['icon'] == None %}
+                <img id="icon_topApps{{loop.index}}"
+                     src="/static/icons/default.svg" height="64px">
+                {% else %}
+                    {% set app_list = top_app['icon'].split('/') %}
+                    {% set app_path = top_app['icon'].split(app_list[app_list|length - 1]) %}
+                <img id="icon_topApps{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                     height="64px">
+                {% endif %}
+            </div>
+            <div class="app-summery app-summery{{loop.index}} truncate" align="center">
+                {{top_app['name']}}
+                <br>
+                {{top_app['summery']}}
+            </div>
+            <div>
+                {% if top_app['isInstalled'] == False %}
+                <a href="#" id="btn-install"
+                   class="button top-btn{{loop.index}} btn btn-primary btn-install"
+                   style=""
+                   onclick="setTitle('installing', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}'); show()">Install</a>
+                {% else %}
+                <a href="#" id="btn-remove"
+                   class="button top-btn{{loop.index}} btn btn-success"
+                   style=""
+                   onclick="setTitle('exec', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}')">Open</a>
+                {% endif %}
+            </div>
+            <script>
+                img = document.querySelector("#icon_topApps{{loop.index}}");
+                vibrant = new Vibrant(img);
+                if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
+                    {
+                    $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.topApp-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
+                
+                $(".hover-box{{loop.index}}").hover(function(){
+                    $(".top-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    }, function(){
+                    $(".top-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                });
+                
+                function getRandomColor() {
+                    var letters = 'BCDEF'.split('');
+                    var color = '#';
+                    for (var i = 0; i < 6; i++ ) {
+                        color += letters[Math.floor(Math.random() * letters.length)];
+                    }
+                    return color;
+                }
+            </script>
+        </div>
+        </a>
+    {% endfor %}
+    </div>
+</div>
+<br>
+<br>
+<div class="container" style="height: 50%;">
+    <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h3>  Editor's Choice </h3>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 pull-right">
+            <a href="#" id="see_more" class="pull-right"> <h3> See more </h3></a>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+    {% for editor_app in editor_app_list  %}
+        <a href="/details?id={{ editor_app['id'] }}" id="app-details-url"
+             style="text-decoration:none; color: #666;">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 editor-hover-box{{loop.index}}">
+            <div class="app-color{{loop.index}} app-box">
+            </div>
+            <div class="app-icon" align="center">
+                {% if editor_app['icon'] == None %}
+                <img id="icon" src="/static/icons/default.svg" height="64px">
+                {% else %}
+                    {% set app_list = editor_app['icon'].split('/') %}
+                    {% set app_path = editor_app['icon'].split(app_list[app_list|length - 1]) %}
+                <img id="icon{{loop.index}}"
+                     src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                     height="64px" align="center">
+                {% endif %}
+                
+                <br>
+            </div>
+            <div class="app-summery editor-app-summery{{loop.index}} truncate" align="center">
+                {{editor_app['name']}}
+                <br>
+                {{editor_app['summery']}}
+            </div>
+            <div>
+                {% if editor_app['isInstalled'] == False %}
+                <a href="#" id="btn-install"
+                   class="button editor-btn{{loop.index}} btn btn-primary btn-install"
+                   style=""
+                   onclick="setTitle('installing', '{{editor_app['id']}}', 'apt', 'None', '{{editor_app['launchable']}}'); show()">Install</a>
+                {% else %}
+                <a href="#" id="btn-remove"
+                   class="button editor-btn{{loop.index}} btn btn-success"
+                   style=""
+                   onclick="setTitle('exec', '{{editor_app['id']}}', 'apt', 'None', '{{editor_app['launchable']}}')">Open</a>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+            img = document.querySelector("#icon{{loop.index}}");
+            vibrant = new Vibrant(img);
+            if (img.src == 'http://0.0.0.0:5000/static/icons/default.svg')
+                    {
+                    $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                    }
+                else{
+                    try {
+                        $('.app-color{{loop.index}}').css('background-color', vibrant.LightVibrantSwatch.getHex());
+                        }
+                    catch(err) {
+                        $('.app-color{{loop.index}}').css('background-color', getRandomColor());
+                        }
+                    }
+            
+            $(".editor-hover-box{{loop.index}}").hover(function(){
+                    $(".editor-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    }, function(){
+                    $(".editor-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
+                    $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                });
+        </script></a>
+    {% endfor %}
+    </div>
+</div>
+</div>
+{% endblock %}
+</div>
