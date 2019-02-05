@@ -220,3 +220,9 @@ dmypy.json
 # End of https://www.gitignore.io/api/linux,python,pycharm
 
 .pyc
+
+debian/superx-store/
+debian/superx-store-client/
+debian/files
+debian/*.log
+debian/*.substvars

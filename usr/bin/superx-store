@@ -1,0 +1,412 @@
+#!/usr/bin/python3
+
+import os
+import sys
+from datetime import datetime
+from random import randint
+from time import sleep
+from aptdaemon import client
+
+from PyQt5 import uic
+from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, \
+    QThread, QTimer, pyqtSignal
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
+    QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget, QMessageBox
+
+from superx_store_webui import appstore
+
+
+class checkUpdateInstalledThread(QThread):
+    def __init__(self):
+        QThread.__init__(self)
+        self.start()
+
+    def run(self):
+        appstore.updates = appstore.backend_obj.listUpdates()
+        if len(appstore.updates[2]) != 0:
+            window.actionUpdates.setIcon(QIcon.fromTheme('update-high'))
+            window.actionUpdates.setToolTip(
+                'Security updates are available...')
+            window.webEngine.page().runJavaScript('disabled()')
+        elif len(appstore.updates[0]) != 0 or len(appstore.updates[1]) != 0:
+            window.actionUpdates.setIcon(QIcon.fromTheme('update-low'))
+            window.actionUpdates.setToolTip('Updates are available...')
+            window.webEngine.page().runJavaScript('disabled()')
+            
+
+        appstore.installed = appstore.backend_obj.listInstalled()
+
+class InstallerThread(QThread):
+
+    transactionCompleted = pyqtSignal(str)
+
+    def __init__(self):
+        QThread.__init__(self)
+
+    def run(self):
+        print(appstore.tasks)
+        current_task = appstore.tasks.pop(0)
+        appstore.current_task_details = current_task['details']
+        transaction = current_task['transaction']
+        self.current_task_id = current_task['details']['id']
+        # Check if the transaction is a aptdaemon transaction...
+        if current_task['details']['pkg_type'] == 'apt':
+            transaction.set_debconf_frontend('kde')
+            # This is not a PyQt signals and slots!
+            transaction.connect('progress-changed', self.setProgress)
+            transaction.connect('finished', self.transactionFinished)
+            transaction.run()
+            window.actionTasks.setVisible(True)
+
+        elif current_task['details']['pkg_type'] == 'flatpak':
+            pass  # TODO
+
+        elif current_task['details']['pkg_type'] == 'upgrade':
+            transaction.set_debconf_frontend('kde')
+            # This is not a PyQt signals and slots!
+            transaction.connect('progress-changed', self.setProgress)
+            transaction.connect('finished', self.transactionFinished)
+            transaction.run()
+            window.actionTasks.setVisible(True)
+
+    def setProgress(self, trans, progress):
+        appstore.current_progress = progress
+        print(progress)
+        appstore.current_progress = progress
+        window.webEngine.page().runJavaScript('setProgress(%s, "%s")' %
+                                              (progress, self.current_task_id))
+
+    def transactionFinished(self, trans, exit_status):
+        if exit_status == 'exit-success':
+            appstore.backend_obj.transacted.append(
+                appstore.current_task_details['pkg'][0])
+
+        self.transactionCompleted.emit(exit_status)
+        appstore.current_task_details = None
+        appstore.updates = appstore.backend_obj.listUpdates()
+        appstore.installed = appstore.backend_obj.listInstalled()
+        sleep(0.20)
+        window.webEngine.reload()
+
+class WebUiThread(QThread):
+    def __init__(self):
+        QThread.__init__(self)
+        self.port_found = False
+        self.server = '0.0.0.0'
+        self.port = 5000
+
+        #self.context = SSL.Context(SSL.PROTOCOL_TLSv1)
+        #self.context.use_privatekey_file('server.key')
+        #self.context.use_certificate_file('server.crt')
+
+    def run(self):
+        while True:
+            try:
+                appstore.app.run(host='0.0.0.0', port=self.port)
+                self.port_found = True
+            except OSError:
+                self.port = self.port + randint(1, 10)
+                continue
+            break
+
+    # We need this sleep time otherwise initial value (default) of self.port is
+    # not passed to the main thread. This results in QWebEngine loading URL
+    # with wrong port. The number 0.12 is completely arbitrary, fast enough for
+    # humans to see, slow enough for machine to process.
+
+    def getPort(self):
+        sleep(0.12)
+        return self.port
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+
+        self.update_thread = checkUpdateInstalledThread()
+
+        self.apt = client.AptClient()
+
+        self.api_service = 'https://superxos.com'
+        self.daemon = WebUiThread()
+        self.daemon.start()
+
+        self.installer = InstallerThread()
+        # self.installer.started.connect(self.showTasks)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.timeOut)
+        self.timer.start(5000)
+
+        # Reconnect the timer.
+        self.installer.transactionCompleted.connect(self.transactionComplete)
+
+        self.server = 'http://{}:{}/'.format(self.daemon.server,
+                                             self.daemon.getPort())
+
+        self = uic.loadUi('/usr/share/superx-store/ui/window.ui', self)
+
+        self.settings = QSettings('superx-storerc')
+        self.search_name = self.settings.value('search_name', type=bool)
+        self.search_summery = self.settings.value('search_summery', type=bool)
+        self.search_desc = self.settings.value('search_desc', type=bool)
+
+        if self.search_name:
+            self.actionSearchName.setChecked(True)
+        if self.search_summery:
+            self.actionSearchSummery.setChecked(True)
+        if self.search_desc:
+            self.actionSearchDescription.setChecked(True)
+
+        toolbarGroup = QActionGroup(self.toolBar)
+        toolbarGroup.addAction(self.actionHome)
+        toolbarGroup.addAction(self.actionCategories)
+        toolbarGroup.addAction(self.actionLibrary)
+        toolbarGroup.addAction(self.actionUpdates)
+        toolbarGroup.addAction(self.actionTasks)
+        toolbarGroup.addAction(self.actionApp)
+        toolbarGroup.addAction(self.actionSearch)
+        toolbarGroup.addAction(self.actionPurchases)
+        toolbarGroup.setExclusive(True)
+        toolbarGroup.setEnabled(False)
+
+        # TODO: Implement app purchase and display
+        purchased_apps = False
+        if purchased_apps:
+            self.actionPurchases.setVisible(True)
+        else:
+            self.actionPurchases.setVisible(False)
+
+        # Only show tasks when some tasks are running.
+        # TODO: self.actionTasks.setIcon(QIcon(QMovie)) once system is ready.
+
+        self.searchBar = QLineEdit()
+        self.searchBar.setPlaceholderText('Search...')
+        self.searchBar.setFocusPolicy(Qt.StrongFocus)
+
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        self.toolBar.addWidget(spacer)
+        self.toolBar.addWidget(self.searchBar)
+        self.toolBar.addAction(self.actionConfigure)
+        self.toolBar.setContextMenuPolicy(Qt.CustomContextMenu)
+
+        self.webEngine = QWebEngineView()
+        self.centralwidget.layout().addWidget(self.webEngine)
+
+        # Signals and slots
+        self.actionBack.triggered.connect(self.webEngine.back)
+        self.actionForward.triggered.connect(self.webEngine.forward)
+        self.actionForward.triggered.connect(self.urlProcess)
+        self.actionConfigure.triggered.connect(self.configMenu)
+
+        self.actionSoftwareSources.triggered.connect(self.editSources)
+        self.actionAbout.triggered.connect(self.aboutDialog)
+
+        self.actionHome.triggered.connect(lambda: self.webEngine.load(
+            QUrl(self.server)))
+        self.actionCategories.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'categories'))))
+        self.actionLibrary.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'library'))))
+        self.actionUpdates.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'updates'))))
+        self.actionTasks.triggered.connect(lambda: self.webEngine.load(
+            QUrl(os.path.join(self.server, 'tasks'))))
+
+        self.searchBar.returnPressed.connect(self.searchQuery)
+
+        self.webEngine.loadFinished.connect(self.showTasks)
+        self.webEngine.urlChanged.connect(self.urlProcess)
+
+        self.webEngine.page().titleChanged.connect(self.titleActions)
+
+        self.actionSearchName.toggled.connect(self.settingsWrite)
+        self.actionSearchSummery.toggled.connect(self.settingsWrite)
+        self.actionSearchDescription.toggled.connect(self.settingsWrite)
+
+        screen = QDesktopWidget().screenGeometry()
+        window = self.geometry()
+        hposition = (screen.width() - window.width()) / 2
+        vposition = (screen.height() - window.height()) / 2
+        self.move(hposition, vposition)
+
+        self.webEngine.load(QUrl(self.server))
+        self.webEngine.page().loadFinished.connect(
+            lambda: toolbarGroup.setEnabled(True))
+        self.show()
+        self.searchBar.setFocus()
+
+    def transactionComplete(self, exit_status):
+        self.timer.timeout.connect(self.timeOut)
+        if exit_status != 'exit-success':
+            message = 'Errors were encountered while %s %s...' % \
+                      (appstore.current_task_details['action'],
+                       appstore.current_task_details['name']
+                       )
+            QMessageBox.critical(self, 'Error', message, QMessageBox.Ok)
+
+    def showTasks(self):
+        if appstore.current_task_details == None and len(appstore.tasks) == 0:
+            self.actionTasks.setVisible(False)
+
+    def timeOut(self):
+        if not self.installer.isRunning() and len(appstore.tasks) != 0:
+            self.timer.timeout.disconnect()
+            self.installer.start()
+
+    def searchQuery(self):
+        search_parms = (
+        self.searchBar.text(), self.search_name, self.search_summery,
+        self.search_desc)
+        self.webEngine.load(QUrl(os.path.join(
+            self.server,
+            'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' %
+            search_parms)))
+
+    def settingsWrite(self):
+        if self.actionSearchName.isChecked():
+            self.settings.setValue('search_name', True)
+            self.search_name = True
+        else:
+            self.settings.setValue('search_name', False)
+            self.search_name = False
+
+        if self.actionSearchSummery.isChecked():
+            self.settings.setValue('search_summery', True)
+            self.search_summery = True
+        else:
+            self.settings.setValue('search_summery', False)
+            self.search_summery = False
+
+        if self.actionSearchDescription.isChecked():
+            self.settings.setValue('search_desc', True)
+            self.search_desc = True
+        else:
+            self.settings.setValue('search_desc', False)
+            self.search_desc = False
+
+    def titleActions(self):
+        '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
+        action = self.webEngine.title()
+        print(action)
+        if action.startswith('task: '):
+            action = action.replace('task: ', '').split(",")
+            action = {
+                'action': action[0],
+                'id': action[1],
+                'p_type': action[2],
+                'user': action[3],
+                'launchable': action[4]
+            }
+            print(action)
+            if action['action'] in ('installing', 'removing'):
+                self.processTasks(action['action'], action['id'],
+                                  action['p_type'])
+            elif action['action'] == 'exec':
+                prog = QProcess()
+                print(action['launchable'])
+                prog.startDetached(
+                    'kioclient5 exec /usr/share/applications/%s' % action[
+                        'launchable'])
+            elif action['action'] in ('screenshot', 'ratings-review'):
+                browser = QProcess()
+                browser.startDetached('xdg-open %s/store-api/%s/%s' %
+                                      (self.api_service, action['action'],
+                                       action['id']))
+            elif action['action'] == 'upgrading':
+                self.processTasks(action=action['action'],
+                                  p_type=action['p_type'])
+
+    def processTasks(self, action, id=None, p_type=None):
+        transaction = None
+        task_details = None
+        if p_type == 'apt':
+            task_details = appstore.backend_obj.appSummery(id)
+            task_details['pkg_type'] = p_type
+            task_details['action'] = action
+            if action == 'installing':
+                transaction = self.apt.install_packages(
+                    task_details['pkg'])
+            elif action == 'removing':
+                transaction = self.apt.remove_packages(
+                    task_details['pkg'])
+        elif p_type == 'flatpak':
+            pass # TODO
+
+        elif p_type == 'upgrade':
+            if action == 'upgrading':
+                transaction = self.apt.upgrade_system()
+                task_details = {
+                    'id': 'upgrade',
+                    'pkg': 'upgrade',
+                    'action': 'upgrading',
+                    'pkg_type': 'upgrade'
+                }
+
+        task = {'details': task_details, 'transaction': transaction}
+        appstore.tasks.append(task)
+        print(appstore.tasks)
+
+    def urlProcess(self):
+
+        self.searchBar.clear()
+        url = self.webEngine.url().toString()
+
+        self.actionApp.setVisible(False)
+        self.actionSearch.setVisible(False)
+
+        if url == self.server:
+            self.actionHome.setChecked(True)
+        elif url.startswith('%scategories' % self.server):
+            self.actionCategories.setChecked(True)
+        elif url.startswith('%slibrary' % self.server):
+            self.actionLibrary.setChecked(True)
+        elif url.startswith('%supdates' % self.server):
+            self.actionUpdates.setChecked(True)
+        elif url.startswith('%stasks' % self.server):
+            self.actionTasks.setChecked(True)
+        elif url.startswith('%sdetails' % self.server):
+            self.actionApp.setVisible(True)
+            self.actionApp.setChecked(True)
+        elif url.startswith('%ssearch' % self.server):
+            self.actionSearch.setVisible(True)
+            self.actionSearch.setChecked(True)
+        elif url.startswith('%suploadScreenshot' % self.server):
+            url = url.split(self.server)[1]
+            browser = QProcess()
+            browser.startDetached('xdg-open %s/%s ' % (self.api_service, url))
+
+    def aboutDialog(self):
+        dialog = QDialog(parent=window)
+        dialog.ui = uic.loadUi('/usr/share/superx-store/ui/about.ui')
+        copyright = 'Copyright (c) %s Libresoft Technology Pvt. Ltd.' \
+                    % datetime.now().year
+        dialog.ui.label_2.setText(copyright)
+        dialog.setAttribute(Qt.WA_DeleteOnClose)
+        dialog.ui.show()
+
+    def editSources(self):
+        superx_sources = QProcess()
+        superx_sources.startDetached('superx-sources')
+
+    def configMenu(self):
+        configMenu = QMenu(parent=window)
+        configMenu.addAction(self.actionSearchName)
+        configMenu.addAction(self.actionSearchSummery)
+        configMenu.addAction(self.actionSearchDescription)
+        configMenu.addAction(self.actionSoftwareSources)
+        configMenu.addAction(self.actionAbout)
+        # Check for a better menu system.
+        point = QPoint(self.searchBar.frameGeometry().x() +
+                       self.searchBar.frameGeometry().width() - 309, 30)
+        configMenu.popup(QWidget.mapToGlobal(self, point))
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    app.setAttribute(Qt.AA_UseSoftwareOpenGL)
+    window = MainWindow()
+    sys.exit(app.exec_())
