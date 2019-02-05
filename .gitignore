@@ -226,3 +226,4 @@ debian/superx-store-client/
 debian/files
 debian/*.log
 debian/*.substvars
+debian/.debhelper/
