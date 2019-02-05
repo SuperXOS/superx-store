@@ -8,7 +8,6 @@ GenericName=SuperX AppStore
 Icon=superx-store.png
 Name[en_IN]=SuperX AppStore
 Name=SuperX AppStore
-NoDisplay=true
 StartupNotify=true
 Terminal=false
 Type=Application
