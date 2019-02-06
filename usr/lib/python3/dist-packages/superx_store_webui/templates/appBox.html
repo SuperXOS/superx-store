@@ -16,9 +16,9 @@
                 {% endif %}
             </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
-                {{app['name']}}
+                <font style="font-size: 15px;">{{app['name']}}</font>
                 <br>
-                {{app['summery']}}
+                <font style="font-size: 14px;">{{app['summery']}}</font>
             </div>
             <div>
                 {% if app['isInstalled'] == False %}
