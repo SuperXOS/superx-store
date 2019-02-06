@@ -196,6 +196,12 @@ $('#myModal2').click(function(){
 });
 
 
+$(document).ready(function() {
+  $(".app-summery").css({
+    'width': ($(".app-box").width() + 'px')
+  });
+});
+
 $(window).resize(function() {
   $(".app-summery").css({
     'width': ($(".app-box").width() + 'px')
