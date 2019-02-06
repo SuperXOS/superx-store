@@ -95,9 +95,9 @@ alert = function(mesg) {console.trace(mesg)}
                 {% endif %}
             </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
-                {{top_app['name']}}
+                <font style="font-size: 15px;">{{top_app['name']}}</font>
                 <br>
-                {{top_app['summery']}}
+                <font style="font-size: 14px;">{{top_app['summery']}}</font>
             </div>
             <div>
                 {% if top_app['isInstalled'] == False %}
@@ -183,9 +183,9 @@ alert = function(mesg) {console.trace(mesg)}
                 <br>
             </div>
             <div class="app-summery editor-app-summery{{loop.index}} truncate" align="center">
-                {{editor_app['name']}}
+                <font style="font-size: 15px;">{{editor_app['name']}}</font>
                 <br>
-                {{editor_app['summery']}}
+                <font style="font-size: 14px;">{{editor_app['summery']}}</font>
             </div>
             <div>
                 {% if editor_app['isInstalled'] == False %}
