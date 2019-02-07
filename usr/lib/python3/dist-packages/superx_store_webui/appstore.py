@@ -21,7 +21,9 @@ installed = []
 installedOthers = []
 installedPreviously = []
 complete_update = False
-
+category_dict = {'Development': ['Building', 'Debugger', 'IDE', 'GUIDesigner', 'Profiling', 'RevisionControl', 'Translation', 'Database', 'ProjectManagement', 'WebDevelopment'],
+                 'Office': ['Calendar', 'ContactManagement', 'Database', 'Dictionary', 'Chart', 'Email', 'Finance', 'FlowChart', 'PDA', 'ProjectManagement', 'Presentation', 'Spreadsheet', 'WordProcessor'],
+                 'Graphics': ['2DGraphics', 'VectorGraphics', 'RasterGraphics', '3DGraphics', 'Scanning', 'OCR', 'Photography', 'Publishing', 'Viewer']}
 
 @app.route('/')
 def index():
@@ -68,13 +70,28 @@ def category():
     category_app_list = []
     for app_id in list_apps:
         category_app_list.append(backend_obj.appSummery(app_id))
-    return render_template('category.html', category=category, app_list=category_app_list)
+    
+    sub_category_list = category_dict[category]
+    return render_template('category.html', category=category, app_list=category_app_list, sub_category_list = sub_category_list)
+
+@app.route('/subcategory')
+def subcategory():
+    subcategory_list = []
+    subcategory = request.args.get('subcategory')
+    subcategory_list.append(subcategory)
+    list_apps = backend_obj.listAppsInCategories(subcategory_list)
+    
+    subcategory_app_list = []
+    for app_id in list_apps:
+        subcategory_app_list.append(backend_obj.appSummery(app_id))
+    
+    return render_template('subcategory.html', subcategory=subcategory, app_list=subcategory_app_list,)
 
 
 @app.route('/update')
 def update():
     updates = [{'name': 'python3-software-properties', 'security': True, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'},
-                {'name': 'iso-flag-png', 'security': False, 'section': 'universe/misc', 'current_version': '5.0+superx10', 'candidate_version': '5.0+superx11', 'priority': 'optional'}, {'name': 'superx-sources', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}, {'name': 'software-properties-common', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}]
+                {'name': 'iso-flag-png', 'security': Fasubcategorylse, 'section': 'universe/misc', 'current_version': '5.0+superx10', 'candidate_version': '5.0+superx11', 'priority': 'optional'}, {'name': 'superx-sources', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}, {'name': 'software-properties-common', 'security': False, 'section': 'admin', 'current_version': '5.0+superx17', 'candidate_version': '5.0+superx18', 'priority': 'optional'}]
 
     app_len = 0
     sec_len = 0
