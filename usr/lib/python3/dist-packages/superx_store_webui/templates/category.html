@@ -6,8 +6,23 @@
         <font size="5"> {{ category|title }} </font>
     </div>
 </div>
-<div class="row" style="margin-right: 5px; padding-right: 29px;">
-    {% include 'appBox.html' %}
-</div> 
+<table>
+    <tr>
+    <td>
+        <div class="row" style="margin-right: 5px; padding-right: 29px;">
+            {% include 'appBox.html' %}
+        </div>
+    </td>
+    <td style="width:200px" valign="top">
+        <ul class="list-group" style="margin-top: 35px;">
+            {% for sub_category in sub_category_list %}
+            <li class="list-group-item">
+                <a href="/subcategory?subcategory={{ sub_category }}" style="text-decoration:none;> <font size="2" style="cursor:pointer"> {{sub_category}} </font></a>
+            </li>
+            {% endfor %}
+        </ul>
+    </td>
+    </tr>
+</table>
 </div>
 {% endblock %}
