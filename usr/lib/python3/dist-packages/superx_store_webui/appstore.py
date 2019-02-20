@@ -23,7 +23,17 @@ installedPreviously = []
 complete_update = False
 category_dict = {'Development': ['Building', 'Debugger', 'IDE', 'GUIDesigner', 'Profiling', 'RevisionControl', 'Translation', 'Database', 'ProjectManagement', 'WebDevelopment'],
                  'Office': ['Calendar', 'ContactManagement', 'Database', 'Dictionary', 'Chart', 'Email', 'Finance', 'FlowChart', 'PDA', 'ProjectManagement', 'Presentation', 'Spreadsheet', 'WordProcessor'],
-                 'Graphics': ['2DGraphics', 'VectorGraphics', 'RasterGraphics', '3DGraphics', 'Scanning', 'OCR', 'Photography', 'Publishing', 'Viewer']}
+                 'Graphics': ['2DGraphics', 'VectorGraphics', 'RasterGraphics', '3DGraphics', 'Scanning', 'OCR', 'Photography', 'Publishing', 'Viewer'],
+                 'Utility': ['TextTools', 'TelephonyTools', 'Maps', 'Spirituality', 'Archiving', 'Compression', 'FileTools', 'Accessibility', 'Calculator', 'Clock', 'TextEditor'],
+                 'Settings': ['DesktopSettings', 'HardwareSettings', 'Printing', 'PackageManager', 'Security', 'Accessibility'],
+                 'Network': ['Dialup', 'InstantMessaging', 'Chat', 'IRCClient', 'Feed', 'FileTransfer', 'HamRadio', 'News', 'P2P', 'RemoteAccess', 'Telephony', 'VideoConference', 'WebBrowser', 'WebDevelopment', 'Monitor', 'Email'],
+                 'Audio': ['HamRadio', 'Midi', 'Mixer', 'Sequencer', 'Tuner', 'AudioVideoEditing', 'Player', 'Recorder'],
+                 'Video': ['TV', 'Player', 'Recorder'],
+                 'AudioVideo': ['Database', 'Midi', 'Mixer', 'Sequencer', 'Tuner', 'TV', 'AudioVideoEditing', 'Player', 'Recorder', 'DiscBurning', 'Music', 'Audio', 'Video'],
+                 'TextTools': ['Dictionary'],
+                 'Game': ['ActionGame', 'AdventureGame', 'ArcadeGame', 'BoardGame', 'BlocksGame', 'CardGame', 'KidsGame', 'LogicGame', 'RolePlaying', 'Shooter', 'Simulation', 'SportsGame', 'StrategyGame', 'Emulator'],
+                 'Education': ['Art', 'Construction', 'Music', 'Languages', 'ArtificialIntelligence', 'Astronomy', 'Biology', 'Chemistry', 'ComputerScience', 'DataVisualization', 'Economy', 'Electricity', 'Geography', 'Geology', 'Geoscience', 'History', 'Humanities', 'ImageProcessing', 'Literature', 'Maps', 'Math', 'NumericalAnalysis', 'MedicalSoftware', 'Physics', 'Robotics', 'Spirituality', 'Sports', 'ParallelComputing', 'Science'],
+                 'Science': ['Art', 'Construction', 'Languages', 'ArtificialIntelligence', 'Astronomy', 'Biology', 'Chemistry', 'ComputerScience', 'DataVisualization', 'Economy', 'Electricity', 'Geography', 'Geology', 'Geoscience', 'History', 'Humanities', 'ImageProcessing', 'Literature', 'Maps', 'Math', 'NumericalAnalysis', 'MedicalSoftware', 'Physics', 'Robotics', 'Spirituality', 'Sports', 'ParallelComputing']}
 
 @app.route('/')
 def index():
