@@ -5,16 +5,42 @@
 {% set sub_title = 'update' %}
 {% set header_btn = 'update' %}
 {% include 'header.html' %}
-
 <script>
+    function changeColor(selector, colors, time) {
+        /* Params:
+         * selector: string,
+         * colors: array of color strings,
+         * every: integer (in mili-seconds)
+         */
+        var curCol = 0,
+            timer = setInterval(function () {
+                if (curCol === colors.length) curCol = 0;
+                $(selector).css("background-color", colors[curCol]);
+                curCol++;
+            }, time);
+    }
     function setProgress(x, current_task_id){
     if (current_task_id == 'upgrade'){
-    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
-    $('.fixed-top').css("background", style);
-    $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
+//     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+//     $('.fixed-top').css("background", style);
+//     $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
+    $('#progress_percent').css("padding-top","0px");
+    $('#progress_percent').html('<img src="/static/gif/update.gif" width="110px" height="110px">');
+    changeColor(".fixed-top", ["#a1c4fd", "#c2e9fb", "#66a6ff", "#80d0c7"], 1000);
     }
     }
 </script>
+<style>
+    .fixed-top {
+    background-color: white;
+    height:500px;
+    -webkit-transition: background-color 0.5s ease-in-out;
+    -moz-transition: background-color 0.5s ease-in-out;
+    -o-transition: background-color 0.5s ease-in-out;
+    -khtml-transition: background-color 0.5s ease-in-out;
+    transition: background-color 0.5s ease-in-out;
+    }
+</style>
 <div class="container" style="padding-top: 180px;">
     <ul class="nav nav-tabs" style="background-color:#F0F0F0;">
         <li class="active hover10"><a data-toggle="tab" href="#appUpdates"><span class="label label-info">{{updates[0]|length}}</span> &nbsp;Application Updates</a></li>
