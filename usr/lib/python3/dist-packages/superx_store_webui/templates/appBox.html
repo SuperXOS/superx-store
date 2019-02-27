@@ -4,7 +4,7 @@
             <div class="app-color{{loop.index}} app-box">
             </div>
             <div class="app-icon" align="center">
-                {% if app['icon'] == None %}
+                {% if app['icon'] == None or app['icon'] == 'None'%}
                 <img id="icon_apps{{loop.index}}"
                      src="/static/icons/default.svg" height="64px">
                 {% else %}

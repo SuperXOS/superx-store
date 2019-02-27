@@ -83,7 +83,7 @@ alert = function(mesg) {console.trace(mesg)}
             <div class="topApp-color{{loop.index}} app-box">
             </div>
             <div class="app-icon" align="center">
-                {% if top_app['icon'] == None %}
+                {% if top_app['icon'] == None or top_app['icon'] == 'None' %}
                 <img id="icon_topApps{{loop.index}}"
                      src="/static/icons/default.svg" height="64px">
                 {% else %}
@@ -170,7 +170,7 @@ alert = function(mesg) {console.trace(mesg)}
             <div class="app-color{{loop.index}} app-box">
             </div>
             <div class="app-icon" align="center">
-                {% if editor_app['icon'] == None %}
+                {% if editor_app['icon'] == None or editor_app['icon'] == 'None' %}
                 <img id="icon" src="/static/icons/default.svg" height="64px">
                 {% else %}
                     {% set app_list = editor_app['icon'].split('/') %}
