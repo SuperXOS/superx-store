@@ -43,7 +43,7 @@
                         <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
                     {% endif %}
                 {% endif %}
-            {% elif app['icon'] == None %}
+            {% elif app['icon'] == None or app['icon'] == 'None' %}
             <img src="/static/icons/default.svg" class="icon" height="64px"
                  width="64px">
             {% else %}
