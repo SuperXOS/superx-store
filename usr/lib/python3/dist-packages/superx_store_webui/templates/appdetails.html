@@ -32,7 +32,7 @@ document.onreadystatechange = function () {
 <script>
     function setProgress(x, current_task_id){
     if ('{{app["id"]}}' == current_task_id){
-    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+    var style="rgba(255, 255, 255) linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
     $('.fixed-top').css("background", style);
     $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
     }
