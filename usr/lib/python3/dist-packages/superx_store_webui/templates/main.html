@@ -94,20 +94,22 @@ $(document).ready(function() {
 </svg>
 </div>
 </div>
-
 {% block content %}
 
 {% endblock %}
 <script>
-function show(){
+function show(btn_name){
 document.getElementById('load').style.visibility="visible";
-setTimeout(hide, 3000); 
+setTimeout(hide, 3000);
+$("#"+btn_name).html('<i class="fa fa-circle-o-notch fa-spin"></i> Pending');
+$("#"+btn_name).prop("onclick", null).off("click");
 }
 
 function hide(){
 document.getElementById('load').style.visibility="hidden";
 }
 </script>
+
 <script type="text/javascript" src="/static/js/appdetail.js"></script>
 
 </script>
