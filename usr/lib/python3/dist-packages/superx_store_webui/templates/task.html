@@ -29,9 +29,25 @@
 //         setProgress({{current_task['progress']}}, {{current_task['id']}});
 //     });
     function setProgress(x, current_task_id){
+    
+    if (current_task_id == 'upgrade'){
+    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+//     $('.fixed-top').css("background", style);
+    $("#current_task").css("background", "linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)");
+    $("#current_task").css("background-size", "400% 400%");
+    $("#current_task").css("-webkit-animation", "Gradient 5s ease infinite");
+    $("#current_task").css("-moz-animation", "Gradient 5s ease infinite");
+    $("#current_task").css("animation", "Gradient 5s ease infinite");
+//     $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
+//     $('#progress_percent').css("padding-top","0px");
+    $('.progress_percent').html('<img src="/static/gif/update.gif" width="50px" height="40px">');
+//     changeColor(".fixed-top", ["#a1c4fd", "#c2e9fb", "#66a6ff", "#80d0c7"], 1000);
+    }
+    else{
     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
     $('#current_task').css("background", style);
     $('.progress_percent').html(x+'%');
+    }
     }
 </script>
 
