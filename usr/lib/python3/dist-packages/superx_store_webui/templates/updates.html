@@ -5,6 +5,15 @@
 {% set sub_title = 'update' %}
 {% set header_btn = 'update' %}
 {% include 'header.html' %}
+{% if file_exist == 1 %}
+    <script>
+        $('#upgrade-title').html('<font style="color:#333; margin-left: 45px" size="6">Restart</font>');
+        var title = 'setTitle("reboot", "None", "None", "None", "None")';
+        $('#btn-update').attr("onclick", title);
+        $('#btn-update').text('Restart');
+        $('#update-sub-title').text('Restart your system to apply updates')
+    </script>
+{% endif %}
 <script>
     function setProgress(x, current_task_id){
     if (current_task_id == 'upgrade'){

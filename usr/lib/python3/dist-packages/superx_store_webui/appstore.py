@@ -4,6 +4,8 @@ from os import listdir
 from os.path import isfile, join
 from random import shuffle
 from time import sleep
+from pathlib import Path
+
 from flask import Flask, render_template, request, send_from_directory
 
 from superx_appstore_backend.appstore_backend import AppStoreBackend
@@ -241,10 +243,17 @@ def context_processor():
         for update in updates:
             total_len = total_len + len(update)
         print(total_len)
-    if current_task_details == None:
-        return dict(update_len=total_len, current_progress = current_progress, current_task_id = None)
+        
+    update_file = Path("/system-update")
+    if update_file.is_file():
+        file_exist = 1
     else:
-        return dict(update_len=total_len, current_progress = current_progress, current_task_id = current_task_details['id'])
+        file_exist = 0
+        
+    if current_task_details == None:
+        return dict(update_len=total_len, current_progress = current_progress, file_exist = file_exist, current_task_id = None)
+    else:
+        return dict(update_len=total_len, current_progress = current_progress, file_exist = file_exist, current_task_id = current_task_details['id'])
 
 
 if __name__ == '__main__':
