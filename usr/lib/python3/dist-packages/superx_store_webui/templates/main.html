@@ -124,7 +124,7 @@ document.getElementById('load').style.visibility="hidden";
     document.title = title;
     {% endif %}
     if (action == 'reboot'){
-    title = "task: reboot"; 
+    title = "task: " + [action, id , p_type, user, launchable]
     document.title = title;
     }
     else{
