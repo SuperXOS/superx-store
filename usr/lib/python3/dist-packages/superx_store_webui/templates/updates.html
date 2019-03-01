@@ -6,31 +6,71 @@
 {% set header_btn = 'update' %}
 {% include 'header.html' %}
 <script>
-    function changeColor(selector, colors, time) {
-        /* Params:
-         * selector: string,
-         * colors: array of color strings,
-         * every: integer (in mili-seconds)
-         */
-        var curCol = 0,
-            timer = setInterval(function () {
-                if (curCol === colors.length) curCol = 0;
-                $(selector).css("background-color", colors[curCol]);
-                curCol++;
-            }, time);
-    }
+//     function changeColor(selector, colors, time) {
+//         /* Params:
+//          * selector: string,
+//          * colors: array of color strings,
+//          * every: integer (in mili-seconds)
+//          */
+//         var curCol = 0,
+//             timer = setInterval(function () {
+//                 if (curCol === colors.length) curCol = 0;
+//                 $(selector).css("background-color", colors[curCol]);
+//                 curCol++;
+//             }, time);
+//     }
     function setProgress(x, current_task_id){
     if (current_task_id == 'upgrade'){
-//     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
+    var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
 //     $('.fixed-top').css("background", style);
+    $(".fixed-top").css("background", "linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB)");
+    $(".fixed-top").css("background-size", "400% 400%");
+    $(".fixed-top").css("-webkit-animation", "Gradient 5s ease infinite");
+    $(".fixed-top").css("-moz-animation", "Gradient 5s ease infinite");
+    $(".fixed-top").css("animation", "Gradient 5s ease infinite");
 //     $('#progress_percent').html('<font size="6" class="pull-right">'+x+'%</font>');
     $('#progress_percent').css("padding-top","0px");
     $('#progress_percent').html('<img src="/static/gif/update.gif" width="110px" height="110px">');
-    changeColor(".fixed-top", ["#a1c4fd", "#c2e9fb", "#66a6ff", "#80d0c7"], 1000);
+//     changeColor(".fixed-top", ["#a1c4fd", "#c2e9fb", "#66a6ff", "#80d0c7"], 1000);
     }
     }
 </script>
 <style>
+    @-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+    }
+
+    @-moz-keyframes Gradient {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 50%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
+
+    @keyframes Gradient {
+        0% {
+            background-position: 0% 50%
+        }
+        50% {
+            background-position: 100% 50%
+        }
+        100% {
+            background-position: 0% 50%
+        }
+    }
     .fixed-top {
     background-color: white;
     height:500px;
