@@ -64,12 +64,20 @@ class InstallerThread(QThread):
             pass  # TODO
 
         elif current_task['details']['pkg_type'] == 'upgrade':
-            transaction.set_debconf_frontend('kde')
-            # This is not a PyQt signals and slots!
-            transaction.connect('progress-changed', self.setProgress)
-            transaction.connect('finished', self.transactionFinished)
-            transaction.run()
             window.actionTasks.setVisible(True)
+            
+            update_refresh = QProcess()
+            update_refresh.start('pkcon -y refresh')
+            update_refresh.waitForFinished(-1)
+            
+            download_updates = QProcess()
+            download_updates.start('pkcon -d update')
+            download_updates.waitForFinished(-1)
+            
+            trigger_reboot_update = QProcess()
+            trigger_reboot_update.start('pkcon offline-trigger')
+            trigger_reboot_update.waitForFinished()
+            trigger_reboot_update.finished.connect(lambda: window.webEngine.reload())
 
     def setProgress(self, trans, progress):
         appstore.current_progress = progress
