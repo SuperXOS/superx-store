@@ -123,9 +123,15 @@ document.getElementById('load').style.visibility="hidden";
     title = "task: " + ['upgrading', 'upgrade', 'upgrade', 'None', 'None']
     document.title = title;
     {% endif %}
+    if (action == 'reboot'){
+    title = "task: " + [action, id , p_type, user, launchable]
+    document.title = title;
+    }
+    else{
     title = "task: " + [action, id , p_type, user, launchable]
     document.title = title;
     document.title = 'none';
+    }
     }
 </script>
 <script>
