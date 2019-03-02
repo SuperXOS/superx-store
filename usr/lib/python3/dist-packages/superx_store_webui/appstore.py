@@ -23,19 +23,19 @@ installed = []
 installedOthers = []
 installedPreviously = []
 complete_update = False
-category_dict = {'Development': ['Building', 'Debugger', 'IDE', 'GUIDesigner', 'Profiling', 'RevisionControl', 'Translation', 'Database', 'ProjectManagement', 'WebDevelopment'],
-                 'Office': ['Calendar', 'ContactManagement', 'Database', 'Dictionary', 'Chart', 'Email', 'Finance', 'FlowChart', 'PDA', 'ProjectManagement', 'Presentation', 'Spreadsheet', 'WordProcessor'],
-                 'Graphics': ['2DGraphics', 'VectorGraphics', 'RasterGraphics', '3DGraphics', 'Scanning', 'OCR', 'Photography', 'Publishing', 'Viewer'],
-                 'Utility': ['TextTools', 'TelephonyTools', 'Maps', 'Spirituality', 'Archiving', 'Compression', 'FileTools', 'Accessibility', 'Calculator', 'Clock', 'TextEditor'],
-                 'Settings': ['DesktopSettings', 'HardwareSettings', 'Printing', 'PackageManager', 'Security', 'Accessibility'],
-                 'Network': ['Dialup', 'InstantMessaging', 'Chat', 'IRCClient', 'Feed', 'FileTransfer', 'HamRadio', 'News', 'P2P', 'RemoteAccess', 'Telephony', 'VideoConference', 'WebBrowser', 'WebDevelopment', 'Monitor', 'Email'],
-                 'Audio': ['HamRadio', 'Midi', 'Mixer', 'Sequencer', 'Tuner', 'AudioVideoEditing', 'Player', 'Recorder'],
-                 'Video': ['TV', 'Player', 'Recorder'],
-                 'AudioVideo': ['Database', 'Midi', 'Mixer', 'Sequencer', 'Tuner', 'TV', 'AudioVideoEditing', 'Player', 'Recorder', 'DiscBurning', 'Music', 'Audio', 'Video'],
-                 'TextTools': ['Dictionary'],
-                 'Game': ['ActionGame', 'AdventureGame', 'ArcadeGame', 'BoardGame', 'BlocksGame', 'CardGame', 'KidsGame', 'LogicGame', 'RolePlaying', 'Shooter', 'Simulation', 'SportsGame', 'StrategyGame', 'Emulator'],
-                 'Education': ['Art', 'Construction', 'Music', 'Languages', 'ArtificialIntelligence', 'Astronomy', 'Biology', 'Chemistry', 'ComputerScience', 'DataVisualization', 'Economy', 'Electricity', 'Geography', 'Geology', 'Geoscience', 'History', 'Humanities', 'ImageProcessing', 'Literature', 'Maps', 'Math', 'NumericalAnalysis', 'MedicalSoftware', 'Physics', 'Robotics', 'Spirituality', 'Sports', 'ParallelComputing', 'Science'],
-                 'Science': ['Art', 'Construction', 'Languages', 'ArtificialIntelligence', 'Astronomy', 'Biology', 'Chemistry', 'ComputerScience', 'DataVisualization', 'Economy', 'Electricity', 'Geography', 'Geology', 'Geoscience', 'History', 'Humanities', 'ImageProcessing', 'Literature', 'Maps', 'Math', 'NumericalAnalysis', 'MedicalSoftware', 'Physics', 'Robotics', 'Spirituality', 'Sports', 'ParallelComputing']}
+category_dict = {'Development': [['Building','Building'], ['Debugger','Debugger'], ['IDE','IDE'], ['GUIDesigner','GUI Designer'], ['Profiling','Profiling'], ['RevisionControl','Revision Control'], ['Translation','Translation'], ['Database','Database'], ['ProjectManagement','Project Management'], ['WebDevelopment','Web Development']],
+                 'Office': [['Calendar','Calendar'], ['ContactManagement','Contact Management'], ['Database','Database'], ['Dictionary','Dictionary'], ['Chart','Chart'], ['Email','Email'], ['Finance','Finance'], ['FlowChart','Flow Chart'], ['PDA','PDA'], ['ProjectManagement','Project Management'], ['Presentation','Presentation'] ['Spreadsheet','Spreadsheet'], ['WordProcessor','Word Processor']],
+                 'Graphics': ['2DGraphics','2D Graphics'], ['VectorGraphics','Vector Graphics'], ['RasterGraphics','Raster Graphics'], ['3DGraphics','3D Graphics'], ['Scanning','Scanning'], ['OCR','OCR'], ['Photography','Photography'], ['Publishing','Publishing'], ['Viewer','Viewer']],
+                 'Utility': ['TextTools','Text Tools'], ['TelephonyTools','Telephony Tools'], ['Maps','Maps'], ['Spirituality','Spirituality'], ['Archiving','Archiving'], ['Compression','Compression'], ['FileTools','File Tools'], ['Accessibility','Accessibility'], ['Calculator','Calculator'], ['Clock','Clock'], ['TextEditor','Text Editor']],
+                 'Settings': [['DesktopSettings','Desktop Settings'], ['HardwareSettings','Hardware Settings'], ['Printing','Printing'], ['PackageManager','Package Manager'], ['Security','Security'], ['Accessibility','Accessibility']],
+                 'Network': [['Dialup','Dial Up'], ['InstantMessaging','Instant Messaging'], ['Chat','Chat'], ['IRCClient','IRC Client'], ['Feed','Feed'], ['FileTransfer','File Transfer'], ['HamRadio','Ham Radio'], ['News','News'], ['P2P','P2P'], ['RemoteAccess','Remote Access'], ['Telephony','Telephony'] ['VideoConference','Video Conference'], ['WebBrowser','Web Browser'], ['WebDevelopment','Web Development'], ['Monitor','Monitor'], ['Email','Email']],
+                 'Audio': [['HamRadio','Ham Radio'], ['Midi','Midi'], ['Mixer','Mixer'], ['Sequencer','Sequencer'], ['Tuner','Tuner'], ['AudioVideoEditing','Audio Video Editing'], ['Player','Player'], ['Recorder','Recorder']],
+                 'Video': [['TV','TV'], ['Player','Player'], ['Recorder','Recorder']],
+                 'AudioVideo': [['Database','Database'], ['Midi','Midi'], ['Mixer','Mixer'], ['Sequencer','Sequencer'], ['Tuner','Tuner'], ['TV','TV'], ['AudioVideoEditing','Audio Video Editing'], ['Player','Player'], ['Recorder','Recorder'], ['DiscBurning','Disc Burning'], ['Music','Music'], ['Audio','Audio'], ['Video','Video']],
+                 'TextTools': [['Dictionary','Dictionary']],
+                 'Game': [['ActionGame','Action Game'], ['AdventureGame','Adventure Game'], ['ArcadeGame','Arcade Game'], ['BoardGame','Board Game'], ['BlocksGame','Blocks Game'], ['CardGame','Card Game'], ['KidsGame','Kids Game'], ['LogicGame','Logic Game'], ['RolePlaying','Role Playing'], ['Shooter', 'Shooter'], ['Simulation','Simulation'], ['SportsGame','Sports Game'], ['StrategyGame','Strategy Game'], ['Emulator','Emulator']],
+                 'Education': [['Art','Art'], ['Construction','Construction'], ['Music','Music'], ['Languages','Languages'], ['ArtificialIntelligence','Artificial Intelligence'], ['Astronomy','Astronomy'], ['Biology','Biology'], ['Chemistry','Chemistry'], ['ComputerScience','Computer Science'], ['DataVisualization','Data Visualization'], ['Economy','Economy'], ['Electricity','Electricity'], ['Geography','Geography'], ['Geology','Geology'], ['Geoscience','Geoscience'], ['History','History'], ['Humanities','Humanities'], ['ImageProcessing','Image Processing'], ['Literature','Literature'], ['Maps','Maps'], ['Math','Math'], ['NumericalAnalysis','Numerical Analysis'], ['MedicalSoftware','Medical Software'], ['Physics','Physics'], ['Robotics','Robotics'], ['Spirituality','Spirituality'], ['Sports','Sports'], ['ParallelComputing','Parallel Computing'], ['Science','Science']],
+                 'Science': [['Art','Art'], ['Construction','Construction'], ['Languages','Languages'], ['ArtificialIntelligence','Artificial Intelligence'], ['Astronomy','Astronomy'], ['Biology','Biology'], ['Chemistry','Chemistry'], ['ComputerScience','Computer Science'], ['DataVisualization','Data Visualization'], ['Economy','Economy'], ['Electricity','Electricity'], ['Geography','Geography'], ['Geology','Geology'], ['Geoscience','Geoscience'], ['History','History'], ['Humanities','Humanities'], ['ImageProcessing','Image Processing'], ['Literature','Literature'], ['Maps','Maps'], ['Math','Maps'], ['NumericalAnalysis','Numerical Analysis'], ['MedicalSoftware','Medical Software'], ['Physics','Physics'], ['Robotics','Robotics'], ['Spirituality','Spirituality'], ['Sports','Sports'], ['ParallelComputing','Parallel Computing']]}
 
 @app.route('/')
 def index():
@@ -76,6 +76,7 @@ def categories():
 def category():
     category_list = []
     category = request.args.get('category')
+    subcategory_name = request.args.get('subcategory_name')
     category_list.append(category)
     list_apps = backend_obj.listAppsInCategories(category_list)
     
@@ -84,13 +85,14 @@ def category():
         category_app_list.append(backend_obj.appSummery(app_id))
     
     sub_category_list = category_dict[category]
-    return render_template('category.html', category=category, app_list=category_app_list, sub_category_list = sub_category_list)
+    return render_template('category.html', category=category, app_list=category_app_list, sub_category_list = sub_category_list, subcategory_name=subcategory_name)
 
 @app.route('/subcategory')
 def subcategory():
     subcategory_list = []
     subcategory = request.args.get('subcategory')
     category = request.args.get('category')
+    subcategory_name = request.args.get('subcategory_name')
     subcategory_list.append(subcategory)
     list_apps = backend_obj.listAppsInCategories(subcategory_list)
     
@@ -99,7 +101,7 @@ def subcategory():
         subcategory_app_list.append(backend_obj.appSummery(app_id))
     
     sub_category_list = category_dict[category]
-    return render_template('subcategory.html', subcategory=subcategory, app_list=subcategory_app_list, sub_category_list = sub_category_list)
+    return render_template('subcategory.html', subcategory=subcategory, category=category, app_list=subcategory_app_list, sub_category_list = sub_category_list, subcategory_name=subcategory_name)
 
 
 @app.route('/update')
