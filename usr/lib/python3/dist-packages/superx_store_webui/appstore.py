@@ -90,6 +90,7 @@ def category():
 def subcategory():
     subcategory_list = []
     subcategory = request.args.get('subcategory')
+    category = request.args.get('category')
     subcategory_list.append(subcategory)
     list_apps = backend_obj.listAppsInCategories(subcategory_list)
     
@@ -97,7 +98,8 @@ def subcategory():
     for app_id in list_apps:
         subcategory_app_list.append(backend_obj.appSummery(app_id))
     
-    return render_template('subcategory.html', subcategory=subcategory, app_list=subcategory_app_list,)
+    sub_category_list = category_dict[category]
+    return render_template('subcategory.html', subcategory=subcategory, app_list=subcategory_app_list, sub_category_list = sub_category_list)
 
 
 @app.route('/update')
