@@ -17,7 +17,7 @@
         <ul class="list-group" style="margin-top: 35px;">
             {% for sub_category in sub_category_list %}
             <li class="list-group-item">
-                <a href="/subcategory?subcategory={{ sub_category }}&category={{category}}" style="text-decoration:none;> <font size="2" style="cursor:pointer"> {{sub_category}} </font></a>
+                <a href="/subcategory?subcategory={{ sub_category[0] }}&subcategory_name={{ sub_category[1] }}&category={{category}}" style="text-decoration:none;> <font size="2" style="cursor:pointer"> {{sub_category[1]}} </font></a>
             </li>
             {% endfor %}
         </ul>
