@@ -5,6 +5,7 @@ from os.path import isfile, join
 from random import shuffle
 from time import sleep
 from pathlib import Path
+from flask import Markup
 
 from flask import Flask, render_template, request, send_from_directory
 
@@ -174,7 +175,10 @@ def detail():
                           
                           {'title': 'Lorem Ipsum is simply dummy text ', 'user': 'Lorem Ipsum', 'rating': '3', 'time': '2 year ago', 'review': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
                           ]
-              } 
+              }
+    
+    new_string = new_string.replace(' * ', '<br>&nbsp;&nbsp;&nbsp;<font style="color:#333; font-size:11px;"><i class="fa fa-circle"></i></font>&nbsp;')
+    #print(new_string)
     return render_template('appdetails.html',
                            app=datas, addons=addons,
                            description = new_string,
