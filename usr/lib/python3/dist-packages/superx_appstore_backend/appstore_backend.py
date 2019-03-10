@@ -85,7 +85,10 @@ class AppStoreBackend():
 
     def appSummery(self, id):
 
-        app = self.pool.get_components_by_id(id)[0]
+        try:
+            app = self.pool.get_components_by_id(id)[0]
+        except IndexError:
+            return None
         component_data = {
             'id': app.props.id,
             'pkg': app.get_pkgnames(),
