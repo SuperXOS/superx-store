@@ -49,7 +49,8 @@ def index():
     top_app_id = ['org.gnome.Music.desktop', 'writetype.desktop', 'org.kde.kmouth', 'compton.desktop']
     top_app_list = []
     for app_id in top_app_id:
-        top_app_list.append(backend_obj.appSummery(app_id))
+        if backend_obj.appSummery(app_id) != 'None':
+            top_app_list.append(backend_obj.appSummery(app_id))
     editor_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
     editor_app_list = []
     for app_id in editor_app_id:
