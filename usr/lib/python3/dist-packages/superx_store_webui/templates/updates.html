@@ -13,7 +13,7 @@
         $('#btn-update').text('Restart');
         $('#update-sub-title').text('Restart your system to apply updates')
     </script>
-{% endif %}
+{% else %}
 <script>
     function setProgress(x, current_task_id){
     if (current_task_id == 'upgrade'){
@@ -31,6 +31,7 @@
     }
     }
 </script>
+{% endif %}
 <style>
     @-webkit-keyframes Gradient {
 	0% {
