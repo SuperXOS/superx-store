@@ -51,8 +51,10 @@ class InstallerThread(QThread):
     def run(self):
         print(appstore.tasks)
         current_task = appstore.tasks.pop(0)
+
         appstore.current_task_details = current_task['details']
         transaction = current_task['transaction']
+
         self.current_task_id = current_task['details']['id']
         # Check if the transaction is a aptdaemon transaction...
         if current_task['details']['pkg_type'] == 'apt':
@@ -68,7 +70,8 @@ class InstallerThread(QThread):
 
         elif current_task['details']['pkg_type'] == 'upgrade':
             window.actionTasks.setVisible(True)
-            
+            window.webEngine.page().runJavaScript(
+                'setProgress("animate", "%s")' % (self.current_task_id))
             update_refresh = QProcess()
             update_refresh.start('pkcon -y refresh')
             update_refresh.waitForFinished(-1)
@@ -81,6 +84,7 @@ class InstallerThread(QThread):
             trigger_reboot_update.start('pkcon offline-trigger')
             trigger_reboot_update.waitForFinished()
             trigger_reboot_update.finished.connect(lambda: window.webEngine.reload())
+
 
     def setProgress(self, trans, progress):
         appstore.current_progress = progress
