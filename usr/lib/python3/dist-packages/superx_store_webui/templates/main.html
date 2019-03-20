@@ -122,9 +122,12 @@ document.getElementById('load').style.visibility="hidden";
 <script>
     function setTitle(action,id, p_type, user, launchable)
     {
-    {% if update_len > 0 and action != 'removing' %}
-    title = "task: " + ['upgrading', 'upgrade', 'upgrade', 'None', 'None']
-    document.title = title;
+    {% if update_len > 0 %}
+        if(action != 'removing')
+        {
+        title = "task: " + ['upgrading', 'upgrade', 'upgrade', 'None', 'None']
+        document.title = title;
+        }
     {% endif %}
     if (action == 'reboot'){
     title = "task: " + [action, id , p_type, user, launchable]
