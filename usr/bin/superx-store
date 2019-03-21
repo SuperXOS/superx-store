@@ -5,12 +5,12 @@ import sys
 from datetime import datetime
 from random import randint
 from time import sleep
+from re import findall
 from aptdaemon import client
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QUrl, QPoint, QProcess, QSettings, \
     QThread, QTimer, pyqtSignal
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWidgets import QWidget, QApplication, QMainWindow, QLineEdit, \
     QSizePolicy, QActionGroup, QMenu, QDialog, QDesktopWidget, QMessageBox
@@ -425,6 +425,11 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setAttribute(Qt.AA_UseSoftwareOpenGL)
+    driver_check = QProcess()
+    driver_check.start('glxinfo')  # Quick hack than importing python opengl.
+    driver_check.waitForFinished(-1)
+    driver = str(driver_check.readAllStandardOutput())
+    if findall('OpenGL vendor string: nouveau', driver):
+        app.setAttribute(Qt.AA_UseSoftwareOpenGL)
     window = MainWindow()
     sys.exit(app.exec_())
