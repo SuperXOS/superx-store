@@ -5,6 +5,7 @@ import sys
 from datetime import datetime
 from random import randint
 from time import sleep
+from re import findall
 from aptdaemon import client
 
 from PyQt5 import uic
@@ -26,11 +27,13 @@ class checkUpdateInstalledThread(QThread):
     def run(self):
         appstore.updates = appstore.backend_obj.listUpdates()
         if len(appstore.updates[2]) != 0:
+            window.actionUpdates.setVisible(True)
             window.actionUpdates.setIcon(QIcon.fromTheme('update-high'))
             window.actionUpdates.setToolTip(
                 'Security updates are available...')
             window.webEngine.page().runJavaScript('disabled()')
         elif len(appstore.updates[0]) != 0 or len(appstore.updates[1]) != 0:
+            window.actionUpdates.setVisible(True)
             window.actionUpdates.setIcon(QIcon.fromTheme('update-low'))
             window.actionUpdates.setToolTip('Updates are available...')
             window.webEngine.page().runJavaScript('disabled()')
@@ -419,6 +422,11 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    app.setAttribute(Qt.AA_UseSoftwareOpenGL)
+    driver_check = QProcess()
+    driver_check.start('glxinfo')  # Quick hack than importing python opengl.
+    driver_check.waitForFinished(-1)
+    driver = str(driver_check.readAllStandardOutput())
+    if findall('OpenGL vendor string: nouveau', driver):
+        app.setAttribute(Qt.AA_UseSoftwareOpenGL)
     window = MainWindow()
     sys.exit(app.exec_())
