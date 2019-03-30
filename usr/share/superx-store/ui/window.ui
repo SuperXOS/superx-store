@@ -211,42 +211,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionSearchName">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Search applications by name</string>
-   </property>
-  </action>
-  <action name="actionSearchSummery">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Search applications by summery (slower)</string>
-   </property>
-   <property name="toolTip">
-    <string>Search applications by summery</string>
-   </property>
-  </action>
-  <action name="actionSearchDescription">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Search applications by description (much slower)</string>
-   </property>
-   <property name="toolTip">
-    <string>Search applications by summery</string>
-   </property>
-  </action>
   <action name="actionSoftwareSources">
    <property name="icon">
     <iconset theme="document-edit">
@@ -301,16 +265,19 @@
     <string>Search Results...</string>
    </property>
   </action>
-  <action name="actionCheckUpdates">
+  <action name="actionAutoUpdates">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset theme="update-none">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Check for updates</string>
+    <string>Enable auto updates</string>
    </property>
    <property name="toolTip">
-    <string>Refresh software cache...</string>
+    <string>Upgrade your system automatically</string>
    </property>
   </action>
   <action name="actionPurchases">
