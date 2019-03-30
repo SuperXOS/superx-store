@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
+from os import environ
 import sys
 
 from PyQt5 import uic
 from PyQt5.QtCore import QSettings
 from PyQt5.QtWidgets import QApplication, QDialog
+
+environ['KDE_FULL_SESSION'] = 'true'
 
 class MainWindow(QDialog):
     def __init__(self):
@@ -13,7 +16,7 @@ class MainWindow(QDialog):
         self = uic.loadUi('/usr/share/superx-store/ui/config.ui', self)
         self.buttonBox.accepted.connect(self.writeConfig)
 
-        self.settings = QSettings('/etc/superx-system-updatesrc')
+        self.settings = QSettings('superx-system-updatesrc')
         self.auto_updates = self.settings.value('auto_updates', type=bool)
         self.startup_install = self.settings.value('startup_install', type=bool)
 
