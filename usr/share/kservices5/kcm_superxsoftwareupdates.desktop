@@ -1,0 +1,14 @@
+[Desktop Entry]
+Icon=system-software-update
+Type=Service
+X-KDE-ServiceTypes=SystemSettingsExternalApp
+X-KDE-ParentApp=kcontrol
+X-KDE-System-Settings-Parent-Category=system-administration
+X-KDE-Keywords=Software Updates
+Exec=pkexec superx-updates-config
+
+Name=Software Updates
+Name[fr]=Updates de logiciels
+Name[fr_CA]=Updates de logiciels
+
+Comment=Configure how SuperX install updates on your computer

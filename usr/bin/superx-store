@@ -163,17 +163,7 @@ class MainWindow(QMainWindow):
 
         self = uic.loadUi('/usr/share/superx-store/ui/window.ui', self)
 
-        self.settings = QSettings('superx-storerc')
-        self.search_name = self.settings.value('search_name', type=bool)
-        self.search_summery = self.settings.value('search_summery', type=bool)
-        self.search_desc = self.settings.value('search_desc', type=bool)
-
-        if self.search_name:
-            self.actionSearchName.setChecked(True)
-        if self.search_summery:
-            self.actionSearchSummery.setChecked(True)
-        if self.search_desc:
-            self.actionSearchDescription.setChecked(True)
+        self.settings = QSettings('/etc/xdg/superx-storerc.conf')
 
         toolbarGroup = QActionGroup(self.toolBar)
         toolbarGroup.addAction(self.actionHome)
@@ -238,10 +228,6 @@ class MainWindow(QMainWindow):
 
         self.webEngine.page().titleChanged.connect(self.titleActions)
 
-        self.actionSearchName.toggled.connect(self.settingsWrite)
-        self.actionSearchSummery.toggled.connect(self.settingsWrite)
-        self.actionSearchDescription.toggled.connect(self.settingsWrite)
-
         screen = QDesktopWidget().screenGeometry()
         window = self.geometry()
         hposition = (screen.width() - window.width()) / 2
@@ -282,26 +268,7 @@ class MainWindow(QMainWindow):
             search_parms)))
 
     def settingsWrite(self):
-        if self.actionSearchName.isChecked():
-            self.settings.setValue('search_name', True)
-            self.search_name = True
-        else:
-            self.settings.setValue('search_name', False)
-            self.search_name = False
-
-        if self.actionSearchSummery.isChecked():
-            self.settings.setValue('search_summery', True)
-            self.search_summery = True
-        else:
-            self.settings.setValue('search_summery', False)
-            self.search_summery = False
-
-        if self.actionSearchDescription.isChecked():
-            self.settings.setValue('search_desc', True)
-            self.search_desc = True
-        else:
-            self.settings.setValue('search_desc', False)
-            self.search_desc = False
+        pass
 
     def titleActions(self):
         '''{action: action, id: id, p_type: type, user: None, launchable: None}'''
@@ -413,9 +380,8 @@ class MainWindow(QMainWindow):
 
     def configMenu(self):
         configMenu = QMenu(parent=window)
-        configMenu.addAction(self.actionSearchName)
-        configMenu.addAction(self.actionSearchSummery)
-        configMenu.addAction(self.actionSearchDescription)
+        configMenu = QMenu(parent=window)
+        configMenu.addAction(self.actionAutoUpdates)
         configMenu.addAction(self.actionSoftwareSources)
         configMenu.addAction(self.actionAbout)
         # Check for a better menu system.

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+
+  <vendor>SuperX</vendor>
+  <vendor_url>https://superxos.com/</vendor_url>
+
+  <action id="com.superx.superx-software-updates">
+    <icon_name>system-software-update</icon_name>
+<message>Software Updates</message>
+<message xml:lang="fr">Updates de logiciels</message>
+<message xml:lang="fr_CA">Updates de logiciels</message>
+
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/bin/superx-updates-config</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+
+</policyconfig>

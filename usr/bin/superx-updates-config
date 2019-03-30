@@ -1,0 +1,44 @@
+#!/usr/bin/python3
+
+import sys
+
+from PyQt5 import uic
+from PyQt5.QtCore import QSettings
+from PyQt5.QtWidgets import QApplication, QDialog
+
+class MainWindow(QDialog):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+
+        self = uic.loadUi('/usr/share/superx-store/ui/config.ui', self)
+        self.buttonBox.accepted.connect(self.writeConfig)
+
+        self.settings = QSettings('/etc/superx-system-updatesrc')
+        self.auto_updates = self.settings.value('auto_updates', type=bool)
+        self.startup_install = self.settings.value('startup_install', type=bool)
+
+        if self.auto_updates:
+            self.option_auto_install.setChecked(True)
+        else:
+            self.option_manual_install.setChecked(True)
+
+        if self.startup_install:
+            self.restart_required.setChecked(True)
+
+        self.show()
+
+    def writeConfig(self):
+        if self.option_auto_install.isChecked():
+            self.settings.setValue('auto_updates', True)
+        else:
+            self.settings.setValue('auto_updates', False)
+
+        if self.restart_required.isChecked():
+            self.settings.setValue('startup_install', True)
+        else:
+            self.settings.setValue('startup_install', False)
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    sys.exit(app.exec_())
