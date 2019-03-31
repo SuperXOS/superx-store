@@ -14,6 +14,8 @@ class MainWindow(QDialog):
         super(MainWindow, self).__init__()
 
         self = uic.loadUi('/usr/share/superx-store/ui/config.ui', self)
+        self.option_auto_install.clicked.connect(self.toggleRebootInstall)
+        self.option_manual_install.clicked.connect(self.toggleRebootInstall)
         self.buttonBox.accepted.connect(self.writeConfig)
 
         self.settings = QSettings('superx-system-updatesrc')
@@ -24,11 +26,19 @@ class MainWindow(QDialog):
             self.option_auto_install.setChecked(True)
         else:
             self.option_manual_install.setChecked(True)
+            self.restart_required.setEnabled(False)
 
         if self.startup_install:
             self.restart_required.setChecked(True)
 
         self.show()
+
+    def toggleRebootInstall(self):
+        self.restart_required.setChecked(True)
+        if self.option_auto_install.isChecked():
+            self.restart_required.setEnabled(True)
+        elif self.option_manual_install.isChecked():
+            self.restart_required.setEnabled(False)
 
     def writeConfig(self):
         if self.option_auto_install.isChecked():

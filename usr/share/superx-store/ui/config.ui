@@ -35,7 +35,7 @@
    <item row="4" column="1">
     <widget class="QCheckBox" name="restart_required">
      <property name="text">
-      <string>Install updates during startup [Recommended]</string>
+      <string>Install updates during startup [Highly Recommended]</string>
      </property>
     </widget>
    </item>

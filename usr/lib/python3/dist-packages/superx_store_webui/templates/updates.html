@@ -1,4 +1,9 @@
 {% extends 'main.html' %}
+{% if current_task_id == 'upgrade' %}
+<script>
+setProgress('0', 'upgrade');
+</script>
+{% endif %}
 {% block content %}
 {% set icon = 'update' %}
 {% set title = 'update' %}
