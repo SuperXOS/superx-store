@@ -7,7 +7,6 @@ auto_updates = settings.value('auto_updates', type=bool)
 startup_install = settings.value('startup_install', type=bool)
 
 if auto_updates:
-
     refresh_cache = QProcess()
     refresh_cache.start('pkcon refresh -y')
     refresh_cache.waitForFinished(-1)
@@ -15,6 +14,8 @@ if auto_updates:
     update_instance = QProcess()
 
     if startup_install:
-        update_instance.startDetached('pkcon update -d')
+        update_instance.start('pkcon update -d')
     else:
-        update_instance.startDetached('pkcon update -y')
+        update_instance.start('pkcon update -y')
+
+    update_instance.waitForFinished(-1)
