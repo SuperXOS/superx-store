@@ -15,7 +15,11 @@ if auto_updates:
 
     if startup_install:
         update_instance.start('pkcon update -d')
+        update_instance.waitForFinished(-1)
+        
+        offline_trigger = QProcess()
+        offline_trigger.start('pkcon offline-trigger')
+        
     else:
         update_instance.start('pkcon update -y')
-
-    update_instance.waitForFinished(-1)
+        update_instance.waitForFinished(-1)
