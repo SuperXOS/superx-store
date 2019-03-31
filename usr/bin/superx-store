@@ -260,13 +260,8 @@ class MainWindow(QMainWindow):
             self.installer.start()
 
     def searchQuery(self):
-        search_parms = (
-        self.searchBar.text(), self.search_name, self.search_summery,
-        self.search_desc)
-        self.webEngine.load(QUrl(os.path.join(
-            self.server,
-            'search?q=%s&search_name=%s&search_summery=%s&search_desc=%s' %
-            search_parms)))
+        self.webEngine.load(QUrl(os.path.join(self.server, 'search?q=%s' %
+                                              self.searchBar.text())))
 
     def settingsWrite(self):
         pass
