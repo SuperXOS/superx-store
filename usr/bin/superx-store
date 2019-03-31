@@ -207,6 +207,7 @@ class MainWindow(QMainWindow):
         self.actionForward.triggered.connect(self.urlProcess)
         self.actionConfigure.triggered.connect(self.configMenu)
 
+        self.actionAutoUpdates.triggered.connect(self.configUpdates)
         self.actionSoftwareSources.triggered.connect(self.editSources)
         self.actionAbout.triggered.connect(self.aboutDialog)
 
@@ -378,15 +379,19 @@ class MainWindow(QMainWindow):
         superx_sources = QProcess()
         superx_sources.startDetached('superx-sources')
 
+    def configUpdates(self):
+        config_updates = QProcess()
+        config_updates.start('pkexec superx-updates-config')
+        config_updates.waitForFinished(-1)
+
     def configMenu(self):
-        configMenu = QMenu(parent=window)
         configMenu = QMenu(parent=window)
         configMenu.addAction(self.actionAutoUpdates)
         configMenu.addAction(self.actionSoftwareSources)
         configMenu.addAction(self.actionAbout)
         # Check for a better menu system.
         point = QPoint(self.searchBar.frameGeometry().x() +
-                       self.searchBar.frameGeometry().width() - 309, 30)
+                       self.searchBar.frameGeometry().width() - 165, 30)
         configMenu.popup(QWidget.mapToGlobal(self, point))
 
 

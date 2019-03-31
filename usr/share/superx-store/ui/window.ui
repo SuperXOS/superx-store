@@ -266,18 +266,15 @@
    </property>
   </action>
   <action name="actionAutoUpdates">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset theme="update-none">
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Enable auto updates</string>
+    <string>Configure Updates</string>
    </property>
    <property name="toolTip">
-    <string>Upgrade your system automatically</string>
+    <string>Configure how to install updates</string>
    </property>
   </action>
   <action name="actionPurchases">
