@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
 
         self = uic.loadUi('/usr/share/superx-store/ui/window.ui', self)
 
-        self.settings = QSettings('/etc/xdg/superx-storerc.conf')
+        self.settings = QSettings('superx-storerc')
 
         toolbarGroup = QActionGroup(self.toolBar)
         toolbarGroup.addAction(self.actionHome)
