@@ -1,0 +1,4 @@
+org.gnome.Music.desktop
+writetype.desktop
+supertuxkart.desktop
+compton.desktop

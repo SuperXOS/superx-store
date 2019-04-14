@@ -2,4 +2,7 @@ gjackclock.desktop
 kvirc.desktop
 quake2-groundzero.desktop
 geany.desktop
+<<<<<<< HEAD
 org.gnome.Epiphany.desktop
+=======
+>>>>>>> 4d33b72... Top Apps and Editor's choice are now imported for extra txt files
