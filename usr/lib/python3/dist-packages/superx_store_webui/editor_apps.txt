@@ -3,6 +3,10 @@ kvirc.desktop
 quake2-groundzero.desktop
 geany.desktop
 <<<<<<< HEAD
+<<<<<<< HEAD
 org.gnome.Epiphany.desktop
 =======
 >>>>>>> 4d33b72... Top Apps and Editor's choice are now imported for extra txt files
+=======
+org.gnome.Epiphany.desktop
+>>>>>>> 2d7b094... See More added in Index page
