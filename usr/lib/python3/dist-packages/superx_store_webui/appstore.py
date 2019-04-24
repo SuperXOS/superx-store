@@ -46,21 +46,58 @@ def index():
     image_list = [f for f in listdir(image_path) if
                     isfile(join(image_path, f))]
     
-    top_app_id = ['org.gnome.Music.desktop', 'writetype.desktop', 'supertuxkart.desktop', 'compton.desktop']
+    f = open("/usr/lib/python3/dist-packages/superx_store_webui/top_apps.txt", "r")
+    top_apps = f.read()
+    top_app_id = top_apps.split('\n')
+
+    #top_app_id = ['org.gnome.Music.desktop', 'writetype.desktop', 'supertuxkart.desktop', 'compton.desktop']
     top_app_list = []
     for app_id in top_app_id:
         if backend_obj.appSummery(app_id) != None:
             top_app_list.append(backend_obj.appSummery(app_id))
-    editor_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
+            
+    f = open("/usr/lib/python3/dist-packages/superx_store_webui/editor_apps.txt", "r")
+    editor_apps = f.read()
+    editor_app_id = editor_apps.split('\n')
+    #editor_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
     editor_app_list = []
     for app_id in editor_app_id:
         if backend_obj.appSummery(app_id) != None:
             editor_app_list.append(backend_obj.appSummery(app_id))
     return render_template('index.html',
                            image_list=image_list,
-                           top_app_list = top_app_list,
-                           editor_app_list = editor_app_list
+                           top_app_list = top_app_list[:4],
+                           editor_app_list = editor_app_list[:4]
                            )
+
+
+@app.route('/seeMoreTopApps')
+def seeMoreTopApps():
+    f = open("/usr/lib/python3/dist-packages/superx_store_webui/top_apps.txt", "r")
+    top_apps = f.read()
+    top_app_id = top_apps.split('\n')
+
+    #top_app_id = ['org.gnome.Music.desktop', 'writetype.desktop', 'supertuxkart.desktop', 'compton.desktop']
+    top_app_list = []
+    for app_id in top_app_id:
+        if backend_obj.appSummery(app_id) != None:
+            top_app_list.append(backend_obj.appSummery(app_id))
+
+    return render_template('see_more.html', app_list=top_app_list, type="Top choice Apps")
+
+
+@app.route('/seeMoreEditorApps')
+def seeMoreEditorApps():
+    f = open("/usr/lib/python3/dist-packages/superx_store_webui/editor_apps.txt", "r")
+    editor_apps = f.read()
+    editor_app_id = editor_apps.split('\n')
+    #editor_app_id = ['gjackclock.desktop', 'kvirc.desktop', 'quake2-groundzero.desktop', 'geany.desktop']
+    editor_app_list = []
+    for app_id in editor_app_id:
+        if backend_obj.appSummery(app_id) != None:
+            editor_app_list.append(backend_obj.appSummery(app_id))
+
+    return render_template('see_more.html', app_list=editor_app_list, type="Editor's choice Apps")
 
 
 @app.route('/image/<path:filename>')

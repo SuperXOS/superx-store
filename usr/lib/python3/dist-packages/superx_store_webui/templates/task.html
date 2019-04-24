@@ -4,6 +4,8 @@
 
 </head>
 <body>
+
+{% if file_exist == 0 %}
 <div class="container">
   <h2>Tasks</h2>
     {% if current_task != None %}
@@ -23,6 +25,13 @@
         {% endfor %}
     {% endif %}
 </div>
+{% else %}
+<div class="container">
+    <div class="alert alert-info" style="margin-top: 50px;">
+    <strong>Restart</strong>  your system to apply updates. <a href="#" id="btn-update" class="btn btn-primary margin-7" onclick="setTitle(&quot;reboot&quot;, &quot;None&quot;, &quot;None&quot;, &quot;None&quot;, &quot;None&quot;)">Restart</a>
+    </div>
+</div>
+{% endif %}
 </div>
 <script>
 //     $(document).ready(function() { 
