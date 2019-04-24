@@ -16,3 +16,38 @@ Architecture: all
 Depends: superx-store
 Description: Transitional package for superx-store.
  This package can be safely removed.
+
+Package: plasma-discover-updater
+Architecture: all
+Description: Transitional package for plasma-discover-updater.
+ This package can be safely removed.
+ 
+Package: plasma-discover
+Architecture: all
+Description: Transitional package for plasma-discover.
+ This package can be safely removed.
+ 
+Package: plasma-discover-common
+Architecture: all
+Description: Transitional package for plasma-discover-common.
+ This package can be safely removed.
+
+Package: plasma-discover
+Architecture: all
+Description: Transitional package for plasma-discover.
+ This package can be safely removed.
+
+Package: plasma-discover-snap-backend
+Architecture: all
+Description: Transitional package for plasma-discover-snap-backend.
+ This package can be safely removed.
+ 
+Package: plasma-discover-flatpak-backend
+Architecture: all
+Description: Transitional package for plasma-discover-flatpak-backend.
+ This package can be safely removed.
+
+Package: plasma-discover-private
+Architecture: all
+Description: Transitional package for plasma-discover-private.
+ This package can be safely removed.
