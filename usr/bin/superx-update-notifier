@@ -1,0 +1,105 @@
+#!/usr/bin/python3
+
+import sys
+from os.path import exists
+from dbus import SystemBus, Interface
+from PyQt5.QtCore import QSettings, QTimer, QProcess
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
+from PyQt5.QtGui import QIcon
+
+from superx_appstore_backend.appstore_backend import AppStoreBackend
+
+
+class PackageKitBus():
+    def __init__(self):
+        bus = SystemBus()
+        pkobj = bus.get_object('org.freedesktop.PackageKit',
+                               '/org/freedesktop/PackageKit')
+
+        self.interface_ = Interface(pkobj, dbus_interface=
+        'org.freedesktop.PackageKit.Offline')
+
+    def get_prepared_updates(self):
+        get_prepared = self.interface_.get_dbus_method('GetPrepared',
+                                                       dbus_interface=None)
+        return get_prepared()
+
+class Notifier():
+    def __init__(self):
+        self.time_out = 60000
+        self.update_notifier = QSystemTrayIcon()
+        self.update_notifier.activated.connect(self.showAppStore)
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.showNotification)
+        self.timer.start(self.time_out)
+
+    def showAppStore(self):
+        appStore = QProcess()
+        appStore.startDetached('superx-store --update')
+
+    def showNotification(self):
+        print('Checking updates...')
+        settings = QSettings('superx-system-updatesrc')
+        auto_updates = settings.value('auto_updates', type=bool)
+        startup_install = settings.value('startup_install', type=bool)
+        _update_icon = 'update-low'
+
+        if auto_updates and startup_install:
+            print("1")
+            update_tooltip = 'Restart to apply system updates'
+            pk = PackageKitBus()
+            prepared_updates = pk.get_prepared_updates()
+
+            if len(prepared_updates) > 0:
+                if not exists('/system-update'):
+                    update_trigger = QProcess()
+                    update_trigger.start('pkcon offline-trigger')
+                    update_trigger.waitForFinished()
+
+                for i in prepared_updates:
+                    if 'security' in i:
+                        _update_icon = 'update-high'
+                        update_tooltip = 'Security Updates available. Restart to apply them.'
+                        break
+                self.update_notifier.setIcon(QIcon.fromTheme(_update_icon))
+                self.update_notifier.setToolTip(update_tooltip)
+                while not QSystemTrayIcon.isSystemTrayAvailable():
+                    pass
+                else:
+                    self.update_notifier.show()
+            else:
+                self.update_notifier.hide()
+        elif auto_updates and not startup_install:
+            pass
+        else:
+            self.time_out = 600000
+            self.timer.stop()
+            self.timer.start(self.time_out)
+            appStore_backend = AppStoreBackend()
+            updates = appStore_backend.listUpdates()
+            print(updates)
+            if len(updates[2]) > 0:
+                _update_icon = 'update-high'
+                update_tooltip = 'Security Updates available. Restart to apply them.'
+                self.update_notifier.setIcon(QIcon.fromTheme(_update_icon))
+                self.update_notifier.setToolTip(update_tooltip)
+                while not QSystemTrayIcon.isSystemTrayAvailable():
+                    pass
+                else:
+                    self.update_notifier.show()
+            elif len(updates[0]) > 0 or len(updates[1]) > 0:
+                _update_icon = 'update-low'
+                update_tooltip = 'Restart to apply system updates'
+                self.update_notifier.setIcon(QIcon.fromTheme(_update_icon))
+                self.update_notifier.setToolTip(update_tooltip)
+                while not QSystemTrayIcon.isSystemTrayAvailable():
+                    pass
+                else:
+                    self.update_notifier.show()
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    app.setQuitOnLastWindowClosed(False)
+    notifier = Notifier()
+    sys.exit(app.exec())

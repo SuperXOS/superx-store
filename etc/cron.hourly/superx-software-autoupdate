@@ -2,7 +2,9 @@
 
 from PyQt5.QtCore import QSettings, QProcess
 
-settings = QSettings('superx-system-updatesrc')
+settings = QSettings(QSettings.NativeFormat,
+                     QSettings.SystemScope,
+                     'superx-system-updatesrc')
 auto_updates = settings.value('auto_updates', type=bool)
 startup_install = settings.value('startup_install', type=bool)
 

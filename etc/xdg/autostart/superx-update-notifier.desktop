@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=SuperX Update Notifier
+Comment=Notifier for updates on SuperX
+GenericName=SuperX Update Notifier
+Exec=/usr/bin/superx-update-notifier
+Icon=superx-store
+Type=Application
+StartupNotify=true
+Categories=Qt;KDE;System;
+Keywords=update;notifier;

@@ -18,7 +18,10 @@ class MainWindow(QDialog):
         self.option_manual_install.clicked.connect(self.toggleRebootInstall)
         self.buttonBox.accepted.connect(self.writeConfig)
 
-        self.settings = QSettings('superx-system-updatesrc')
+        self.settings = QSettings(QSettings.NativeFormat,
+                                  QSettings.SystemScope,
+                                  'superx-system-updatesrc')
+        print(self.settings.fileName())
         self.auto_updates = self.settings.value('auto_updates', type=bool)
         self.startup_install = self.settings.value('startup_install', type=bool)
 
