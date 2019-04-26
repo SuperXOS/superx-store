@@ -250,5 +250,6 @@ a:hover {
 }
 
 .app-box{
-    max-width: 225px;
+    max-width: 228px;
+    min-width: 228px;
 }
