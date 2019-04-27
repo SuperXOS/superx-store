@@ -235,7 +235,11 @@ class MainWindow(QMainWindow):
         vposition = (screen.height() - window.height()) / 2
         self.move(hposition, vposition)
 
-        self.webEngine.load(QUrl(self.server))
+        if sys.argv[1] == '--update':
+            self.webEngine.load(QUrl(os.path.join(self.server, 'updates')))
+        else:
+            self.webEngine.load(QUrl(self.server))
+
         self.webEngine.page().loadFinished.connect(
             lambda: toolbarGroup.setEnabled(True))
         self.show()
