@@ -1,6 +1,13 @@
+<style>
+@media screen and (max-width: 1300px) {
+    .col4 {
+        display: none !important;
+    }
+}
+</style>
 {% for app in app_list  %}
     <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
-        <div class="col-xm-3 col-sm-3 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}}" style="margin-top: 35px;">
+        <div class="col-xm-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}" style="margin-top: 35px;">
             <div class="app-color{{loop.index}} app-box">
             </div>
             <div class="app-icon" align="center">
