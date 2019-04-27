@@ -3,6 +3,8 @@
 import os
 import sys
 from operator import itemgetter
+from json import load
+from ast import literal_eval
 
 import apt
 import apt_pkg
@@ -12,6 +14,12 @@ gi.require_version("AppStream", "1.0")
 from gi.repository import AppStream
 
 class AppStoreBackend():
+
+    def packageJSONdata(self, pkg):
+        for i in self.packages_json:
+            if i['id'] == pkg:
+                return i['cover'], i['icon'], literal_eval(i['related'])
+        return None, None, None
 
     def appDetails(self, id):
         cpt = self.pool.get_components_by_id(id)[0]
@@ -38,11 +46,19 @@ class AppStoreBackend():
 
         suggested = []
 
-        icon = cpt.get_icon_by_size(128, 128)
-        if icon == None:
-            component_data['icon'] = None
+        json_data = self.packageJSONdata(cpt.get_pkgname())
+
+        component_data['cover'] = json_data[0]
+        component_data['related'] = json_data[2]
+
+        if json_data[1] is None:
+            icon = cpt.get_icon_by_size(128, 128)
+            if icon == None:
+                component_data['icon'] = None
+            else:
+                component_data['icon'] = str(AppStream.Icon.get_filename(icon))
         else:
-            component_data['icon'] = str(AppStream.Icon.get_filename(icon))
+            component_data['icon'] = json_data[1]
 
         screenshots = []
         thumbnails = []
@@ -103,11 +119,19 @@ class AppStoreBackend():
         except AttributeError:
             component_data['launchable'] = None
 
-        icon = app.get_icon_by_size(128, 128)
-        if icon == None:
-            component_data['icon'] = None
+        json_data = self.packageJSONdata(app.get_pkgname())
+
+        component_data['cover'] = json_data[0]
+        component_data['related'] = json_data[2]
+
+        if json_data[1] is None:
+            icon = app.get_icon_by_size(128, 128)
+            if icon == None:
+                component_data['icon'] = None
+            else:
+                component_data['icon'] = str(AppStream.Icon.get_filename(icon))
         else:
-            component_data['icon'] = str(AppStream.Icon.get_filename(icon))
+            component_data['icon'] = json_data[1]
 
         return component_data
 
@@ -312,14 +336,16 @@ class AppStoreBackend():
         security_updates = sorted(security_updates)
         return app_updates, system_updates, security_updates
 
-
-
-
-
     def __init__(self):
         self.apt_cache = apt.Cache()
         self.pool = AppStream.Pool()
         self.pool.load()
         self.transacted = []
+        f = '/usr/lib/python3/dist-packages/superx_appstore_backend/package_data.json'
+        self.packages_json = open(f, 'r')
+        self.packages_json = load(self.packages_json)
+
+
+
         
 
