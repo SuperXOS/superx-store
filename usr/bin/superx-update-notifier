@@ -2,6 +2,7 @@
 
 import sys
 from os.path import exists
+from pathlib import Path
 from dbus import SystemBus, Interface
 from PyQt5.QtCore import QSettings, QTimer, QProcess
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
@@ -99,6 +100,13 @@ class Notifier():
                     self.update_notifier.show()
 
 if __name__ == "__main__":
+<<<<<<< HEAD
+=======
+    if exists('/tmp/superx-update-notifier.lock'):
+        sys.exit(0)
+    else:
+        Path('/tmp/superx-update-notifier.lock').touch()
+>>>>>>> 96b5248... 1. Delete QSingleApplication Python library as not working
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     notifier = Notifier()
