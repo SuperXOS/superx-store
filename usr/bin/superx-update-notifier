@@ -2,11 +2,11 @@
 
 import sys
 from os.path import exists
+from pathlib import Path
 from dbus import SystemBus, Interface
 from PyQt5.QtCore import QSettings, QTimer, QProcess
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from PyQt5.QtGui import QIcon
-from qtsingleapplication import QtSingleApplication
 
 from superx_appstore_backend.appstore_backend import AppStoreBackend
 
@@ -100,9 +100,11 @@ class Notifier():
                     self.update_notifier.show()
 
 if __name__ == "__main__":
-    appGuid = '3d544d80-7614-4811-b919-1a3866a2943d'
-    app = QtSingleApplication(appGuid, sys.argv)
-    if app.isRunning(): sys.exit(0)
+    if exists('/tmp/superx-update-notifier.lock'):
+        sys.exit(0)
+    else:
+        Path('/tmp/superx-update-notifier.lock').touch()
+    app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     notifier = Notifier()
     sys.exit(app.exec())
