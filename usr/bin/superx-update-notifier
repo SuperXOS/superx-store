@@ -101,11 +101,17 @@ class Notifier():
 
 if __name__ == "__main__":
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 96b5248... 1. Delete QSingleApplication Python library as not working
     if exists('/tmp/superx-update-notifier.lock'):
         sys.exit(0)
     else:
         Path('/tmp/superx-update-notifier.lock').touch()
+<<<<<<< HEAD
+>>>>>>> 96b5248... 1. Delete QSingleApplication Python library as not working
+=======
 >>>>>>> 96b5248... 1. Delete QSingleApplication Python library as not working
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
