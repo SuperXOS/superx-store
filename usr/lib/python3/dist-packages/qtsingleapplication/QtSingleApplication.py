@@ -78,4 +78,4 @@ class QtSingleApplication(QApplication):
         while True:
             msg = self._inStream.readLine()
             if not msg: break
-self.messageReceived.emit(msg)
+        self.messageReceived.emit(msg)

@@ -6,6 +6,7 @@ from dbus import SystemBus, Interface
 from PyQt5.QtCore import QSettings, QTimer, QProcess
 from PyQt5.QtWidgets import QApplication, QSystemTrayIcon
 from PyQt5.QtGui import QIcon
+from qtsingleapplication import QtSingleApplication
 
 from superx_appstore_backend.appstore_backend import AppStoreBackend
 
@@ -99,7 +100,9 @@ class Notifier():
                     self.update_notifier.show()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    appGuid = '3d544d80-7614-4811-b919-1a3866a2943d'
+    app = QtSingleApplication(appGuid, sys.argv)
+    if app.isRunning(): sys.exit(0)
     app.setQuitOnLastWindowClosed(False)
     notifier = Notifier()
     sys.exit(app.exec())
