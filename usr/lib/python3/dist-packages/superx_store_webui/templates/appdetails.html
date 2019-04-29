@@ -89,7 +89,7 @@ document.onreadystatechange = function () {
             <font size="5" class="main-hearder-title">More from this category</font>
             <br>
             <br>
-            <div class="row" style="margin-right: 5px;">
+            <div class="row" style="margin-right: 5px; min-width: 800px;">
             {% include 'appBox.html' %}
             </div>
             <br>
@@ -153,9 +153,13 @@ document.onreadystatechange = function () {
                                 {% if addon['icon'] == None %}
                                 <img src="/static/icons/default.svg" height="64px">
                                 {% else %}
-                                {% set addonIcon_list = addon['icon'].split('/') %}
-                                {% set addonIcon_path = addon['icon'].split(addonIcon_list[addonIcon_list|length - 1]) %}
-                                <img src="{{ url_for('display_file', filepath=addonIcon_path[0], filename=addonIcon_list[addonIcon_list|length - 1]) }}" width="50px" height="50px">
+                                    {% if addon['icon'].startswith('http://')  %}
+                                        <img id="icon{{loop.index}}" src="{{addon['icon']}}" height="64px">
+                                    {% else %}
+                                        {% set addonIcon_list = addon['icon'].split('/') %}
+                                        {% set addonIcon_path = addon['icon'].split(addonIcon_list[addonIcon_list|length - 1]) %}
+                                        <img src="{{ url_for('display_file', filepath=addonIcon_path[0], filename=addonIcon_list[addonIcon_list|length - 1]) }}" width="50px" height="50px">
+                                    {% endif %}
                                 {% endif %}
                             </td>
                             <td>

@@ -38,11 +38,14 @@
                      style="padding-top: 1px;">
                     {% else %}
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
-                        {% set app_icon_list = app['icon'].split('/') %}
-                        {% set app_path =
-                        app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
-                        <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
-                             class="icon pull-right" height="100px" width="100px">
+                        {% if app['icon'].startswith('http://')  %}
+                            <img id="icon" src="{{app['icon']}}" class="icon pull-right" height="100px" width="100px">
+                        {% else %}
+                            {% set app_icon_list = app['icon'].split('/') %}
+                            {% set app_path = app['icon'].split(app_icon_list[app_icon_list|length - 1]) %}
+                            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_icon_list[app_icon_list|length - 1]) }}"
+                                class="icon pull-right" height="100px" width="100px">
+                        {% endif %}
                     </div>
                     <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"
                          style="padding-top: 1px;">
