@@ -13,6 +13,20 @@
 <style>
   .container { width: @container-desktop !important; }
 body { overflow-y: scroll; }
+.app-summery{
+ color: #f5efefdb;
+ background: rgba(51, 49, 49, 0.68);
+ top: 65% !important;
+}
+
+.app-summery-blur{
+    width: 226px !important;
+    height: 48px !important;
+    filter: blur(2px) !important;
+    top: 65% !important;
+    opacity: 1;
+    background: #0a0909bf;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords" content="Music Life Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
@@ -145,15 +159,19 @@ $(".btn-install").css("opacity", "0");
 
 $(document).ready(function() {
   $(".app-summery").css({
-    'width': ($(".app-box").width() + 'px')
+    'width': ($(".app-box").width()+30 + 'px'),
+    'height': '48px'
   });
 });
 
 $(window).resize(function() {
   $(".app-summery").css({
-    'width': ($(".app-box").width() + 'px')
+    'width': ($(".app-box").width()+30 + 'px'),
+    'height': '48px'
   });
 });
+
+
 </script>
 <!--<script>
 function disabled(){
