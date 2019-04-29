@@ -25,10 +25,14 @@
                     {% if current_task['icon'] == None %}
                         <img src="/static/icons/default.svg" class="icon" class="icon" height="64px" width="64px">
                     {% else %}
-                    {% set app_list = current_task['icon'].split('/') %}
-                    {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
-                        <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
-                    {% endif %}
+                    {% if current_task['icon'].startswith('http://')  %}
+                        <img class="icon" src="{{current_task['icon']}}" height="64px" width="64px">
+                    {% else %}
+                        {% set app_list = current_task['icon'].split('/') %}
+                        {% set app_path = current_task['icon'].split(app_list[app_list|length - 1]) %}
+                            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                        {% endif %}
+                    {% endif %}   
                 {% endif %}
             {% elif static_sec == 'task' %}
                 {% if task['details']['id'] == 'upgrade' %}
@@ -38,9 +42,13 @@
                         <img src="/static/icons/default.svg" class="icon" height="64px"
                             width="64px">
                     {% else %}
-                    {% set app_list = task['details']['icon'].split('/') %}
-                    {% set app_path = task['details']['icon'].split(app_list[app_list|length - 1]) %}
-                        <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                        {% if task['icon'].startswith('http://')  %}
+                            <img class="icon" src="{{task['icon']}}" height="64px" width="64px">
+                        {% else %}
+                            {% set app_list = task['details']['icon'].split('/') %}
+                            {% set app_path = task['details']['icon'].split(app_list[app_list|length - 1]) %}
+                                <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}" class="icon" height="64px" width="64px">
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             {% elif app['icon'] == None or app['icon'] == 'None' %}
@@ -51,13 +59,21 @@
             {% set app_path = app['icon'].split(app_list[app_list|length - 1])
             %}
             {% if static_sec == 'library' %}
-            <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none;">
-            <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
-                 class="icon" height="64px" width="64px">
-            </a>
+            {% if app['icon'].startswith('http://')  %}
+                <img class="icon" src="{{app['icon']}}" height="64px" class="icon" width="64px">
+            {% else %}
+                <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none;">
+                <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
+                    class="icon" height="64px" width="64px">
+                </a>
+            {% endif %}
+            {% else %}
+            {% if app['icon'].startswith('http://')  %}
+                <img class="icon" src="{{app['icon']}}" height="64px" class="icon" width="64px">
             {% else %}
             <img src="{{ url_for('display_file', filepath=app_path[0], filename=app_list[app_list|length - 1]) }}"
                  class="icon" height="64px" width="64px">
+            {% endif %}
             {% endif %}
             {% endif %}
         </div>
