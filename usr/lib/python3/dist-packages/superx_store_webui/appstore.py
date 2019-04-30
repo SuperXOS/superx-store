@@ -84,7 +84,7 @@ def seeMoreTopApps():
         if backend_obj.appSummery(app_id) != None:
             top_app_list.append(backend_obj.appSummery(app_id))
 
-    return render_template('see_more.html', app_list=top_app_list, type="Top choice Apps")
+    return render_template('see_more.html', app_list=top_app_list, type="Top Apps")
 
 
 @app.route('/seeMoreEditorApps')
