@@ -20,20 +20,6 @@ setProgress('0', 'upgrade');
     </script>
 {% else %}
 <script>
-//     function changeColor(selector, colors, time) {
-//         /* Params:
-//          * selector: string,
-//          * colors: array of color strings,
-//          * every: integer (in mili-seconds)
-//          */
-//         var curCol = 0,
-//             timer = setInterval(function () {
-//                 if (curCol === colors.length) curCol = 0;
-//                 $(selector).css("background-color", colors[curCol]);
-//                 curCol++;
-//             }, time);
-//     }
-    
     function setProgress(x, current_task_id){
     if (current_task_id == 'upgrade'){
     var style="linear-gradient(90deg, #3baee950 "+x+"%, #0000ff00 0%)";
@@ -137,9 +123,7 @@ setProgress('0', 'upgrade');
         visibility: hidden;
       }
     }
-<<<<<<< HEAD
-=======
-    
+
     
     
     
@@ -152,7 +136,6 @@ setProgress('0', 'upgrade');
     -khtml-transition: background-color 0.5s ease-in-out;
     transition: background-color 0.5s ease-in-out;
     }
->>>>>>> 8346026fef3522167772dd4b9d1e2ea47e5363aa
 </style>
 <div class="container" style="padding-top: 180px;">
     <ul class="nav nav-tabs" style="background-color:#F0F0F0;">
