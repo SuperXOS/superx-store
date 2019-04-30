@@ -1,5 +1,5 @@
 <style>
-@media screen and (max-width: 1300px) {
+@media screen and (max-width: 1200px) {
     .col4 {
         display: none !important;
     }
@@ -7,10 +7,9 @@
 </style>
 {% for app in app_list  %}
     <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
-        <div class="col-xm-4 col-sm-4 col-md-4 col-lg-4 col-xl-3 hover-box{{loop.index}} col{{loop.index}}" style="margin-top: 35px;">
-            <div class="app-color{{loop.index}} app-box" id="app-box{{loop.index}}">
-            </div>
-            <div class="app-icon" align="center">
+        <div class="col-xm-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}" style="margin-top: 35px;">
+            <div class="app-color{{loop.index}} app-box">
+                <div class="app-icon" align="center">
                 {% if app['icon'] == None or app['icon'] == 'None'%}
                 <img id="icon_apps{{loop.index}}"
                      src="/static/icons/default.svg" height="64px">
@@ -25,15 +24,11 @@
                         {% endif %}
                 {% endif %}
             </div>
-            <div class="app-summery app-summery{{loop.index}} truncate app-summery-blur" align="center">
-                <font style="font-size: 15px;">{{app['name']}}</font>
-                <br>
-                <font style="font-size: 14px;">{{app['summery']}}</font>
-            </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
                 <font style="font-size: 15px;">{{app['name']}}</font>
                 <br>
                 <font style="font-size: 14px;">{{app['summery']}}</font>
+            </div>
             </div>
             <div>
                 {% if app['isInstalled'] == False %}
@@ -46,6 +41,7 @@
                    onclick="setTitle('exec', '{{app['id']}}', 'apt', 'None', '{{app['launchable']}}')">Open</a>
                 {% endif %}
             </div>
+            
             {% if app['cover'] == None %}
             <script>
                 img = document.querySelector("#icon_apps{{loop.index}}");
@@ -62,6 +58,11 @@
                         $('.app-color{{loop.index}}').css('background-color', getRandomColor());
                         }
                     }
+                    
+                var oldBGColor = $('.app-color{{loop.index}}').css('background-color'), //rgb(100,100,100),
+                    newBGColor = oldBGColor.replace(')', ', 0.65)'); //rgba(100,100,100,.8);
+                $('.app-color{{loop.index}}').css({ backgroundColor: newBGColor });
+                
             </script>
             {% else %}
             <style>
@@ -72,10 +73,6 @@
                 #icon_apps{{loop.index}}{
                     display: none;
                 }
-                
-                #app-box{{loop.index}}{
-                    -webkit-filter: opacity(100%) !important;
-                    filter: opacity(100%) !important;
                 }
             </style>
             {% endif %}
@@ -97,8 +94,8 @@
                     }
                     return color;
                 }
+
             </script>
-            
         </div>
     </a>
 {% endfor %}
