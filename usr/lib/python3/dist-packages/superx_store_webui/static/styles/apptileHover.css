@@ -20,11 +20,12 @@ right: 0;
 .app-summery{
 width: 70%;
 position: absolute;
-top: 64%;
+top: 62%;
 margin: 0 auto;
 left: 0;
 right: 0;
-background-color: #111;
+color: #f5efefdb;
+background: rgba(51, 49, 49, 0.68);
 margin-top:11px;
 }
 

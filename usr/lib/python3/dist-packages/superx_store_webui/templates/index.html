@@ -155,10 +155,10 @@ alert = function(mesg) {console.trace(mesg)}
             <script>
                 $(".hover-box{{loop.index}}").hover(function(){
                     $(".top-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    $(".app-summery{{loop.index}}").css({'top':'62%', 'opacity':'0' });
                     }, function(){
                     $(".top-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
-                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".app-summery{{loop.index}}").css({'top':'62%', 'opacity':'1' });
                 });
                 
                 function getRandomColor() {
@@ -265,10 +265,10 @@ alert = function(mesg) {console.trace(mesg)}
             
             $(".editor-hover-box{{loop.index}}").hover(function(){
                     $(".editor-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                    $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
+                    $(".editor-app-summery{{loop.index}}").css({'top':'62%', 'opacity':'0' });
                     }, function(){
                     $(".editor-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
-                    $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
+                    $(".editor-app-summery{{loop.index}}").css({'top':'62%', 'opacity':'1' });
                 });
         </script></a>
     {% endfor %}
