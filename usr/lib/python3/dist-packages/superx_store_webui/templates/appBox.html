@@ -24,7 +24,7 @@
                         {% endif %}
                 {% endif %}
             </div>
-            <div class="app-summery app-summery{{loop.index}} truncate" align="center">
+            <div class="app-summery app-summery{{loop.index}} truncate" align="center" style="top: 64%;">
                 <font style="font-size: 15px;">{{app['name']}}</font>
                 <br>
                 <font style="font-size: 14px;">{{app['summery']}}</font>
@@ -80,10 +80,10 @@
             <script>
                 $(".hover-box{{loop.index}}").hover(function(){
                     $(".btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
-                    $(".app-summery{{loop.index}}").css({'top':'62%', 'opacity':'0' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
                     }, function(){
                     $(".btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
-                    $(".app-summery{{loop.index}}").css({'top':'62%', 'opacity':'1' });
+                    $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
 
                 function getRandomColor() {
