@@ -1,5 +1,7 @@
-gjackclock.desktop
-kvirc.desktop
-quake2-groundzero.desktop
-geany.desktop
-org.gnome.Epiphany.desktop
+telegramdesktop.desktop
+calibre-gui.desktop
+gpodder.desktop
+brasero.desktop
+obs.desktop
+pitivi.desktop
+homebank.desktop

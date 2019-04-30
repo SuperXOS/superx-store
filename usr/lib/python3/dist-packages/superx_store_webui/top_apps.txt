@@ -1,4 +1,10 @@
-org.gnome.Music.desktop
-writetype.desktop
 supertuxkart.desktop
-compton.desktop
+audacity.desktop
+ghb.desktop
+org.kde.amarok
+pianobooster.desktop
+org.kde.kalzium.desktop
+org.stellarium.Stellarium
+basic256.desktop
+endless-sky.desktop
+hedgewars.desktop
