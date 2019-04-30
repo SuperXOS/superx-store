@@ -4,8 +4,8 @@ height: 137px;
 padding: 15px;
 margin: 0 auto;
 border: 1px solid #6b6464e0;
--webkit-filter: opacity(65%); /* Safari 6.0 - 9.0 */
-  filter: opacity(65%);
+-webkit-filter: opacity(100%); /* Safari 6.0 - 9.0 */
+  filter: opacity(100%);
 }
 
 .app-icon{
@@ -24,6 +24,8 @@ top: 64%;
 margin: 0 auto;
 left: 0;
 right: 0;
+background-color: #111;
+margin-top:11px;
 }
 
 .button{

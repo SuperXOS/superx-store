@@ -10,12 +10,11 @@ $(document).ready(function(){
 alert = function(mesg) {console.trace(mesg)}
 </script>-->
 <style>
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
     .col4 {
         display: none !important;
     }
 }
-
 </style>
 <div id="main">
     <div class="container-fluid" style="border-top: 1px solid #ddd;">
@@ -69,7 +68,7 @@ alert = function(mesg) {console.trace(mesg)}
 <div class="panel panel-danger update-warning" style="position: fixed;left: 0;bottom: 0; width: 100%; overflow-x: hidden; overflow-y: auto; z-index: 1000; border-radius:0; display:none;">
     <div class="panel-heading" style="text-align: center;">Please update your system to get get the install button active.</div>
 </div>
-<div class="container-fluid" style="padding-top: 25px">
+<div class="container" style="padding-top: 25px">
     <div class="row">
         <div class="col-sm-8 col-md-8 col-lg-8">
             <h3>  Top Apps </h3>
@@ -84,10 +83,9 @@ alert = function(mesg) {console.trace(mesg)}
     <div class="row">
     {% for top_app in top_app_list  %}
         <a href="/details?id={{ top_app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
-        <div class="col-xm-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}">
-            <div class="topApp-color{{loop.index}} app-box" id='top-app-box{{loop.index}}'>
-            </div>
-            <div class="app-icon" align="center">
+        <div class="col-xm-4 col-sm-4 col-md-3 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}">
+            <div class="topApp-color{{loop.index}} app-box">
+                <div class="app-icon" align="center" style="margin-bottom: 15px;">
                 {% if top_app['icon'] == None or top_app['icon'] == 'None' %}
                 <img id="icon_topApps{{loop.index}}"
                      src="/static/icons/default.svg" height="64px">
@@ -101,15 +99,11 @@ alert = function(mesg) {console.trace(mesg)}
                     {% endif %}
                 {% endif %}
             </div>
-            <div class="app-summery app-summery{{loop.index}} truncate app-summery-blur truncate app-summery-blur{{loop.index}}" align="center">
-                <font style="font-size: 15px;">{{top_app['name']}}</font>
-                <br>
-                <font style="font-size: 14px;">{{top_app['summery']}}</font>
-            </div>
             <div class="app-summery app-summery{{loop.index}} truncate" align="center">
                 <font style="font-size: 15px;">{{top_app['name']}}</font>
                 <br>
                 <font style="font-size: 14px;">{{top_app['summery']}}</font>
+            </div>
             </div>
             <div>
                 {% if top_app['isInstalled'] == False %}
@@ -124,6 +118,7 @@ alert = function(mesg) {console.trace(mesg)}
                    onclick="setTitle('exec', '{{top_app['id']}}', 'apt', 'None', '{{top_app['launchable']}}')">Open</a>
                 {% endif %}
             </div>
+            
             {% if top_app['cover'] == None %}
             <script>
                 img = document.querySelector("#icon_topApps{{loop.index}}");
@@ -140,29 +135,27 @@ alert = function(mesg) {console.trace(mesg)}
                         $('.topApp-color{{loop.index}}').css('background-color', getRandomColor());
                         }
                     }
-                </script>
+                
+                var oldBGColor = $('.topApp-color{{loop.index}}').css('background-color'), //rgb(100,100,100),
+                    newBGColor = oldBGColor.replace(')', ', 0.65)'); //rgba(100,100,100,.8);
+                $('.topApp-color{{loop.index}}').css({ backgroundColor: newBGColor });
+            </script>
                 {% else %}
-                    <style>
-                        .topApp-color{{loop.index}}{
-                            background: url('{{top_app['cover']}}');
-                            }
-                            
-                        #icon_topApps{{loop.index}}{
-                            display: none;
+                <style>
+                    .topApp-color{{loop.index}}{
+                        background: url('{{top_app['cover']}}');
                         }
                         
-                        #top-app-box{{loop.index}}{
-                        -webkit-filter: opacity(100%) !important;
-                        filter: opacity(100%) !important;
-                        }
-                    </style>
+                    #icon_topApps{{loop.index}}{
+                        display: none;
+                    }
+                    }
+                </style>
                 {% endif %}
-                
-                <script>
+            <script>
                 $(".hover-box{{loop.index}}").hover(function(){
                     $(".top-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
-                    $(".app-summery-blur{{loop.index}}").css({'top':'64%', 'opacity':'0' });
                     }, function(){
                     $(".top-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
@@ -176,7 +169,7 @@ alert = function(mesg) {console.trace(mesg)}
                     }
                     return color;
                 }
-                </script>
+            </script>
         </div>
         </a>
     {% endfor %}
@@ -184,7 +177,7 @@ alert = function(mesg) {console.trace(mesg)}
 </div>
 <br>
 <br>
-<div class="container-fluid" style="height: 50%;">
+<div class="container" style="height: 50%;">
     <div class="row">
         <div class="col-sm-8 col-md-8 col-lg-8">
             <h3>  Editor's Choice </h3>
@@ -198,10 +191,9 @@ alert = function(mesg) {console.trace(mesg)}
     {% for editor_app in editor_app_list  %}
         <a href="/details?id={{ editor_app['id'] }}" id="app-details-url"
              style="text-decoration:none; color: #666;">
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 editor-hover-box{{loop.index}} col{{loop.index}}">
-            <div class="app-color{{loop.index}} app-box" id='editor-app-box{{loop.index}}'>
-            </div>
-            <div class="app-icon" align="center">
+        <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3 col-xl-2 editor-hover-box{{loop.index}} col{{loop.index}}">
+            <div class="app-color{{loop.index}} app-box">
+                <div class="app-icon" align="center">
                 {% if editor_app['icon'] == None or editor_app['icon'] == 'None' %}
                 <img id="icon" src="/static/icons/default.svg" height="64px">
                 {% else %}
@@ -220,6 +212,7 @@ alert = function(mesg) {console.trace(mesg)}
                 <font style="font-size: 15px;">{{editor_app['name']}}</font>
                 <br>
                 <font style="font-size: 14px;">{{editor_app['summery']}}</font>
+            </div>
             </div>
             <div>
                 {% if editor_app['isInstalled'] == False %}
@@ -251,26 +244,25 @@ alert = function(mesg) {console.trace(mesg)}
                         $('.app-color{{loop.index}}').css('background-color', getRandomColor());
                         }
                     }
-            </script>
-        {% else %}
+            
+            var oldBGColor = $('.app-color{{loop.index}}').css('background-color'), //rgb(100,100,100),
+                    newBGColor = oldBGColor.replace(')', ', 0.65)'); //rgba(100,100,100,.8);
+                $('.app-color{{loop.index}}').css({ backgroundColor: newBGColor });
+        </script>
+            {% else %}
             <style>
                 .app-color{{loop.index}}{
                     background: url('{{editor_app['cover']}}');
                     }
                     
                 #icon{{loop.index}}{
-                            display: none;
-                        }
-                        
-                #editor-app-box{{loop.index}}{
-                    -webkit-filter: opacity(100%) !important;
-                    filter: opacity(100%) !important;
+                    display: none;
+                }
                 }
             </style>
-            
-        {% endif %}
-        
+            {% endif %}
         <script>
+            
             $(".editor-hover-box{{loop.index}}").hover(function(){
                     $(".editor-btn{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                     $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'0' });
@@ -278,8 +270,7 @@ alert = function(mesg) {console.trace(mesg)}
                     $(".editor-btn{{loop.index}}").css({'top':'87%', 'opacity':'0' });
                     $(".editor-app-summery{{loop.index}}").css({'top':'64%', 'opacity':'1' });
                 });
-        </script>
-        </a>
+        </script></a>
     {% endfor %}
     </div>
 </div>
