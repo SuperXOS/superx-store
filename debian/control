@@ -8,41 +8,11 @@ Maintainer: Libresoft CI <ci@libresoft.in>
 Package: superx-store
 Architecture: all
 Depends: ${misc:Depends}, python3-pyqt5, python3-pyqt5.qtwebengine, python3-flask, appstream, gir1.2-appstream-1.0, python3-aptdaemon, python3-apt
-Description: AppStore for SuperX.
- SuperX AppStore is the next generation application store for the SuperX OS. 
+Description: Transitional package for superx-store.
+ This package for future superx-stores. Don't remove.
 
 Package: superx-store-client
 Architecture: all
 Depends: superx-store
-Description: Transitional package for superx-store.
- This package can be safely removed.
-
-Package: plasma-discover-updater
-Architecture: all
-Description: Transitional package for plasma-discover-updater.
- This package can be safely removed.
- 
-Package: plasma-discover
-Architecture: all
-Description: Transitional package for plasma-discover.
- This package can be safely removed.
- 
-Package: plasma-discover-common
-Architecture: all
-Description: Transitional package for plasma-discover-common.
- This package can be safely removed.
-
-Package: plasma-discover-backend-snap
-Architecture: all
-Description: Transitional package for plasma-discover-backend-snap.
- This package can be safely removed.
- 
-Package: plasma-discover-backend-flatpak
-Architecture: all
-Description: Transitional package for plasma-discover-backend-flatpak.
- This package can be safely removed.
-
-Package: plasma-discover-private
-Architecture: all
-Description: Transitional package for plasma-discover-private.
- This package can be safely removed.
+Description: AppStore for SuperX.
+ SuperX AppStore is the next generation application store for the SuperX OS.
