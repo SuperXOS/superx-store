@@ -77,19 +77,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 </script>
 <!-- start-smoth-scrolling -->
 <script>
-document.onreadystatechange = function () {
-  var state = document.readyState
-  if (state == 'interactive') {
-//        document.getElementById('contents').style.visibility="hidden";
-  } else if (state == 'complete') {
-      setTimeout(function(){
-         document.getElementById('load').style.visibility="hidden";
-         {% if current_progress!= None and current_task_id != None %}
-         {% endif %}
-      },1000);
-  }
-}
-
+// document.onreadystatechange = function () {
+//   var state = document.readyState
+//   if (state == 'interactive') {
+// //        document.getElementById('contents').style.visibility="hidden";
+//   } else if (state == 'complete') {
+//       setTimeout(function(){
+//          document.getElementById('load').style.visibility="hidden";
+//          {% if current_progress!= None and current_task_id != None %}
+//          {% endif %}
+//       },1000);
+//   }
+// }
+setTimeout(function() {
+  document.getElementById('load').style.visibility="hidden";
+}, 3000);
 // to add alpha of 065 in background color
 $(document).ready(function() {
     setProgress({{current_progress}}, "{{current_task_id}}");
@@ -112,7 +114,7 @@ $(document).ready(function() {
 <script>
 function show(btn_name){
 document.getElementById('load').style.visibility="visible";
-setTimeout(hide, 3000);
+setTimeout(hide, 1000);
 $("#"+btn_name).html('<i class="fa fa-circle-o-notch fa-spin"></i> Pending');
 $("#"+btn_name).prop("onclick", null).off("click");
 }
