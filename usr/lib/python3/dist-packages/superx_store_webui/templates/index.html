@@ -132,7 +132,7 @@ alert = function(mesg) {console.trace(mesg)}
                 {% else %}
                 <style>
                     .topApp-color{{loop.index}}{
-                        background: url('{{top_app['cover']}}');
+                        background: url('http://0.0.0.0:5000/static/gif/loading.gif');
                         }
                         
                     #icon_topApps{{loop.index}}{
@@ -140,6 +140,14 @@ alert = function(mesg) {console.trace(mesg)}
                     }
                     }
                 </style>
+                <script>
+                    var image = new Image();
+                    image.onload = function () {
+                    $('.topApp-color{{loop.index}}').css("background-image", "url({{top_app['cover']}})");
+                    //do something...
+                    }
+                    image.src = "{{top_app['cover']}}";
+                </script>
                 {% endif %}
             <script>
                 $(".hover-box{{loop.index}}").hover(function(){
@@ -241,7 +249,7 @@ alert = function(mesg) {console.trace(mesg)}
             {% else %}
             <style>
                 .app-color{{loop.index}}{
-                    background: url('{{editor_app['cover']}}');
+                    background: url('http://0.0.0.0:5000/static/gif/loading.gif');
                     }
                     
                 #icon{{loop.index}}{
@@ -249,6 +257,14 @@ alert = function(mesg) {console.trace(mesg)}
                 }
                 }
             </style>
+            <script>
+                    var image = new Image();
+                    image.onload = function () {
+                    $('.app-color{{loop.index}}').css("background-image", "url({{editor_app['cover']}})");
+                    //do something...
+                    }
+                    image.src = "{{editor_app['cover']}}";
+                </script>
             {% endif %}
         <script>
             
