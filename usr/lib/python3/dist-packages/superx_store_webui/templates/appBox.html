@@ -67,7 +67,7 @@
             {% else %}
             <style>
                 .app-color{{loop.index}}{
-                    background: url('{{app['cover']}}');
+                    background: url('http://0.0.0.0:5000/static/gif/loading.gif');
                     }
                     
                 #icon_apps{{loop.index}}{
@@ -75,6 +75,14 @@
                 }
                 }
             </style>
+            <script>
+                    var image = new Image();
+                    image.onload = function () {
+                    $('.app-color{{loop.index}}').css("background-image", "url({{app['cover']}})");
+                    //do something...
+                    }
+                    image.src = "{{app['cover']}}";
+                </script>
             {% endif %}
             
             <script>
