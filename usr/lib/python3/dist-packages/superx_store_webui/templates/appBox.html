@@ -7,7 +7,11 @@
 </style>
 {% for app in app_list  %}
     <a href="/details?id={{ app['id'] }}" id="app-details-url" style="text-decoration:none; color: #666;">
+    {% if box == 'part' %}
+        <div class="col-xm-4 col-sm-6 col-md-4 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}" style="margin-top: 35px;">
+    {% else %}
         <div class="col-xm-4 col-sm-4 col-md-4 col-lg-3 col-xl-2 hover-box{{loop.index}} col{{loop.index}}" style="margin-top: 35px;">
+    {% endif %}
             <div class="app-color{{loop.index}} app-box">
                 <div class="app-icon" align="center">
                 {% if app['icon'] == None or app['icon'] == 'None'%}
