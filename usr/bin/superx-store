@@ -237,8 +237,6 @@ class MainWindow(QMainWindow):
 
         if len(sys.argv) > 1 and sys.argv[1] == '--update':
             self.webEngine.load(QUrl(os.path.join(self.server, 'updates')))
-            self.webEngine.loadFinished.connect(lambda:
-                                                self.webEngine.reload())
         else:
             self.webEngine.load(QUrl(self.server))
 
