@@ -139,9 +139,15 @@ setProgress('0', 'upgrade');
 </style>
 <div class="container" style="padding-top: 180px;">
     <ul class="nav nav-tabs" style="background-color:#F0F0F0;">
+{% if update_len == 0 %}
+{{update_len}}
+<script>
+location.reload(); 
+</script>
+{% endif %}
+
         <li class="active hover10"><a data-toggle="tab" href="#appUpdates"><span class="label label-info">{{updates[0]|length}}</span> &nbsp;Application Updates</a></li>
-        <li class="hover10"><a data-toggle="tab" href="#sysUpdates"><span class="label label-primary">{{updates[1]|length}}</span> &nbsp;System
-            Updates</a></li>
+        <li class="hover10"><a data-toggle="tab" href="#sysUpdates"><span class="label label-primary">{{updates[1]|length}}</span> &nbsp;System Updates</a></li>
         <li class="hover10"><a data-toggle="tab" href="#secUpdates"><span class="label label-danger">{{updates[2]|length}}</span> &nbsp;Security
             Updates</a></li>
     </ul>
@@ -185,6 +191,23 @@ setProgress('0', 'upgrade');
 
     </div>
 </div>
+{% if updates[0]|length != 0 %}
+<script>
+$('.nav-tabs a[href="#appUpdates"]').tab('show');
+</script>
+{% elif updates[1]|length != 0 %}
+<script>
+$('.nav-tabs a[href="#sysUpdates"]').tab('show');
+</script>
+{% elif updates[2]|length != 0 %}
+<script>
+$('.nav-tabs a[href="#secUpdates"]').tab('show');
+</script>
+{% else %}
+<script>
+$('.nav-tabs a[href="#appUpdates"]').tab('show');
+</script>
+{% endif %}
 <style>
 .app-bar{
 box-shadow: 0px 2px 9px 3px rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
